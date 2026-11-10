@@ -223,6 +223,7 @@ export default function App() {
           <div className="wer">
             <span className="name">{stand.me.name}</span>
             {stand.me.gr && <span className="gr-marke">Gemeinderat</span>}
+            {stand.me.gr && <a className="knopf still klein" href="#einstellungen"><Icon n="zahnrad" size={18} />Einstellungen</a>}
             <button className="knopf still klein" onClick={ctx.abmelden}>Abmelden</button>
           </div>
         </div>
