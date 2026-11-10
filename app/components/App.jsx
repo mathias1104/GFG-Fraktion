@@ -208,7 +208,7 @@ export default function App() {
       <header className="kopf">
         <div className="kopf-innen">
           <a href="#start" className="marke" aria-label="GFG Fraktion, zur Startseite">
-            <span className="marke-zeichen">GFG</span>
+            <img className="marke-zeichen" src="/logo-zeichen.svg" alt="GFG" />
             <span className="marke-text">Fraktion<span>Gemeinsam für unsere Gemeinde</span></span>
           </a>
           <div className="wer">

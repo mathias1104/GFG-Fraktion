@@ -5,11 +5,11 @@ export const metadata = {
   description: 'Interne Organisation der Fraktion Gemeinsam für unsere Gemeinde, Großebersdorf',
   manifest: '/manifest.webmanifest',
   appleWebApp: { capable: true, title: 'GFG Fraktion', statusBarStyle: 'default' },
-  icons: { icon: '/icon.svg', apple: '/apple-touch-icon.png' },
+  icons: { icon: '/icon-192.png', apple: '/apple-touch-icon.png' },
   robots: { index: false, follow: false },
 };
 
-export const viewport = { themeColor: '#245C43', width: 'device-width', initialScale: 1, viewportFit: 'cover' };
+export const viewport = { themeColor: '#00A258', width: 'device-width', initialScale: 1, viewportFit: 'cover' };
 
 export default function RootLayout({ children }) {
   return (

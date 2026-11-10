@@ -41,9 +41,10 @@ export default function Anmelden({ onFertig }) {
   return (
     <div className="anmelden">
       <div className="anmelden-karte">
-        <div className="marke">
-          <span className="marke-zeichen">GFG</span>
-          <span className="marke-text">Fraktion<span>Gemeinsam für unsere Gemeinde</span></span>
+        <div style={{ marginBottom: 28 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="marke-logo" src="/logo.svg" alt="GFG Gemeinsam für unsere Gemeinde" />
+          <p className="leise" style={{ marginTop: 10, fontWeight: 700 }}>Fraktions-App</p>
         </div>
 
         {!liste ? (
