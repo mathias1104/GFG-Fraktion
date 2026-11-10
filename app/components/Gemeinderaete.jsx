@@ -57,7 +57,7 @@ function MitgliedDialog({ m }) {
   );
 }
 
-function Einstellungen() {
+export function Einstellungen() {
   const { config, mutate, toast } = useApp();
   const [pw, setPw] = useState('');
   const [frist, setFrist] = useState(config.fristTage ?? 3);
@@ -407,7 +407,7 @@ export default function Gemeinderaete({ unter }) {
         }}><Icon n="schloss" size={16} />Bereich sperren</button>
       </div>
       <div className="unterreiter" role="tablist">
-        {REITER.map(([k, l]) => <button key={k} role="tab" aria-selected={reiter === k} onClick={() => setReiter(k)}>{l}</button>)}
+        {REITER.map(([k, l]) => <button key={k} type="button" role="tab" aria-selected={reiter === k} onClick={() => setReiter(k)}>{l}</button>)}
       </div>
       {reiter === 'vorbereitung' && <Vorbereitung />}
       {reiter === 'archiv' && <Archiv />}

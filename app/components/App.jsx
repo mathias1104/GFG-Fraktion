@@ -1,6 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AppCtx, Icon, Dialog } from './ui';
+import Fehlergrenze, { meldeFehler } from './Fehlergrenze';
 import Anmelden from './Anmelden';
 import Start from './Start';
 import { SitzungenListe, SitzungDetail } from './Sitzungen';
@@ -68,6 +69,14 @@ export default function App() {
       else setZustand((z) => (z === 'bereit' ? z : 'fehler'));
       return null;
     }
+  }, []);
+
+  useEffect(() => {
+    const f1 = (e) => meldeFehler(e.error || e.message, 'window');
+    const f2 = (e) => meldeFehler(e.reason, 'promise');
+    window.addEventListener('error', f1);
+    window.addEventListener('unhandledrejection', f2);
+    return () => { window.removeEventListener('error', f1); window.removeEventListener('unhandledrejection', f2); };
   }, []);
 
   useEffect(() => {
@@ -227,7 +236,7 @@ export default function App() {
           </div>
         </nav>
       </header>
-      <main>{inhalt}</main>
+      <main><Fehlergrenze ort={`${route.seite}-${route.id || ''}`}>{inhalt}</Fehlergrenze></main>
       <nav className="unten-nav" aria-label="Hauptnavigation">
         {REITER.filter((r) => r.unten).map((r) => (
           <a key={r.id} href={`#${r.id}`} aria-current={aktiverReiter === r.id ? 'page' : undefined}>
@@ -246,7 +255,7 @@ export default function App() {
           <Icon n="mehr" />Mehr
         </button>
       </nav>
-      {Offen && <Offen />}
+      {Offen && <Fehlergrenze ort="dialog"><Offen /></Fehlergrenze>}
       {toast && <div className={`toast${toast.fehler ? ' fehler' : ''}`} role="status">{toast.text}</div>}
     </AppCtx.Provider>
   );

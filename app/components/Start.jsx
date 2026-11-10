@@ -164,6 +164,25 @@ function InfoDialog({ info }) {
   );
 }
 
+function PasswortSchnell() {
+  const { mutate, toast } = useApp();
+  const [pw, setPw] = useState('');
+  const [busy, setBusy] = useState(false);
+  return (
+    <form style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'flex-end', margin: '4px 0 16px' }} onSubmit={async (e) => {
+      e.preventDefault(); setBusy(true);
+      try { await mutate('config.speichern', { mitgliederPasswort: pw }, 'Fraktionspasswort gespeichert'); setPw(''); } catch (err) { toast(err.message, true); }
+      setBusy(false);
+    }}>
+      <label className="feld" style={{ marginBottom: 0, flex: '1 1 240px' }}>
+        <span>Fraktionspasswort (mind. 6 Zeichen)</span>
+        <input type="text" value={pw} onChange={(e) => setPw(e.target.value)} minLength={6} required autoComplete="new-password" />
+      </label>
+      <button className="knopf" disabled={busy}>Passwort speichern</button>
+    </form>
+  );
+}
+
 function Einrichtung() {
   const { me, config, daten } = useApp();
   if (!me.gr) return null;
@@ -185,7 +204,8 @@ function Einrichtung() {
           </li>
         ))}
       </ul>
-      <a className="knopf" href="#einstellungen">Zu Mitglieder und Einstellungen</a>
+      {!config.mitgliederPasswortGesetzt && <PasswortSchnell />}
+      <a className={config.mitgliederPasswortGesetzt ? 'knopf' : 'knopf zweit'} href="#einstellungen">Mitglieder und E-Mail-Adressen bearbeiten</a>
     </section>
   );
 }
