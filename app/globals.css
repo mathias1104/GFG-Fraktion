@@ -358,3 +358,39 @@ a.zeile:hover { background: rgba(36, 92, 67, .04); }
   .tabelle tr { display: block; padding: 10px 0; border-bottom: 1px solid var(--linie); }
   .tabelle td { display: block; border: 0; padding: 2px 0; }
 }
+
+/* ---------- Benachrichtigungen ---------- */
+.glocke { position: relative; padding-inline: 10px; }
+.glocke-zahl {
+  position: absolute; top: 2px; right: 2px; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 999px;
+  background: #D2381F; color: #fff; font-size: 11.5px; font-weight: 800; line-height: 19px; text-align: center; border: 2px solid #fff;
+}
+.neu-punkt.aus { background: transparent; }
+.glocke-liste .zeile { padding: 12px 2px; }
+.geraet { display: flex; gap: 14px; align-items: flex-start; }
+.geraet-symbol { width: 46px; height: 46px; border-radius: 14px; background: var(--gruen-hell); color: var(--gruen-dunkel); display: grid; place-items: center; flex: none; }
+.praef { background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--r-m); padding: 6px 20px 14px; }
+.praef-kopf, .praef-zeile { display: grid; grid-template-columns: 1fr 96px 96px 96px; gap: 8px; align-items: center; }
+.praef-kopf { position: sticky; top: 112px; background: var(--flaeche); z-index: 2; padding: 12px 0 8px; border-bottom: 1px solid var(--linie); font-size: 13.5px; font-weight: 700; color: var(--grau); text-align: center; }
+.praef-gruppe h3 { margin: 20px 0 4px; color: var(--gruen-dunkel); }
+.praef-zeile { padding: 12px 0; border-bottom: 1px solid var(--linie); }
+.praef-gruppe:last-child .praef-zeile:last-child { border-bottom: 0; }
+.praef-zeile > div:first-child b { display: block; }
+.schalter { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; position: relative; }
+.schalter input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.schalter-spur { width: 46px; height: 28px; border-radius: 999px; background: #C9D1CB; position: relative; transition: background .18s ease; }
+.schalter-knopf { position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .18s ease; }
+.schalter input:checked + .schalter-spur { background: var(--marke); }
+.schalter input:checked + .schalter-spur .schalter-knopf { transform: translateX(18px); }
+.schalter input:focus-visible + .schalter-spur { outline: 3px solid var(--gruen-dunkel); outline-offset: 2px; }
+.schalter.gesperrt { opacity: .4; cursor: not-allowed; }
+.schalter-text { display: none; font-size: 12px; font-weight: 700; color: var(--grau); }
+@media (prefers-reduced-motion: reduce) { .schalter-spur, .schalter-knopf { transition: none; } }
+@media (max-width: 760px) {
+  .praef { padding: 4px 14px 10px; }
+  .praef-kopf { display: none; }
+  .praef-zeile { grid-template-columns: repeat(3, 1fr); row-gap: 10px; }
+  .praef-zeile > div:first-child { grid-column: 1 / -1; }
+  .schalter-text { display: block; }
+  .glocke-zahl { top: 0; right: 0; }
+}

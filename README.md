@@ -22,6 +22,14 @@ Next.js auf Vercel, Daten in Neon Postgres, Google Kalender, Drive und Gmail üb
 - **Gemeinderäte:** Vorbereitung der Gemeinderatssitzungen (Unterlagen, TOPs, Abstimmungslinie mit Begründung, wer spricht, Ergebnis) und Abstimmungsarchiv, vorbefüllt mit der Feldgasse vom 12.10.2026
 - **Jotform:** Themen aus dem Formular für Leute ohne Login werden täglich übernommen
 
+### Benachrichtigungen
+
+- Glocke oben mit allem, was neu ist
+- Push-Mitteilungen auf Handy und Computer (am iPhone erst nach „Zum Home-Bildschirm“)
+- E-Mails über das verbundene Google-Konto (Empfänger als Bcc)
+- Jede Person stellt unter Benachrichtigungen mit Schaltern ein, worüber sie auf welchem Weg informiert wird
+- Benötigt `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` und `VAPID_SUBJECT` in Vercel
+
 ## Rollen und Schutz
 
 - **Vereinsmitglieder** melden sich mit dem gemeinsamen Fraktionspasswort an und wählen ihren Namen. Sie lesen alles Allgemeine, reichen Themen ein, kommentieren und haken Aufgaben ab.

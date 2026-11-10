@@ -1,4 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, after } from 'next/server';
+import crypto from 'node:crypto';
+import { benachrichtige, sendePush, pushEingerichtet } from '@/lib/benachrichtigung';
 import { hole, setze, ergaenze, loesche, alle, setzeEintrag } from '@/lib/db';
 import { importiereJotform } from '@/lib/jotform';
 import { leseSitzung, hashPasswort } from '@/lib/auth';
@@ -6,7 +8,7 @@ import { fixiereTagesordnung, sendeEinladung, speichereProtokoll } from '@/lib/a
 import { googleStatus, kalenderAbsagen } from '@/lib/google';
 import {
   ARTEN, STATUS, ZIELE, DRINGLICHKEIT, ROLLEN, ERGEBNISSE, ORTSTEILE, fristVorbei, neueId,
-  VIDEO_STATUS, TERMIN_ARTEN, LINIEN, GR_ERGEBNISSE,
+  VIDEO_STATUS, TERMIN_ARTEN, LINIEN, GR_ERGEBNISSE, BENACHRICHTIGUNG_TYP, datumKurz,
 } from '@/lib/domain';
 
 async function googleBereit() {
@@ -18,6 +20,9 @@ async function versucheGoogle(f) {
   if (!(await googleBereit())) return { google: 'aus' };
   try { const r = await f(); return { google: 'ok', ...r }; } catch (e) { return { google: 'fehler', googleFehler: e.message }; }
 }
+
+/** Benachrichtigung nach der Antwort verschicken, damit Speichern schnell bleibt */
+function melde(typ, opt) { after(() => benachrichtige(typ, opt)); }
 
 class Fehler extends Error { constructor(msg, status = 400) { super(msg); this.status = status; } }
 
@@ -59,6 +64,7 @@ const AKTIONEN = {
     if (vorbei && !me.gr) throw new Fehler('Die Einreichfrist für diese Sitzung ist abgelaufen.', 403);
     const id = neueId('t');
     await setze('themen', id, { ...daten, sitzungId: s.id, autorId: me.uid, autorName: me.name, erstelltAm: Date.now(), nachtraeglich: vorbei });
+    melde('thema_neu', { titel: `Neues Thema: ${daten.titel}`, text: `Von ${me.name} für die Fraktionssitzung am ${datumKurz(s.datum)}`, url: `#sitzung-${s.id}`, ausser: me.uid });
     return { id };
   },
   async 'thema.loeschen'(me, p) {
@@ -74,7 +80,11 @@ const AKTIONEN = {
     const bezug = txt(p.bezug, 80);
     if (!/^(antrag|thema|sitzung|video):[\w-]+$/.test(bezug)) throw new Fehler('Bezug ist ungültig.');
     const id = neueId('k');
-    await setze('kommentare', id, { bezug, text: pflicht(p.text, 'Kommentar', 2000), autorId: me.uid, autorName: me.name, am: Date.now() });
+    const text = pflicht(p.text, 'Kommentar', 2000);
+    await setze('kommentare', id, { bezug, text, autorId: me.uid, autorName: me.name, am: Date.now() });
+    const [art, bid] = bezug.split(':');
+    const url = art === 'antrag' ? `#antrag-${bid}` : art === 'sitzung' ? `#sitzung-${bid}` : '#videothemen';
+    melde('kommentar', { titel: `${me.name} hat kommentiert`, text: text.slice(0, 200), url, ausser: me.uid });
     return { id };
   },
   async 'kommentar.loeschen'(me, p) {
@@ -96,9 +106,18 @@ const AKTIONEN = {
       punktKey: txt(p.punktKey, 60),
       punktTitel: txt(p.punktTitel, 200),
     };
-    if (p.id) { await ergaenze('aufgaben', p.id, { ...daten, geaendertAm: Date.now() }); return { id: p.id }; }
+    const meldeZuteilung = () => daten.zustaendigId && melde('aufgabe_mir', {
+      titel: `Neue Aufgabe für dich: ${daten.titel}`, text: daten.frist ? `Bis ${datumKurz(daten.frist)}` : '', url: '#aufgaben', nur: [daten.zustaendigId], ausser: me.uid,
+    });
+    if (p.id) {
+      const alt = await muss('aufgaben', p.id);
+      await ergaenze('aufgaben', p.id, { ...daten, geaendertAm: Date.now(), ...(alt.frist !== daten.frist ? { ueberfaelligGemeldet: null } : {}) });
+      if (alt.zustaendigId !== daten.zustaendigId) meldeZuteilung();
+      return { id: p.id };
+    }
     const id = neueId('a');
     await setze('aufgaben', id, { ...daten, status: 'offen', erstelltAm: Date.now(), erstelltVon: me.name });
+    meldeZuteilung();
     return { id };
   },
   async 'aufgabe.status'(me, p) {
@@ -139,11 +158,13 @@ const AKTIONEN = {
       await ergaenze('sitzungen', p.id, { ...daten, geaendertAm: Date.now() });
       const zeitGeaendert = alt.datum !== daten.datum || alt.uhrzeit !== daten.uhrzeit || alt.ort !== daten.ort || Number(alt.dauerMin) !== daten.dauerMin;
       const g = alt.kalenderEventId && zeitGeaendert ? await versucheGoogle(() => sendeEinladung(p.id)) : {};
+      if (zeitGeaendert) melde('sitzung_neu', { titel: `Fraktionssitzung geändert: ${datumKurz(daten.datum)}`, text: `${daten.uhrzeit} Uhr${daten.ort ? `, ${daten.ort}` : ''}`, url: `#sitzung-${p.id}`, ausser: me.uid });
       return { id: p.id, ...g };
     }
     const id = neueId('s');
     await setze('sitzungen', id, { ...daten, status: 'geplant', erstelltAm: Date.now(), erstelltVon: me.name });
     const g = await versucheGoogle(() => sendeEinladung(id));
+    melde('sitzung_neu', { titel: `Neue Fraktionssitzung am ${datumKurz(daten.datum)}`, text: `${daten.uhrzeit} Uhr${daten.ort ? `, ${daten.ort}` : ''}. Themen bis ${daten.fristTage} Tage vorher einreichen.`, url: `#sitzung-${id}`, ausser: me.uid });
     return { id, ...g };
   },
   async 'sitzung.loeschen'(me, p) {
@@ -192,6 +213,7 @@ const AKTIONEN = {
     const live = { ...(s.live || {}), laufend: false, beendetAm: (s.live && s.live.beendetAm) || Date.now() };
     await ergaenze('sitzungen', s.id, { status: 'abgeschlossen', live });
     const g = await versucheGoogle(() => speichereProtokoll(s.id));
+    melde('protokoll', { titel: `Protokoll der Fraktionssitzung vom ${datumKurz(s.datum)}`, text: 'Beschlüsse und Aufgaben stehen in der App.', url: `#protokoll-${s.id}`, ausser: me.uid });
     return g;
   },
   async 'sitzung.wiedereroeffnen'(me, p) {
@@ -231,6 +253,7 @@ const AKTIONEN = {
     const jetzt = Date.now();
     const verlauf = [...(a.verlauf || []), { status, datum: datum(p.datum), notiz: txt(p.notiz, 1000), von: me.name, vonId: me.uid, ts: jetzt }];
     await ergaenze('antraege', a.id, { status, verlauf, geaendertAm: jetzt });
+    melde('antrag_status', { titel: `${a.titel}: ${status}`, text: txt(p.notiz, 300), url: `#antrag-${a.id}`, ausser: me.uid });
     return {};
   },
   async 'antrag.loeschen'(me, p) { nurGR(me); await loesche('antraege', txt(p.id, 40)); return {}; },
@@ -297,12 +320,15 @@ const AKTIONEN = {
     if (alt) { await ergaenze('videothemen', alt.id, { ...daten, fotos, geaendertAm: Date.now() }); return { id: alt.id }; }
     const id = neueId('v');
     await setze('videothemen', id, { ...daten, fotos, status: 'Idee', postLink: '', stimmen: {}, autorId: me.uid, autorName: me.name, erstelltAm: Date.now() });
+    melde('video', { titel: `Neues Videothema: ${daten.titel}`, text: `Vorgeschlagen von ${me.name}`, url: '#videothemen', ausser: me.uid });
     return { id };
   },
   async 'video.status'(me, p) {
     nurGR(me);
     const v = await muss('videothemen', p.id);
-    await ergaenze('videothemen', v.id, { status: auswahl(p.status, VIDEO_STATUS, v.status), postLink: url(p.postLink), statusAm: Date.now(), statusVon: me.name });
+    const status = auswahl(p.status, VIDEO_STATUS, v.status);
+    await ergaenze('videothemen', v.id, { status, postLink: url(p.postLink), statusAm: Date.now(), statusVon: me.name });
+    if (status !== v.status) melde('video', { titel: `Videothema ${status}: ${v.titel}`, url: '#videothemen', ausser: me.uid });
     return {};
   },
   async 'video.stimme'(me, p) {
@@ -329,6 +355,7 @@ const AKTIONEN = {
     if (p.id) { await ergaenze('termine', p.id, daten); return { id: p.id }; }
     const id = neueId('e');
     await setze('termine', id, { ...daten, erstelltAm: Date.now(), erstelltVon: me.name });
+    melde('termin', { titel: `Neuer Termin: ${daten.titel}`, text: `${datumKurz(daten.datum)}${daten.uhrzeit ? `, ${daten.uhrzeit} Uhr` : ''}${daten.ort ? `, ${daten.ort}` : ''}`, url: '#kalender', ausser: me.uid });
     return { id };
   },
   async 'termin.loeschen'(me, p) { nurGR(me); await loesche('termine', txt(p.id, 40)); return {}; },
@@ -350,6 +377,8 @@ const AKTIONEN = {
     if (p.id) { await ergaenze('berichte', p.id, { ...daten, geaendertAm: Date.now() }); return { id: p.id }; }
     const id = neueId('y');
     await setze('berichte', id, { ...daten, autorId: me.uid, autorName: me.name, erstelltAm: Date.now() });
+    const aus = await hole('ausschuesse', daten.ausschussId);
+    melde('bericht', { titel: `Bericht aus dem Ausschuss ${aus?.name || ''}`, text: daten.text.slice(0, 200), url: '#ausschuesse', ausser: me.uid });
     return { id };
   },
   async 'bericht.loeschen'(me, p) { nurGR(me); await loesche('berichte', txt(p.id, 40)); return {}; },
@@ -361,6 +390,7 @@ const AKTIONEN = {
     if (p.id) { await ergaenze('infos', p.id, { ...daten, geaendertAm: Date.now() }); return { id: p.id }; }
     const id = neueId('i');
     await setze('infos', id, { ...daten, gelesen: { [me.uid]: { ts: Date.now(), name: me.name } }, autorId: me.uid, autorName: me.name, erstelltAm: Date.now() });
+    melde('info', { titel: daten.wichtig ? `Wichtig: ${daten.titel}` : daten.titel, text: daten.text.slice(0, 300), url: '#start', ausser: me.uid });
     return { id };
   },
   async 'info.gelesen'(me, p) {
@@ -383,6 +413,7 @@ const AKTIONEN = {
     if (p.id) { await ergaenze('grsitzungen', p.id, { ...daten, geaendertAm: Date.now() }); return { id: p.id }; }
     const id = neueId('g');
     await setze('grsitzungen', id, { ...daten, tops: [], erstelltAm: Date.now(), erstelltVon: me.name });
+    melde('gr_sitzung', { titel: `Gemeinderatssitzung am ${datumKurz(daten.datum)} vorbereiten`, text: 'TOPs und Abstimmungslinie eintragen', url: `#grsitzung-${id}`, ausser: me.uid });
     return { id };
   },
   async 'grsitzung.top'(me, p) {
@@ -413,9 +444,59 @@ const AKTIONEN = {
     return r;
   },
 
+  // ---------- Benachrichtigungen ----------
+  async 'prefs.speichern'(me, p) {
+    const alt = (await hole('prefs', me.uid)) || {};
+    const typen = { ...(alt.typen || {}) };
+    for (const [k, v] of Object.entries(p.typen || {})) {
+      if (!BENACHRICHTIGUNG_TYP[k] || typeof v !== 'object') continue;
+      typen[k] = {};
+      for (const w of ['app', 'push', 'mail']) if (typeof v[w] === 'boolean') typen[k][w] = v[w];
+    }
+    const neu = { ...alt, typen, name: me.name, gr: !!me.gr || !!alt.gr, geaendertAm: Date.now() };
+    if ('email' in p) {
+      const email = txt(p.email, 120);
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Fehler('Die E-Mail-Adresse sieht ungültig aus.');
+      neu.email = email;
+    }
+    await setze('prefs', me.uid, neu);
+    return {};
+  },
+  async 'glocke.gelesen'(me) {
+    const alt = (await hole('prefs', me.uid)) || {};
+    await setze('prefs', me.uid, { ...alt, name: me.name, gelesenBis: Date.now() });
+    return {};
+  },
+  async 'push.abo'(me, p) {
+    if (!pushEingerichtet()) throw new Fehler('Push-Mitteilungen sind auf dem Server noch nicht eingerichtet.');
+    const abo = p.abo || {};
+    if (!/^https:\/\//.test(abo.endpoint || '') || !abo.keys?.p256dh || !abo.keys?.auth) throw new Fehler('Das Gerät hat keine gültige Anmeldung für Mitteilungen geliefert.');
+    const id = crypto.createHash('sha256').update(abo.endpoint).digest('hex').slice(0, 40);
+    await setze('pushabos', id, {
+      uid: me.uid, name: me.name, am: Date.now(), geraet: txt(p.geraet, 120),
+      abo: { endpoint: txt(abo.endpoint, 1000), keys: { p256dh: txt(abo.keys.p256dh, 200), auth: txt(abo.keys.auth, 100) } },
+    });
+    return { id };
+  },
+  async 'push.abmelden'(me, p) {
+    const id = crypto.createHash('sha256').update(String(p.endpoint || '')).digest('hex').slice(0, 40);
+    const a = await hole('pushabos', id);
+    if (a && (a.uid === me.uid || me.gr)) await loesche('pushabos', id);
+    return {};
+  },
+  async 'push.test'(me) {
+    const n = await sendePush([me.uid], { titel: 'Test von der GFG-Fraktions-App', text: 'So sehen Mitteilungen aus. Alles funktioniert.', url: '#benachrichtigungen' });
+    if (!n) throw new Fehler('Auf keinem deiner Geräte sind Mitteilungen aktiv.');
+    return { anzahl: n };
+  },
+
   // ---------- Besuch ----------
   async 'besuch'(me) {
     await setze('besuche', me.uid, { ts: Date.now(), name: me.name });
+    if (me.gr) {
+      const alt = await hole('prefs', me.uid);
+      if (!alt?.gr) await setze('prefs', me.uid, { ...(alt || {}), name: me.name, gr: true });
+    }
     return {};
   },
 };

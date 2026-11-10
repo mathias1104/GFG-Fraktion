@@ -13,6 +13,7 @@ import Videothemen from './Videothemen';
 import { AufgabenSeite } from './Aufgaben';
 import Ausschuesse from './Ausschuesse';
 import Kalender from './Kalender';
+import BenachrichtigungsSeite, { Glocke } from './Benachrichtigungen';
 
 const REITER = [
   { id: 'start', label: 'Start', icon: 'start', unten: true },
@@ -31,6 +32,7 @@ function leseRoute() {
   if (h === 'einstellungen') return { seite: 'gemeinderaete', unter: 'verwaltung' };
   const m = h.match(/^(sitzung|modus|protokoll|antrag|grsitzung)-(.+)$/);
   if (m) return { seite: m[1], id: m[2] };
+  if (h === 'benachrichtigungen') return { seite: 'benachrichtigungen' };
   return { seite: REITER.some((r) => r.id === h) ? h : 'start' };
 }
 
@@ -79,6 +81,14 @@ export default function App() {
     window.addEventListener('error', f1);
     window.addEventListener('unhandledrejection', f2);
     return () => { window.removeEventListener('error', f1); window.removeEventListener('unhandledrejection', f2); };
+  }, []);
+
+  useEffect(() => {
+    if (!('serviceWorker' in navigator)) return undefined;
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+    const f = (e) => { if (e.data?.typ === 'oeffne' && String(e.data.url).startsWith('#')) window.location.hash = e.data.url.slice(1); };
+    navigator.serviceWorker.addEventListener('message', f);
+    return () => navigator.serviceWorker.removeEventListener('message', f);
   }, []);
 
   useEffect(() => {
@@ -212,6 +222,7 @@ export default function App() {
     case 'videothemen': inhalt = <Videothemen />; break;
     case 'ausschuesse': inhalt = <Ausschuesse />; break;
     case 'kalender': inhalt = <Kalender />; break;
+    case 'benachrichtigungen': inhalt = <BenachrichtigungsSeite />; break;
     default: inhalt = <Start />;
   }
   const Offen = dialog;
@@ -227,6 +238,7 @@ export default function App() {
           <div className="wer">
             <span className="name">{stand.me.name}</span>
             {stand.me.gr && <span className="gr-marke">Gemeinderat</span>}
+            <Glocke />
             {stand.me.gr && <a className="knopf still klein" href="#einstellungen" aria-label="Einstellungen"><Icon n="zahnrad" size={18} /><span className="nur-breit">Einstellungen</span></a>}
             <button className="knopf still klein" onClick={ctx.abmelden}>Abmelden</button>
           </div>
@@ -254,6 +266,7 @@ export default function App() {
               {REITER.filter((r) => !r.unten).map((r) => (
                 <li key={r.id}><a href={`#${r.id}`} onClick={ctx.schliesse}><Icon n={r.icon} />{r.label}</a></li>
               ))}
+              <li><a href="#benachrichtigungen" onClick={ctx.schliesse}><Icon n="glocke" />Benachrichtigungen</a></li>
             </ul>
           </Dialog>
         ))}>

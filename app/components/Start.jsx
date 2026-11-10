@@ -5,7 +5,7 @@ import { ThemaDialog } from './Sitzungen';
 import { AufgabeZeile } from './Aufgaben';
 import { VideoZeile, VideoDialog, stimmenZahl } from './Videothemen';
 import {
-  sitzungStart, sitzungEnde, fristEnde, fristVorbei, fristText, datumLang, datumKurz, wienTag, zeitpunkt,
+  sitzungStart, sitzungEnde, fristEnde, fristVorbei, fristText, datumLang, datumKurz, wienTag, zeitpunkt, ereignisse,
 } from '@/lib/domain';
 
 export function naechsteSitzung(sitzungen, jetzt = Date.now()) {
@@ -109,39 +109,7 @@ function NaechsteSitzung({ s }) {
 }
 
 function neuigkeiten(daten, me, seit) {
-  const n = [];
-  const fremd = (id, name) => id !== me.uid && name !== me.name;
-  for (const s of daten.sitzungen || []) {
-    if (s.erstelltAm > seit) n.push({ ts: s.erstelltAm, text: `Neue Fraktionssitzung am ${datumKurz(s.datum)}`, href: `#sitzung-${s.id}` });
-    if (s.tagesordnungVersendetAm > seit) n.push({ ts: s.tagesordnungVersendetAm, text: `Tagesordnung für ${datumKurz(s.datum)} ist da`, href: `#sitzung-${s.id}` });
-    else if (s.agendaAm > seit) n.push({ ts: s.agendaAm, text: `Tagesordnung für ${datumKurz(s.datum)} steht fest`, href: `#sitzung-${s.id}` });
-    if (s.live?.beendetAm > seit) n.push({ ts: s.live.beendetAm, text: `Protokoll der Sitzung vom ${datumKurz(s.datum)}`, href: `#protokoll-${s.id}` });
-  }
-  for (const t of daten.themen || []) if (t.erstelltAm > seit && fremd(t.autorId, t.autorName)) n.push({ ts: t.erstelltAm, text: `Neues Thema: ${t.titel}`, wer: t.autorName, href: `#sitzung-${t.sitzungId}` });
-  for (const a of daten.antraege || []) {
-    for (const v of a.verlauf || []) if (v.ts > seit && v.von !== 'Übernahme' && fremd(v.vonId, v.von)) n.push({ ts: v.ts, text: `${a.titel}: ${v.status}`, wer: v.von, href: `#antrag-${a.id}` });
-  }
-  for (const a of daten.aufgaben || []) if (a.erstelltAm > seit) n.push({ ts: a.erstelltAm, text: `Neue Aufgabe: ${a.titel}`, wer: a.zustaendigName, href: '#start' });
-  for (const b of daten.beschluesse || []) if (b.erstelltAm > seit) n.push({ ts: b.erstelltAm, text: `Beschluss: ${b.text}`, href: `#protokoll-${b.sitzungId}` });
-  for (const k of daten.kommentare || []) {
-    if (k.am > seit && fremd(k.autorId, k.autorName)) {
-      const [art, id] = k.bezug.split(':');
-      const href = art === 'antrag' ? `#antrag-${id}` : art === 'video' ? '#videothemen' : art === 'thema' ? '#sitzungen' : `#sitzung-${id}`;
-      n.push({ ts: k.am, text: `Kommentar: ${k.text.slice(0, 90)}${k.text.length > 90 ? ' …' : ''}`, wer: k.autorName, href });
-    }
-  }
-  for (const v of daten.videothemen || []) {
-    if (v.erstelltAm > seit && fremd(v.autorId, v.autorName)) n.push({ ts: v.erstelltAm, text: `Neues Videothema: ${v.titel}`, wer: v.autorName, href: '#videothemen' });
-    if (v.statusAm > seit && v.statusVon !== me.name) n.push({ ts: v.statusAm, text: `Videothema ${v.titel}: ${v.status}`, wer: v.statusVon, href: '#videothemen' });
-  }
-  for (const b of daten.berichte || []) {
-    if (b.erstelltAm > seit && fremd(b.autorId, b.autorName)) {
-      const a = (daten.ausschuesse || []).find((x) => x.id === b.ausschussId);
-      n.push({ ts: b.erstelltAm, text: `Bericht aus dem Ausschuss ${a?.name || ''}`, wer: b.autorName, href: '#ausschuesse' });
-    }
-  }
-  for (const t of daten.termine || []) if (t.erstelltAm > seit && t.erstelltVon !== me.name) n.push({ ts: t.erstelltAm, text: `Neuer Termin: ${t.titel} am ${datumKurz(t.datum)}`, href: '#kalender' });
-  return n.sort((a, b) => b.ts - a.ts).slice(0, 8);
+  return ereignisse(daten, me).filter((x) => x.ts > seit).slice(0, 8);
 }
 
 function InfoDialog({ info }) {
