@@ -2,6 +2,8 @@
 import { Component } from 'react';
 
 export function meldeFehler(e, ort) {
+  // Harmlose Browser-Meldung, kein echter Fehler
+  if (/ResizeObserver loop/.test(e?.message || String(e))) return;
   try {
     fetch('/api/fehler', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
