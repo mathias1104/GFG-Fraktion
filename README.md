@@ -32,14 +32,19 @@ Next.js auf Vercel, Daten in Neon Postgres, Google Kalender, Drive und Gmail üb
 
 ## Rollen und Schutz
 
-- **Vereinsmitglieder** melden sich mit dem gemeinsamen Fraktionspasswort an und wählen ihren Namen. Sie lesen alles Allgemeine, reichen Themen ein, kommentieren und haken Aufgaben ab.
-- **Gemeinderäte** melden sich zusätzlich mit Benutzer und Passwort an. Nur sie können Sitzungen, Anträge, Protokolle, Mitglieder und Einstellungen ändern. Das prüft der Server bei jeder Änderung.
+- **Anmeldung:** Jede Person meldet sich mit Vor- und Nachname und einem persönlichen Passwort an. Das Startpasswort ist GFG plus die Anfangsbuchstaben von Vor- und Nachname (z. B. GFGMM). Unter Benachrichtigungen kann jede Person ein eigenes Passwort festlegen; der Admin kann es zurücksetzen.
+- **Rollen** stehen bei der Person und werden unter „Personen und Rollen“ vom Admin vergeben:
+  - **Vereinsmitglied:** liest alles Allgemeine, reicht Themen ein, kommentiert, hakt Aufgaben ab.
+  - **Gemeinderat:** zusätzlich Sitzungen, Anträge, Protokolle, Gemeinderäte-Bereich und Einstellungen.
+  - **Marketing** (zusätzlich zu einer der beiden): Marketing-Reiter.
+  - **Admin:** verwaltet Personen, Rollen und Passwörter.
+- Der Server prüft die Rollen bei jeder Anfrage. Geänderte Rollen gelten sofort, ein geändertes Passwort meldet alte Geräte ab.
 
 ## Einrichtung
 
 1. **Vercel:** Add New, Project, dieses GitHub-Repo importieren, Deploy.
 2. **Datenbank:** Im Vercel-Projekt unter Storage eine Neon-Postgres-Datenbank anlegen und mit dem Projekt verbinden. Dadurch wird `DATABASE_URL` gesetzt. Danach unter Deployments „Redeploy“. Tabelle und Startdaten legt die App beim ersten Aufruf selbst an.
-3. **Erste Anmeldung:** App öffnen, „Als Gemeinderat anmelden“, dann im Reiter Gemeinderäte das Fraktionspasswort festlegen und bei den Mitgliedern die E-Mail-Adressen eintragen.
+3. **Erste Anmeldung:** Als Admin mit Name und Startpasswort anmelden und unter „Personen und Rollen“ die E-Mail-Adressen eintragen.
 4. **Google (Kalender, Docs, Mail):**
    1. In der Google Cloud Console ein Projekt anlegen.
    2. Unter „APIs und Dienste“ die Google Calendar API, Google Drive API und Gmail API aktivieren.
@@ -52,7 +57,6 @@ Next.js auf Vercel, Daten in Neon Postgres, Google Kalender, Drive und Gmail üb
 
 | Variable | Zweck |
 | --- | --- |
-| `GR_USER`, `GR_PASSWORD` | Zugangsdaten für Gemeinderäte (Standard: Gemeinderat / Gemeinde). Empfehlung: ändern. |
 | `SESSION_SECRET` | Schlüssel für Anmelde-Cookies. Ohne Angabe wird er aus `DATABASE_URL` abgeleitet. |
 | `CRON_SECRET` | Schützt den täglichen Lauf. Vercel schickt ihn automatisch mit. |
 | `JOTFORM_API_KEY` | Jotform-API-Schlüssel (Jotform, Einstellungen, API). Damit übernimmt die App Formular-Einreichungen als Themen. |

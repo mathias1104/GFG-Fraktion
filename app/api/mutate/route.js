@@ -3,7 +3,7 @@ import crypto from 'node:crypto';
 import { benachrichtige, sendePush, pushEingerichtet } from '@/lib/benachrichtigung';
 import { hole, setze, ergaenze, loesche, alle, setzeEintrag } from '@/lib/db';
 import { importiereJotform } from '@/lib/jotform';
-import { leseSitzung, hashPasswort } from '@/lib/auth';
+import { leseSitzung, hashPasswort, passwortPasst, setzeSitzung, nameSchluessel, startPasswort } from '@/lib/auth';
 import { fixiereTagesordnung, sendeEinladung, speichereProtokoll } from '@/lib/aktionen';
 import { googleStatus, kalenderAbsagen } from '@/lib/google';
 import { loescheDatei } from '@/lib/dateien';
@@ -50,7 +50,8 @@ const neuerTop = (t, me) => ({
 const url = (v) => { const t = txt(v, 500); if (t && !/^https?:\/\//i.test(t)) throw new Fehler('Links müssen mit http:// oder https:// beginnen.'); return t; };
 
 function nurMK(me) { if (!me.mk) throw new Fehler('Das geht nur im freigeschalteten Marketing-Bereich.', 403); }
-function nurGR(me) { if (!me.gr) throw new Fehler('Das dürfen nur Gemeinderäte. Schalte dich im Reiter Gemeinderäte frei.', 403); }
+function nurAdmin(me) { if (!me.admin) throw new Fehler('Das darf nur ein Admin.', 403); }
+function nurGR(me) { if (!me.gr) throw new Fehler('Das dürfen nur Gemeinderäte.', 403); }
 
 async function muss(col, id) {
   const d = await hole(col, String(id || ''));
@@ -277,20 +278,54 @@ const AKTIONEN = {
   async 'antrag.loeschen'(me, p) { nurGR(me); await loesche('antraege', txt(p.id, 40)); return {}; },
 
   // ---------- Mitglieder ----------
+  // ---------- Mitglieder und Rollen (nur Admin) ----------
   async 'mitglied.speichern'(me, p) {
-    nurGR(me);
+    nurAdmin(me);
     const email = txt(p.email, 120);
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Fehler('Die E-Mail-Adresse sieht ungültig aus.');
+    const name = pflicht(p.name, 'Name', 80);
+    if (name.trim().split(/\s+/).length < 2) throw new Fehler('Bitte Vor- und Nachname eingeben, daraus entsteht das Passwort.');
     const daten = {
-      name: pflicht(p.name, 'Name', 80), email, rolle: auswahl(p.rolle, ROLLEN, 'Vereinsmitglied'),
+      name, email, rolle: auswahl(p.rolle, ROLLEN, 'Vereinsmitglied'),
       funktion: txt(p.funktion, 80), ortsteil: auswahl(p.ortsteil, ORTSTEILE, ''),
+      marketing: !!p.marketing, admin: !!p.admin,
+      auch: (Array.isArray(p.auch) ? p.auch : String(p.auch || '').split(',')).map((x) => txt(x, 80)).filter(Boolean).slice(0, 5),
     };
-    if (p.id) { await ergaenze('mitglieder', p.id, daten); return { id: p.id }; }
+    const { mitglieder } = await alle(['mitglieder']);
+    const schluessel = [daten.name, ...daten.auch].map(nameSchluessel);
+    if (mitglieder.some((m) => m.id !== p.id && [m.name, ...(m.auch || [])].some((n) => schluessel.includes(nameSchluessel(n))))) {
+      throw new Fehler('Diesen Namen gibt es schon. Zum Anmelden muss jeder Name eindeutig sein.');
+    }
+    if (p.id === me.uid && !daten.admin && !mitglieder.some((m) => m.id !== me.uid && m.admin)) {
+      throw new Fehler('Du bist der einzige Admin. Mach zuerst jemand anderen zum Admin.');
+    }
+    if (p.id) { await muss('mitglieder', p.id); await ergaenze('mitglieder', p.id, daten); return { id: p.id }; }
     const id = neueId('m');
     await setze('mitglieder', id, { ...daten, erstelltAm: Date.now() });
-    return { id };
+    return { id, passwort: startPasswort(daten.name) };
   },
-  async 'mitglied.loeschen'(me, p) { nurGR(me); await loesche('mitglieder', txt(p.id, 40)); return {}; },
+  async 'mitglied.loeschen'(me, p) {
+    nurAdmin(me);
+    if (p.id === me.uid) throw new Fehler('Du kannst dich nicht selbst entfernen.');
+    await loesche('mitglieder', txt(p.id, 40));
+    return {};
+  },
+  async 'mitglied.passwortZuruecksetzen'(me, p) {
+    nurAdmin(me);
+    const m = await muss('mitglieder', p.id);
+    await setze('mitglieder', m.id, { ...Object.fromEntries(Object.entries(m).filter(([k]) => k !== 'id' && k !== 'passwortHash')), pwStand: (m.pwStand || 0) + 1 });
+    return { passwort: startPasswort(m.name) };
+  },
+  async 'passwort.aendern'(me, p) {
+    const m = await muss('mitglieder', me.uid);
+    if (!passwortPasst(m, String(p.alt || ''))) throw new Fehler('Das bisherige Passwort stimmt nicht.', 403);
+    const neu = String(p.neu || '');
+    if (neu.length < 8) throw new Fehler('Das neue Passwort braucht mindestens 8 Zeichen.');
+    const pwStand = (m.pwStand || 0) + 1;
+    await ergaenze('mitglieder', m.id, { passwortHash: hashPasswort(neu), pwStand });
+    await setzeSitzung({ uid: m.id, pv: pwStand });
+    return {};
+  },
 
   // ---------- Einstellungen ----------
   async 'config.speichern'(me, p) {
@@ -300,11 +335,6 @@ const AKTIONEN = {
     if ('driveFolderId' in p) teil.driveFolderId = txt(p.driveFolderId, 100);
     if ('appUrl' in p) teil.appUrl = url(p.appUrl);
     if ('ausschuesse' in p) teil.ausschuesse = (Array.isArray(p.ausschuesse) ? p.ausschuesse : []).map((x) => txt(x, 100)).filter(Boolean).slice(0, 30);
-    if ('mitgliederPasswort' in p) {
-      const pw = String(p.mitgliederPasswort || '');
-      if (pw.length < 6) throw new Fehler('Das Fraktionspasswort braucht mindestens 6 Zeichen.');
-      teil.mitgliederPasswort = hashPasswort(pw);
-    }
     await ergaenze('config', 'app', teil);
     return {};
   },
@@ -652,10 +682,7 @@ const AKTIONEN = {
   // ---------- Besuch ----------
   async 'besuch'(me) {
     await setze('besuche', me.uid, { ts: Date.now(), name: me.name });
-    if (me.gr || me.mk) {
-      const alt = await hole('prefs', me.uid);
-      if ((me.gr && !alt?.gr) || (me.mk && !alt?.mk)) await setze('prefs', me.uid, { ...(alt || {}), name: me.name, gr: !!(me.gr || alt?.gr), mk: !!(me.mk || alt?.mk) });
-    }
+
     return {};
   },
 };

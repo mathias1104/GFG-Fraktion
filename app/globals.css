@@ -611,3 +611,9 @@ a.zeile:hover { background: rgba(36, 92, 67, .04); }
   .unterreiter { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-left: -16px; margin-right: -16px; padding: 0 16px; }
   .unterreiter::-webkit-scrollbar { display: none; }
 }
+
+/* Personen und Rollen */
+.zeile-knopf { width: 100%; border: 0; background: none; cursor: pointer; text-align: left; font: inherit; color: inherit; }
+.zeile-knopf:hover { background: rgba(36, 92, 67, .04); }
+.rollen { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.passwort-form { max-width: 460px; }

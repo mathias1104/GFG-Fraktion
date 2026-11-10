@@ -28,13 +28,14 @@ export async function GET() {
   const { pushabos } = await alle(['pushabos']);
   const meineGeraete = pushabos.filter((a) => a.uid === me.uid).map((a) => ({ endpoint: a.abo?.endpoint, geraet: a.geraet, am: a.am }));
   const { mitgliederPasswort, jotformIgnoriert, ...config } = cfg;
-  config.mitgliederPasswortGesetzt = !!mitgliederPasswort;
   config.jotformAktiv = !!process.env.JOTFORM_API_KEY;
   config.vapidPublic = vapidPublic();
   config.dateiModus = blobAktiv() ? 'blob' : 'lokal';
-  if (!me.gr) d.mitglieder = d.mitglieder.map(({ email, ...m }) => m);
+  // Passwörter nie ausliefern; E-Mails nur für Gemeinderäte und Admins
+  d.mitglieder = d.mitglieder.map(({ passwortHash, pwStand, ...m }) => ({ ...m, eigenesPasswort: !!passwortHash }));
+  if (!me.gr && !me.admin) d.mitglieder = d.mitglieder.map(({ email, eigenesPasswort, ...m }) => m);
   const google = me.gr ? await googleStatus() : null;
   const ich = d.mitglieder.find((m) => m.id === me.uid);
-  const meinePrefs = { typen: prefs.typen || {}, email: prefs.email || '', gelesenBis: prefs.gelesenBis || null, mitgliedEmail: me.gr ? ich?.email || '' : (ich ? (await hole('mitglieder', me.uid))?.email || '' : '') };
+  const meinePrefs = { eigenesPasswort: !!ich?.eigenesPasswort, typen: prefs.typen || {}, email: prefs.email || '', gelesenBis: prefs.gelesenBis || null, mitgliedEmail: me.gr ? ich?.email || '' : (ich ? (await hole('mitglieder', me.uid))?.email || '' : '') };
   return NextResponse.json({ me, daten: d, config, google, prefs: meinePrefs, geraete: meineGeraete, letzterBesuch: besuch?.ts || null, jetzt: Date.now() });
 }

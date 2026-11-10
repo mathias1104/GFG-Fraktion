@@ -687,35 +687,16 @@ function Baukasten() {
 }
 
 export function MarketingFreischalten() {
-  const { laden, toast } = useApp();
-  const [p, setP] = useState('');
-  const [fehler, setFehler] = useState('');
-  const [busy, setBusy] = useState(false);
   return (
-    <div style={{ maxWidth: 420 }}>
+    <div style={{ maxWidth: 480 }}>
       <h1>Marketing</h1>
-      <p className="leise" style={{ margin: '8px 0 22px' }}>Redaktionsplan, Beiträge mit Freigabe, Reichweite und alles für unseren Auftritt auf Facebook, Instagram und WhatsApp.</p>
-      <form onSubmit={async (e) => {
-        e.preventDefault();
-        setBusy(true); setFehler('');
-        const r = await fetch('/api/gr', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bereich: 'marketing', passwort: p }) });
-        const j = await r.json().catch(() => ({}));
-        setBusy(false);
-        if (!r.ok) { setFehler(j.fehler || 'Das hat nicht geklappt.'); return; }
-        await laden();
-        fetch('/api/mutate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ aktion: 'besuch' }) }).catch(() => {});
-        toast('Marketing freigeschaltet');
-      }}>
-        <Feld label="Passwort für Marketing"><input type="password" value={p} onChange={(e) => setP(e.target.value)} autoComplete="current-password" required /></Feld>
-        {fehler && <p className="hinweis fehler" role="alert" style={{ marginBottom: 14 }}>{fehler}</p>}
-        <button className="knopf" disabled={busy}><Icon n="schloss" size={18} />Freischalten</button>
-      </form>
+      <p className="leise" style={{ margin: '8px 0 0' }}>Redaktionsplan, Beiträge mit Freigabe und Reichweite für unseren Auftritt auf Facebook, Instagram und WhatsApp. Diesen Bereich sieht das Marketing-Team. Wenn du dabei sein willst, bitte den Admin, dir die Rolle zu geben.</p>
     </div>
   );
 }
 
 export default function Marketing() {
-  const { me, daten, laden, toast } = useApp();
+  const { me, daten } = useApp();
   const [reiter, setReiter] = useState('plan');
   const ideen = useMemo(() => (daten.beitraege || []).filter((b) => b.status === 'Idee').length, [daten.beitraege]);
   if (!me.mk) return <MarketingFreischalten />;
@@ -724,12 +705,7 @@ export default function Marketing() {
     <>
       <div className="abschnitt-kopf">
         <h1>Marketing</h1>
-        {(
-          <button className="knopf still klein" onClick={async () => {
-            await fetch('/api/gr', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bereich: 'marketing', sperren: true }) });
-            await laden(); toast('Marketing gesperrt');
-          }}><Icon n="schloss" size={16} />Bereich sperren</button>
-        )}
+
       </div>
       <div className="unterreiter" role="tablist">
         {REITER.map(([k, l]) => <button key={k} type="button" role="tab" aria-selected={reiter === k} onClick={() => setReiter(k)}>{l}</button>)}

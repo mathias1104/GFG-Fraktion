@@ -132,48 +132,18 @@ function InfoDialog({ info }) {
   );
 }
 
-function PasswortSchnell() {
-  const { mutate, toast } = useApp();
-  const [pw, setPw] = useState('');
-  const [busy, setBusy] = useState(false);
-  return (
-    <form style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'flex-end', margin: '4px 0 16px' }} onSubmit={async (e) => {
-      e.preventDefault(); setBusy(true);
-      try { await mutate('config.speichern', { mitgliederPasswort: pw }, 'Fraktionspasswort gespeichert'); setPw(''); } catch (err) { toast(err.message, true); }
-      setBusy(false);
-    }}>
-      <label className="feld" style={{ marginBottom: 0, flex: '1 1 240px' }}>
-        <span>Fraktionspasswort (mind. 6 Zeichen)</span>
-        <input type="text" value={pw} onChange={(e) => setPw(e.target.value)} minLength={6} required autoComplete="new-password" />
-      </label>
-      <button className="knopf" disabled={busy}>Passwort speichern</button>
-    </form>
-  );
-}
-
+/** Hinweise für den Admin, solange noch etwas fehlt */
 function Einrichtung() {
-  const { me, config, daten } = useApp();
-  if (!me.gr) return null;
+  const { me, daten } = useApp();
+  if (!me.admin) return null;
   const mitglieder = daten.mitglieder || [];
   const ohneMail = mitglieder.filter((m) => !m.email).length;
-  const schritte = [
-    { fertig: !!config.mitgliederPasswortGesetzt, text: 'Fraktionspasswort für die Vereinsmitglieder festlegen' },
-    { fertig: mitglieder.length > 0 && ohneMail === 0, text: ohneMail ? `E-Mail-Adressen eintragen (${ohneMail} fehlen noch)` : 'E-Mail-Adressen eintragen' },
-  ];
-  if (schritte.every((x) => x.fertig)) return null;
+  if (!mitglieder.length || ohneMail === 0) return null;
   return (
     <section className="flaeche" style={{ marginTop: 22, borderColor: 'var(--loess)' }}>
-      <h2 style={{ marginBottom: 8 }}>Einrichtung abschließen</h2>
-      <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 14px' }}>
-        {schritte.map((x) => (
-          <li key={x.text} style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '4px 0' }}>
-            <span className={`abhaken${x.fertig ? ' an' : ''}`} aria-hidden="true" style={{ cursor: 'default' }}>{x.fertig && <Icon n="check" size={16} />}</span>
-            <span style={x.fertig ? { color: 'var(--grau)', textDecoration: 'line-through' } : undefined}>{x.text}</span>
-          </li>
-        ))}
-      </ul>
-      {!config.mitgliederPasswortGesetzt && <PasswortSchnell />}
-      <a className={config.mitgliederPasswortGesetzt ? 'knopf' : 'knopf zweit'} href="#einstellungen">Mitglieder und E-Mail-Adressen bearbeiten</a>
+      <h2 style={{ marginBottom: 8 }}>Noch {ohneMail} E-Mail-Adressen fehlen</h2>
+      <p className="leise" style={{ margin: '0 0 14px' }}>Ohne E-Mail-Adresse bekommt niemand Kalendereinladungen, Tagesordnungen und Erinnerungen.</p>
+      <a className="knopf" href="#verwaltung">Mitglieder bearbeiten</a>
     </section>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useApp, Icon, Dialog } from './ui';
+import { useApp, Icon, Dialog, Feld } from './ui';
 import { BENACHRICHTIGUNGEN, einstellung, ereignisse, zeitpunkt } from '@/lib/domain';
 
 const WEGE = [['app', 'In der App'], ['push', 'Push'], ['mail', 'E-Mail']];
@@ -156,6 +156,32 @@ function DiesesGeraet() {
   );
 }
 
+/** Eigenes Passwort statt des vorgegebenen Startpassworts */
+function MeinPasswort() {
+  const { stand, mutate, toast } = useApp();
+  const [alt, setAlt] = useState('');
+  const [neu, setNeu] = useState('');
+  const [busy, setBusy] = useState(false);
+  const eigenes = !!stand?.prefs?.eigenesPasswort;
+  return (
+    <section className="abschnitt">
+      <h2 style={{ marginBottom: 6 }}>Mein Passwort</h2>
+      <p className="leise klein" style={{ marginBottom: 14 }}>
+        {eigenes ? 'Du verwendest ein eigenes Passwort.' : 'Du verwendest noch das vorgegebene Startpasswort. Mit einem eigenen kann sich niemand sonst unter deinem Namen anmelden.'}
+      </p>
+      <form className="flaeche passwort-form" onSubmit={async (e) => {
+        e.preventDefault(); setBusy(true);
+        try { await mutate('passwort.aendern', { alt, neu }, 'Passwort geändert. Andere Geräte sind jetzt abgemeldet.'); setAlt(''); setNeu(''); } catch (err) { toast(err.message, true); }
+        setBusy(false);
+      }}>
+        <Feld label="Bisheriges Passwort"><input type="password" value={alt} onChange={(e) => setAlt(e.target.value)} autoComplete="current-password" required /></Feld>
+        <Feld label="Neues Passwort" hinweis="Mindestens 8 Zeichen."><input type="password" value={neu} onChange={(e) => setNeu(e.target.value)} autoComplete="new-password" minLength={8} required /></Feld>
+        <button className="knopf" disabled={busy}>Passwort ändern</button>
+      </form>
+    </section>
+  );
+}
+
 export default function BenachrichtigungsSeite() {
   const { stand, me, google, toast } = useApp();
   const server = stand?.prefs || {};
@@ -243,6 +269,7 @@ export default function BenachrichtigungsSeite() {
           ))}
         </div>
       </section>
+      <MeinPasswort />
     </>
   );
 }
