@@ -14,23 +14,27 @@ import { AufgabenSeite } from './Aufgaben';
 import Ausschuesse from './Ausschuesse';
 import Kalender from './Kalender';
 import BenachrichtigungsSeite, { Glocke } from './Benachrichtigungen';
+import Marketing, { BeitragDetail } from './Marketing';
 
+// Gruppen: Alltag für alle, Mitarbeit, geschützte Bereiche mit Passwort
 const REITER = [
-  { id: 'start', label: 'Start', icon: 'start', unten: true },
-  { id: 'sitzungen', label: 'Sitzungen', icon: 'sitzung', unten: true },
-  { id: 'antraege', label: 'Anträge', icon: 'antrag', unten: true },
-  { id: 'aufgaben', label: 'Aufgaben', icon: 'check' },
-  { id: 'videothemen', label: 'Videothemen', icon: 'video' },
-  { id: 'ausschuesse', label: 'Ausschüsse', icon: 'gruppe' },
-  { id: 'kalender', label: 'Kalender', icon: 'kalender', unten: true },
-  { id: 'gemeinderaete', label: 'Gemeinderäte', icon: 'schloss' },
+  { id: 'start', label: 'Start', icon: 'start', unten: true, gruppe: 'alltag' },
+  { id: 'sitzungen', label: 'Sitzungen', icon: 'sitzung', unten: true, gruppe: 'alltag' },
+  { id: 'aufgaben', label: 'Aufgaben', icon: 'check', unten: true, gruppe: 'alltag' },
+  { id: 'kalender', label: 'Kalender', icon: 'kalender', unten: true, gruppe: 'alltag' },
+  { id: 'antraege', label: 'Anträge', icon: 'antrag', gruppe: 'fraktion' },
+  { id: 'videothemen', label: 'Videothemen', icon: 'video', gruppe: 'fraktion' },
+  { id: 'ausschuesse', label: 'Ausschüsse', icon: 'gruppe', gruppe: 'fraktion' },
+  { id: 'marketing', label: 'Marketing', icon: 'megafon', gruppe: 'geschuetzt' },
+  { id: 'gemeinderaete', label: 'Gemeinderäte', icon: 'schloss', gruppe: 'geschuetzt' },
 ];
+const GRUPPEN = [['alltag', 'Alltag'], ['fraktion', 'Fraktion'], ['geschuetzt', 'Mit Passwort']];
 
 function leseRoute() {
   if (typeof window === 'undefined') return { seite: 'start' };
   const h = window.location.hash.replace(/^#/, '') || 'start';
   if (h === 'einstellungen') return { seite: 'gemeinderaete', unter: 'verwaltung' };
-  const m = h.match(/^(sitzung|modus|protokoll|antrag|grsitzung)-(.+)$/);
+  const m = h.match(/^(sitzung|modus|protokoll|antrag|grsitzung|beitrag)-(.+)$/);
   if (m) return { seite: m[1], id: m[2] };
   if (h === 'benachrichtigungen') return { seite: 'benachrichtigungen' };
   return { seite: REITER.some((r) => r.id === h) ? h : 'start' };
@@ -206,7 +210,7 @@ export default function App() {
     );
   }
 
-  const aktiverReiter = { sitzung: 'sitzungen', modus: 'sitzungen', protokoll: 'sitzungen', antrag: 'antraege', grsitzung: 'gemeinderaete' }[route.seite] || route.seite;
+  const aktiverReiter = { sitzung: 'sitzungen', modus: 'sitzungen', protokoll: 'sitzungen', antrag: 'antraege', grsitzung: 'gemeinderaete', beitrag: 'marketing' }[route.seite] || route.seite;
   const imMehr = !REITER.find((r) => r.id === aktiverReiter)?.unten;
   let inhalt;
   switch (route.seite) {
@@ -223,6 +227,8 @@ export default function App() {
     case 'ausschuesse': inhalt = <Ausschuesse />; break;
     case 'kalender': inhalt = <Kalender />; break;
     case 'benachrichtigungen': inhalt = <BenachrichtigungsSeite />; break;
+    case 'marketing': inhalt = <Marketing />; break;
+    case 'beitrag': inhalt = <BeitragDetail id={route.id} />; break;
     default: inhalt = <Start />;
   }
   const Offen = dialog;
@@ -238,6 +244,7 @@ export default function App() {
           <div className="wer">
             <span className="name">{stand.me.name}</span>
             {stand.me.gr && <span className="gr-marke">Gemeinderat</span>}
+            {!stand.me.gr && stand.me.mk && <span className="gr-marke">Marketing</span>}
             <Glocke />
             {stand.me.gr && <a className="knopf still klein" href="#einstellungen" aria-label="Einstellungen"><Icon n="zahnrad" size={18} /><span className="nur-breit">Einstellungen</span></a>}
             <button className="knopf still klein" onClick={ctx.abmelden}>Abmelden</button>
@@ -245,10 +252,17 @@ export default function App() {
         </div>
         <nav className="reiter" aria-label="Hauptnavigation">
           <div className="reiter-innen">
-            {REITER.map((r) => (
-              <a key={r.id} href={`#${r.id}`} aria-current={aktiverReiter === r.id ? 'page' : undefined}>
-                {r.id === 'gemeinderaete' && <Icon n="schloss" size={16} />}{r.label}
-              </a>
+            {GRUPPEN.map(([g]) => (
+              <div key={g} className={`reiter-gruppe g-${g}`}>
+                {REITER.filter((r) => r.gruppe === g).map((r) => {
+                  const offen = g === 'geschuetzt' && (r.id === 'gemeinderaete' ? stand.me.gr : stand.me.mk);
+                  return (
+                    <a key={r.id} href={`#${r.id}`} aria-current={aktiverReiter === r.id ? 'page' : undefined}>
+                      {g === 'geschuetzt' && <Icon n={offen ? r.icon : 'schloss'} size={16} />}{r.label}
+                    </a>
+                  );
+                })}
+              </div>
             ))}
           </div>
         </nav>
@@ -262,12 +276,23 @@ export default function App() {
         ))}
         <button type="button" aria-current={imMehr ? 'page' : undefined} aria-haspopup="dialog" onClick={() => ctx.oeffne(() => (
           <Dialog titel="Mehr" onClose={ctx.schliesse}>
-            <ul className="mehr-liste">
-              {REITER.filter((r) => !r.unten).map((r) => (
-                <li key={r.id}><a href={`#${r.id}`} onClick={ctx.schliesse}><Icon n={r.icon} />{r.label}</a></li>
-              ))}
-              <li><a href="#benachrichtigungen" onClick={ctx.schliesse}><Icon n="glocke" />Benachrichtigungen</a></li>
-            </ul>
+            {[['fraktion', 'Fraktion'], ['geschuetzt', 'Mit Passwort']].map(([g, titel]) => (
+              <div key={g} className="mehr-gruppe">
+                <h3>{titel}</h3>
+                <ul className="mehr-liste">
+                  {REITER.filter((r) => r.gruppe === g).map((r) => (
+                    <li key={r.id}><a href={`#${r.id}`} onClick={ctx.schliesse}><Icon n={r.icon} />{r.label}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+            <div className="mehr-gruppe">
+              <h3>Für mich</h3>
+              <ul className="mehr-liste">
+                <li><a href="#benachrichtigungen" onClick={ctx.schliesse}><Icon n="glocke" />Benachrichtigungen</a></li>
+                {stand.me.gr && <li><a href="#einstellungen" onClick={ctx.schliesse}><Icon n="zahnrad" />Einstellungen</a></li>}
+              </ul>
+            </div>
           </Dialog>
         ))}>
           <Icon n="mehr" />Mehr

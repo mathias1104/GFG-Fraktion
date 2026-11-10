@@ -1,28 +1,29 @@
 'use client';
 import { useState } from 'react';
 import { useApp, Icon, Feld, DialogForm, Leer } from './ui';
-import { TERMIN_ARTEN, kalenderEintraege, monatTitel, wochentagKurz, wienTag } from '@/lib/domain';
+import { TERMIN_ARTEN, SITZUNGSARTEN, kalenderEintraege, monatTitel, wochentagKurz, wienTag } from '@/lib/domain';
 
-const NEU_ARTEN = ['Fraktionssitzung', 'Gemeinderatssitzung', 'Ausschusssitzung', 'Veranstaltung', 'Frist', 'Sonstiges'];
+const SITZUNG = 'Sitzung der GFG';
+const NEU_ARTEN = [SITZUNG, 'Gemeinderatssitzung', 'Ausschusssitzung', 'Veranstaltung', 'Frist', 'Sonstiges'];
 
 function TerminDialog({ t, vorschlagArt }) {
   const { mutate, schliesse, bestaetige, toast, config } = useApp();
   const [f, setF] = useState({
-    titel: t?.titel || '', art: t?.art || vorschlagArt || 'Fraktionssitzung', datum: t?.datum || '',
+    titel: t?.titel || '', art: t?.art || vorschlagArt || SITZUNG, sitzungsart: 'Fraktionssitzung', datum: t?.datum || '',
     uhrzeit: t?.uhrzeit || '', ort: t?.ort || '', notiz: t?.notiz || '',
   });
   const set = (k) => (e) => setF((x) => ({ ...x, [k]: e.target.value }));
-  const fraktion = !t && f.art === 'Fraktionssitzung';
+  const fraktion = !t && f.art === SITZUNG;
   const gr = !t && f.art === 'Gemeinderatssitzung';
   const arten = t ? TERMIN_ARTEN : NEU_ARTEN;
   return (
     <DialogForm
       titel={t ? 'Termin bearbeiten' : 'Termin eintragen'}
-      knopf={fraktion ? 'Fraktionssitzung anlegen' : gr ? 'Gemeinderatssitzung anlegen' : 'Termin speichern'}
+      knopf={fraktion ? 'Sitzung anlegen' : gr ? 'Gemeinderatssitzung anlegen' : 'Termin speichern'}
       onClose={schliesse}
       onSubmit={async () => {
         if (fraktion) {
-          const r = await mutate('sitzung.speichern', { datum: f.datum, uhrzeit: f.uhrzeit || '19:00', ort: f.ort, notiz: f.notiz, fristTage: config.fristTage ?? 3, dauerMin: 120 }, 'Fraktionssitzung angelegt');
+          const r = await mutate('sitzung.speichern', { art: f.sitzungsart, titel: f.titel, datum: f.datum, uhrzeit: f.uhrzeit || '19:00', ort: f.ort, notiz: f.notiz, fristTage: config.fristTage ?? 3, dauerMin: 120 }, 'Sitzung angelegt');
           if (r.google === 'ok') toast('Gespeichert, Kalendereinladung ist raus');
           else if (r.google === 'fehler') toast(`Gespeichert, aber die Kalendereinladung ging nicht: ${r.googleFehler}`, true);
           window.location.hash = `sitzung-${r.id}`;
@@ -39,6 +40,12 @@ function TerminDialog({ t, vorschlagArt }) {
         }}>Löschen</button>
       )}>
       <Feld label="Art"><select value={f.art} onChange={set('art')}>{arten.map((a) => <option key={a}>{a}</option>)}</select></Feld>
+      {fraktion && (
+        <div className="feld-reihe">
+          <Feld label="Art der Sitzung"><select value={f.sitzungsart} onChange={set('sitzungsart')}>{SITZUNGSARTEN.map((a) => <option key={a}>{a}</option>)}</select></Feld>
+          <Feld label="Bezeichnung (optional)"><input value={f.titel} onChange={set('titel')} maxLength={120} placeholder={f.sitzungsart} /></Feld>
+        </div>
+      )}
       {!fraktion && (
         <Feld label={gr ? 'Bezeichnung' : 'Titel'}>
           <input value={f.titel} onChange={set('titel')} required={!gr} maxLength={160} placeholder={gr ? 'Gemeinderatssitzung' : 'z. B. Ausschuss Kultur und Veranstaltungen'} />
@@ -50,7 +57,7 @@ function TerminDialog({ t, vorschlagArt }) {
       </div>
       <Feld label={fraktion ? 'Ort' : 'Ort (optional)'}><input value={f.ort} onChange={set('ort')} maxLength={160} /></Feld>
       <Feld label="Notiz (optional)"><textarea value={f.notiz} onChange={set('notiz')} maxLength={1000} style={{ minHeight: 70 }} /></Feld>
-      {fraktion && <p className="hinweis info klein" style={{ marginBottom: 12 }}>Legt eine Fraktionssitzung mit Themensammlung und automatischer Tagesordnung an. Ist Google verbunden, bekommen alle Mitglieder sofort eine Kalendereinladung.</p>}
+      {fraktion && <p className="hinweis info klein" style={{ marginBottom: 12 }}>Legt eine Sitzung an, zu der alle Themen einreichen können. Die Themen werden die Tagesordnung. Ist Google verbunden, bekommen alle Mitglieder sofort eine Kalendereinladung.</p>}
       {gr && <p className="hinweis info klein" style={{ marginBottom: 12 }}>Legt die Gemeinderatssitzung im Gemeinderäte-Bereich an. Dort tragt ihr danach die TOPs und die Abstimmungslinie ein. Vereinsmitglieder sehen im Kalender nur Datum und Ort.</p>}
     </DialogForm>
   );

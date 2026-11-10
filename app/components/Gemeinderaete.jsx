@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useApp, Icon, Feld, DialogForm, Leer } from './ui';
+import { Ablage, DateiListe, dateiUrl, lesbar } from './Dateien';
 import { ROLLEN, ORTSTEILE, zeitpunkt, LINIEN, LINIE_TON, GR_ERGEBNISSE, datumLang, datumKurz, wienTag } from '@/lib/domain';
 
 function Freischalten() {
@@ -101,6 +102,7 @@ function GrSitzungDialog({ g }) {
   const [f, setF] = useState({
     titel: g?.titel || 'Gemeinderatssitzung', datum: g?.datum || '', uhrzeit: g?.uhrzeit || '19:00', ort: g?.ort || '', notiz: g?.notiz || '',
     unterlagen: g?.unterlagen?.length ? g.unterlagen : [{ titel: '', url: '' }],
+    // Dateien werden in der Sitzung selbst abgelegt
   });
   const set = (k) => (e) => setF((x) => ({ ...x, [k]: e.target.value }));
   return (
@@ -123,7 +125,7 @@ function GrSitzungDialog({ g }) {
       </div>
       <Feld label="Ort"><input value={f.ort} onChange={set('ort')} maxLength={160} placeholder="z. B. Gemeindeamt Großebersdorf" /></Feld>
       <div className="feld">
-        <span style={{ display: 'block', fontWeight: 700, fontSize: 15, marginBottom: 6 }}>Unterlagen (Drive-Links)</span>
+        <span style={{ display: 'block', fontWeight: 700, fontSize: 15, marginBottom: 6 }}>Weitere Unterlagen als Link (optional)</span>
         {f.unterlagen.map((d, i) => (
           <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 8, marginBottom: 8 }}>
             <input className="eingabe" placeholder="Bezeichnung" value={d.titel} aria-label="Bezeichnung"
@@ -145,7 +147,7 @@ function TopDialog({ g, top }) {
   const [f, setF] = useState({
     key: top?.key || '', nr: top?.nr || String((g.tops?.length || 0) + 1), titel: top?.titel || '', unterlage: top?.unterlage || '',
     linie: top?.linie || 'offen', begruendung: top?.begruendung || '', sprecher: top?.sprecher || '', wortmeldung: top?.wortmeldung || '',
-    ergebnis: top?.ergebnis || '', abgestimmt: top?.abgestimmt || '',
+    ergebnis: top?.ergebnis || '', abgestimmt: top?.abgestimmt || '', datei: top?.datei || '', nichtOeffentlich: !!top?.nichtOeffentlich,
   });
   const set = (k) => (e) => setF((x) => ({ ...x, [k]: e.target.value }));
   return (
@@ -160,7 +162,19 @@ function TopDialog({ g, top }) {
         <Feld label="Nr."><input value={f.nr} onChange={set('nr')} maxLength={10} /></Feld>
         <Feld label="Titel des TOP"><input value={f.titel} onChange={set('titel')} required maxLength={250} /></Feld>
       </div>
-      <Feld label="Unterlage (Link, optional)"><input type="url" value={f.unterlage} onChange={set('unterlage')} placeholder="https://" /></Feld>
+      {(g.dateien || []).length > 0 && (
+        <Feld label="Zugehörige Datei">
+          <select value={f.datei} onChange={set('datei')}>
+            <option value="">keine</option>
+            {g.dateien.map((d) => <option key={d.pfad} value={d.pfad}>{d.name}</option>)}
+          </select>
+        </Feld>
+      )}
+      <Feld label="Unterlage als Link (optional)"><input type="url" value={f.unterlage} onChange={set('unterlage')} placeholder="https://" /></Feld>
+      <label className="schalter-zeile" style={{ marginBottom: 16 }}>
+        <input type="checkbox" checked={f.nichtOeffentlich} onChange={(e) => setF((x) => ({ ...x, nichtOeffentlich: e.target.checked }))} />
+        <span>Nicht öffentlicher Teil</span>
+      </label>
       <Feld label="Unsere Abstimmungslinie">
         <select value={f.linie} onChange={set('linie')}>{LINIEN.map((l) => <option key={l} value={l}>{l === 'offen' ? 'noch offen' : l === 'freigegeben' ? 'Abstimmung freigegeben' : l}</option>)}</select>
       </Feld>
@@ -182,6 +196,135 @@ function TopDialog({ g, top }) {
   );
 }
 
+
+/** Lässt eine abgelegte Einladung lesen und liefert Datum, Ort und TOPs */
+async function erkenne(datei) {
+  const r = await fetch('/api/grsitzung/erkennen', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pfad: datei.pfad }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.fehler || 'Die Datei konnte nicht gelesen werden.');
+  return j;
+}
+const wieEinladung = (d) => /einladung|kurrende|tagesordnung|kundmachung/i.test(d.name || '');
+
+/** Vorschau der erkannten TOPs: prüfen, ändern, übernehmen */
+function TopVorschau({ g, erkannt, datei, dateien }) {
+  const { mutate, schliesse } = useApp();
+  const vorhanden = g?.tops?.length || 0;
+  const [kopf, setKopf] = useState({
+    titel: g?.titel || 'Gemeinderatssitzung', datum: erkannt.datum || g?.datum || '', uhrzeit: erkannt.uhrzeit || g?.uhrzeit || '19:00', ort: erkannt.ort || g?.ort || '',
+  });
+  const [tops, setTops] = useState((erkannt.tops || []).map((t) => ({ ...t, an: true })));
+  const [ersetzen, setErsetzen] = useState(false);
+  const setK = (k) => (e) => setKopf((x) => ({ ...x, [k]: e.target.value }));
+  const setT = (i, k, v) => setTops((x) => x.map((t, j) => (j === i ? { ...t, [k]: v } : t)));
+  const gewaehlt = tops.filter((t) => t.an && t.titel.trim());
+  const abweichend = g && ((erkannt.datum && erkannt.datum !== g.datum) || (erkannt.uhrzeit && erkannt.uhrzeit !== g.uhrzeit));
+  return (
+    <DialogForm titel={g ? 'Erkannte TOPs übernehmen' : 'Sitzung aus der Einladung anlegen'} onClose={schliesse}
+      knopf={g ? `${gewaehlt.length} TOPs übernehmen` : 'Sitzung anlegen'}
+      onSubmit={async () => {
+        if (g) {
+          await mutate('grsitzung.topsUebernehmen', { id: g.id, tops: gewaehlt, ersetzen, ...(abweichend || !g.ort ? { datum: kopf.datum, uhrzeit: kopf.uhrzeit, ort: kopf.ort } : {}) }, `${gewaehlt.length} TOPs übernommen`);
+        } else {
+          const r = await mutate('grsitzung.speichern', { ...kopf, tops: gewaehlt, dateien }, 'Gemeinderatssitzung angelegt');
+          window.location.hash = `grsitzung-${r.id}`;
+        }
+      }}>
+      <p className="hinweis info" style={{ marginBottom: 16 }}>
+        Aus <b>{datei.name}</b> gelesen. Bitte kurz prüfen: Titel lassen sich direkt ändern, Häkchen entfernen schließt einen Punkt aus.
+      </p>
+      {(!g || abweichend || !g.ort) && (
+        <>
+          {!g && <Feld label="Bezeichnung"><input value={kopf.titel} onChange={setK('titel')} maxLength={160} /></Feld>}
+          <div className="feld-reihe">
+            <Feld label="Datum"><input type="date" value={kopf.datum} onChange={setK('datum')} required={!g} /></Feld>
+            <Feld label="Beginn"><input type="time" value={kopf.uhrzeit} onChange={setK('uhrzeit')} /></Feld>
+          </div>
+          <Feld label="Ort"><input value={kopf.ort} onChange={setK('ort')} maxLength={160} /></Feld>
+          {abweichend && <p className="leise klein" style={{ marginTop: -6, marginBottom: 14 }}>Datum oder Beginn weichen von der angelegten Sitzung ab und werden mit übernommen.</p>}
+        </>
+      )}
+      {tops.length === 0 ? (
+        <p className="hinweis fehler">In dieser Datei wurden keine nummerierten Tagesordnungspunkte gefunden. Du kannst die TOPs trotzdem händisch eintragen.</p>
+      ) : (
+        <ol className="top-vorschau">
+          {tops.map((t, i) => (
+            <li key={i} className={t.an ? '' : 'aus'}>
+              <input type="checkbox" checked={t.an} onChange={(e) => setT(i, 'an', e.target.checked)} aria-label={`TOP ${t.nr} übernehmen`} />
+              <input className="nr" value={t.nr} onChange={(e) => setT(i, 'nr', e.target.value)} aria-label="Nummer" maxLength={6} />
+              <textarea rows={Math.min(5, Math.ceil(t.titel.length / 32) || 1)} value={t.titel} onChange={(e) => setT(i, 'titel', e.target.value)} aria-label={`Titel TOP ${t.nr}`} maxLength={250} />
+              <label className="noe" title="Nicht öffentlicher Teil">
+                <input type="checkbox" checked={!!t.nichtOeffentlich} onChange={(e) => setT(i, 'nichtOeffentlich', e.target.checked)} />n. ö.
+              </label>
+            </li>
+          ))}
+        </ol>
+      )}
+      {vorhanden > 0 && tops.length > 0 && (
+        <label className="schalter-zeile" style={{ marginTop: 14 }}>
+          <input type="checkbox" checked={ersetzen} onChange={(e) => setErsetzen(e.target.checked)} />
+          <span>Bisherige {vorhanden} TOPs ersetzen <span className="leise klein">(TOPs mit Linie oder Begründung bleiben erhalten)</span></span>
+        </label>
+      )}
+    </DialogForm>
+  );
+}
+
+/** Unterlagen einer GR-Sitzung: ablegen, öffnen, TOPs daraus erkennen */
+function Unterlagen({ g }) {
+  const { mutate, oeffne, toast } = useApp();
+  const [liest, setLiest] = useState('');
+  const lies = async (d) => {
+    setLiest(d.pfad);
+    try {
+      const e = await erkenne(d);
+      oeffne(() => <TopVorschau g={g} erkannt={e} datei={d} />);
+    } catch (err) { toast(err.message, true); }
+    setLiest('');
+  };
+  return (
+    <section className="abschnitt">
+      <div className="abschnitt-kopf">
+        <h2>Einladung und Unterlagen</h2>
+        <span className="leise klein">{(g.dateien || []).length} Dateien</span>
+      </div>
+      <DateiListe dateien={g.dateien}
+        onEntfernen={async (d) => { try { await mutate('grsitzung.datei', { id: g.id, entfernen: d.pfad }, 'Datei entfernt'); } catch (e) { toast(e.message, true); } }}
+        aktion={(d) => lesbar(d) && (
+          <button type="button" className="knopf zweit klein" disabled={!!liest} onClick={() => lies(d)}>
+            <Icon n="funke" size={16} />{liest === d.pfad ? 'Liest …' : 'TOPs erkennen'}
+          </button>
+        )} />
+      <Ablage bereich="gr" kompakt={(g.dateien || []).length > 0}
+        text="Einladungskurrende und Unterlagen ablegen" hinweis="PDF, Word, Bilder. Aus der Einladung werden die TOPs automatisch gelesen."
+        onFertig={async (neu) => {
+          await mutate('grsitzung.datei', { id: g.id, dateien: neu }, neu.length > 1 ? `${neu.length} Dateien abgelegt` : 'Datei abgelegt');
+          const einladung = neu.find((d) => lesbar(d) && wieEinladung(d)) || (!(g.tops || []).length && neu.find(lesbar));
+          if (einladung) await lies(einladung);
+        }} />
+      {g.unterlagen?.length > 0 && <div className="verweise" style={{ marginTop: 12 }}>{g.unterlagen.map((u, i) => <a key={i} href={u.url} target="_blank" rel="noreferrer"><Icon n="link" size={18} />{u.titel}</a>)}</div>}
+    </section>
+  );
+}
+
+/** Neue GR-Sitzung direkt aus der hochgeladenen Einladung */
+function AusEinladung() {
+  const { oeffne, toast } = useApp();
+  const [liest, setLiest] = useState(false);
+  return liest ? <p className="hinweis info" aria-live="polite">Einladung wird gelesen …</p> : (
+    <Ablage bereich="gr" mehrere={false} accept=".pdf,.docx,.txt,application/pdf"
+      text="Neue Einladung ablegen" hinweis="Die Sitzung wird mit Datum, Ort und allen TOPs vorbereitet."
+      onFertig={async ([d]) => {
+        setLiest(true);
+        try {
+          const e = await erkenne(d);
+          oeffne(() => <TopVorschau erkannt={e} datei={d} dateien={[d]} />);
+        } catch (err) { toast(err.message, true); }
+        setLiest(false);
+      }} />
+  );
+}
+
 export function GrSitzungDetail({ id }) {
   const { daten, me, oeffne } = useApp();
   if (!me.gr) return <Freischalten />;
@@ -199,7 +342,6 @@ export function GrSitzungDetail({ id }) {
         </div>
         <button className="knopf zweit" onClick={() => oeffne(() => <GrSitzungDialog g={g} />)}><Icon n="stift" size={18} />Bearbeiten</button>
       </div>
-      {g.unterlagen?.length > 0 && <div className="verweise">{g.unterlagen.map((u, i) => <a key={i} href={u.url} target="_blank" rel="noreferrer"><Icon n="doc" size={18} />{u.titel}</a>)}</div>}
       {g.notiz && <p style={{ whiteSpace: 'pre-wrap', marginTop: 14 }}>{g.notiz}</p>}
 
       <section className="abschnitt">
@@ -207,7 +349,7 @@ export function GrSitzungDetail({ id }) {
           <h2>Tagesordnung der Gemeinde</h2>
           <span className="leise klein">{tops.length} TOPs, {mitLinie} mit Linie</span>
         </div>
-        {tops.length === 0 ? <Leer titel="Noch keine TOPs" text="Trage die Tagesordnungspunkte aus der Einladung der Gemeinde ein und legt pro Punkt die gemeinsame Linie fest." /> : (
+        {tops.length === 0 ? <Leer titel="Noch keine TOPs" text="Leg unten die Einladung ab, dann werden die TOPs automatisch eingetragen. Oder trag sie händisch ein." /> : (
           <div>
             {tops.map((t) => (
               <article key={t.key} className="top">
@@ -216,9 +358,11 @@ export function GrSitzungDetail({ id }) {
                   <div className="zeile-titel">{t.titel}</div>
                   <div className="zeile-meta">
                     <Linie wert={t.linie} />
+                    {t.nichtOeffentlich && <span className="etikett ton-leise">nicht öffentlich</span>}
                     {t.ergebnis && <span className="etikett ton-aktiv">Ergebnis: {t.ergebnis}</span>}
                     {t.abgestimmt && <span>GFG stimmte {t.abgestimmt === 'uneinheitlich' ? 'uneinheitlich' : t.abgestimmt}</span>}
                     {t.unterlage && <a href={t.unterlage} target="_blank" rel="noreferrer">Unterlage</a>}
+                    {t.datei && <a href={dateiUrl({ pfad: t.datei, name: (g.dateien || []).find((d) => d.pfad === t.datei)?.name })} target="_blank" rel="noreferrer">{(g.dateien || []).find((d) => d.pfad === t.datei)?.name || 'Datei'}</a>}
                   </div>
                   {(t.begruendung || t.sprecher || t.wortmeldung) && (
                     <div className="top-linie">
@@ -233,8 +377,9 @@ export function GrSitzungDetail({ id }) {
             ))}
           </div>
         )}
-        <button className="knopf" style={{ marginTop: 16 }} onClick={() => oeffne(() => <TopDialog g={g} />)}><Icon n="plus" size={18} />TOP hinzufügen</button>
+        <button className="knopf zweit" style={{ marginTop: 16 }} onClick={() => oeffne(() => <TopDialog g={g} />)}><Icon n="plus" size={18} />TOP händisch hinzufügen</button>
       </section>
+      <Unterlagen g={g} />
     </>
   );
 }
@@ -264,9 +409,10 @@ function Vorbereitung() {
     <>
       <div className="abschnitt-kopf">
         <h2>Kommende Gemeinderatssitzungen</h2>
-        <button className="knopf" onClick={() => oeffne(() => <GrSitzungDialog />)}><Icon n="plus" />Sitzung anlegen</button>
+        <button className="knopf zweit" onClick={() => oeffne(() => <GrSitzungDialog />)}><Icon n="plus" />Händisch anlegen</button>
       </div>
-      {kommend.length ? <ul className="liste">{kommend.map(zeile)}</ul> : <Leer titel="Keine kommende Gemeinderatssitzung" text="Sobald die Einladung der Gemeinde da ist: Sitzung anlegen, TOPs eintragen, Linie festlegen." />}
+      {kommend.length ? <ul className="liste">{kommend.map(zeile)}</ul> : <p className="leise" style={{ marginBottom: 14 }}>Keine kommende Gemeinderatssitzung angelegt.</p>}
+      <div style={{ marginTop: 16 }}><AusEinladung /></div>
       {vergangen.length > 0 && (
         <section className="abschnitt">
           <h2 style={{ marginBottom: 12 }}>Vergangene</h2>

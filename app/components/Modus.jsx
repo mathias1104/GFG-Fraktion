@@ -1,9 +1,10 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { useApp, useJetzt, Icon, Feld, DialogForm, Leer, Ziel, Status } from './ui';
+import { useApp, useJetzt, Icon, Feld, DialogForm, Leer, Ziel } from './ui';
+import { ThemaDialog } from './Sitzungen';
 import { aktuelleTagesordnung } from './Sitzungen';
 import { AufgabeZeile, AufgabeDialog } from './Aufgaben';
-import { ERGEBNISSE, OFFENE_STATUS, datumLang, datumKurz, wienTag } from '@/lib/domain';
+import { ERGEBNISSE, datumLang, datumKurz, wienTag, sitzungName } from '@/lib/domain';
 
 const LEER_LIVE = { index: 0, laufend: false, punktStart: null, gestartetAm: null, beendetAm: null, verbraucht: {}, anwesend: [], notizen: {} };
 
@@ -77,7 +78,7 @@ export default function Modus({ id }) {
     setLokal(mitNotizen);
     kette.current = kette.current.then(async () => {
       try {
-        await mutate('sitzung.live', { id: s.id, live: mitNotizen, agenda: s.agenda?.length ? undefined : items });
+        await mutate('sitzung.live', { id: s.id, live: mitNotizen, agenda: s.agendaAm ? undefined : items });
       } catch (e) { toast(e.message, true); }
       setLokal(null);
     });
@@ -137,7 +138,7 @@ export default function Modus({ id }) {
       <div className="abschnitt-kopf">
         <div>
           <h1>Sitzungsmodus</h1>
-          <p className="leise">{datumLang(s.datum)}{s.ort ? `, ${s.ort}` : ''}</p>
+          <p className="leise">{sitzungName(s)}, {datumLang(s.datum)}{s.ort ? `, ${s.ort}` : ''}</p>
         </div>
         <div style={{ textAlign: 'right' }}>
           <p className="leise mini">Sitzungsdauer</p>
@@ -147,7 +148,26 @@ export default function Modus({ id }) {
       {!me.gr && !abgeschlossen && <p className="hinweis info" style={{ marginBottom: 18 }}>Du verfolgst die Sitzung live mit. Gesteuert wird sie von einem Gemeinderat.</p>}
       {abgeschlossen && <p className="hinweis" style={{ marginBottom: 18 }}>Diese Sitzung ist beendet. <a href={`#protokoll-${s.id}`}>Zum Protokoll</a></p>}
 
-      <div className="modus">
+      <details className="flaeche anwesenheit" open={!live.gestartetAm && steuern} style={{ marginBottom: 20 }}>
+        <summary><b>Anwesend: {anwesend.size} von {mitglieder.length}</b>{anwesend.size > 0 && <span className="leise klein"> ({mitglieder.filter((m) => anwesend.has(m.id)).map((m) => m.name.split(' ')[0]).join(', ')})</span>}</summary>
+        {mitglieder.length === 0 ? <p className="leise" style={{ marginTop: 10 }}>Lege zuerst Mitglieder unter Einstellungen an.</p> : (
+          <div className="anwesend" style={{ marginTop: 12 }}>
+            {mitglieder.map((m) => (
+              <label key={m.id}>
+                <input type="checkbox" checked={anwesend.has(m.id)} disabled={!steuern} onChange={() => toggleAnwesend(m.id)} />{m.name}
+              </label>
+            ))}
+          </div>
+        )}
+      </details>
+
+      {items.length === 0 && (
+        <Leer titel="Noch keine Themen" text="Die Tagesordnung entsteht aus den eingereichten Themen.">
+          {me.gr && !abgeschlossen && <button className="knopf" onClick={() => oeffne(() => <ThemaDialog sitzung={s} />)}><Icon n="plus" />Thema hinzufügen</button>}
+        </Leer>
+      )}
+
+      <div className="modus" style={items.length ? undefined : { display: 'none' }}>
         <ol className="modus-punkte" aria-label="Tagesordnungspunkte">
           {items.map((it, i) => {
             const t = laufzeit(live, it.key);
@@ -192,43 +212,6 @@ export default function Modus({ id }) {
             )}
 
             {punkt.beschreibung && <p style={{ marginTop: 22 }}>{punkt.beschreibung}</p>}
-            {punkt.unter?.length > 0 && punkt.key !== 'aufgaben' && (
-              <ul style={{ marginTop: 14 }}>{punkt.unter.map((u, j) => <li key={j} className={u.warn ? 'warn' : ''}>{u.text}</li>)}</ul>
-            )}
-
-            {punkt.key === 'begruessung' && (
-              <div className="abschnitt" style={{ marginTop: 26 }}>
-                <h3 style={{ marginBottom: 10 }}>Anwesend ({anwesend.size})</h3>
-                {mitglieder.length === 0 ? <p className="leise">Lege zuerst Mitglieder im Reiter Gemeinderäte an.</p> : (
-                  <div className="anwesend">
-                    {mitglieder.map((m) => (
-                      <label key={m.id}>
-                        <input type="checkbox" checked={anwesend.has(m.id)} disabled={!steuern} onChange={() => toggleAnwesend(m.id)} />{m.name}
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {punkt.key === 'aufgaben' && (
-              <div className="abschnitt" style={{ marginTop: 26 }}>
-                <h3 style={{ marginBottom: 10 }}>Offene Aufgaben durchgehen</h3>
-                {(daten.aufgaben || []).filter((a) => a.status !== 'erledigt').length === 0 ? <p className="leise">Keine offenen Aufgaben.</p> : (
-                  <ul className="liste">{(daten.aufgaben || []).filter((a) => a.status !== 'erledigt').map((a) => <AufgabeZeile key={a.id} a={a} heute={heute} />)}</ul>
-                )}
-              </div>
-            )}
-
-            {punkt.key === 'antraege' && (
-              <div className="abschnitt" style={{ marginTop: 26 }}>
-                <ul className="liste">
-                  {(daten.antraege || []).filter((a) => OFFENE_STATUS.includes(a.status)).map((a) => (
-                    <li key={a.id}><a className="zeile" href={`#antrag-${a.id}`} target="_blank" rel="noreferrer"><span className="zeile-haupt"><span className="zeile-titel">{a.titel}</span><span className="zeile-meta"><Status status={a.status} /></span></span></a></li>
-                  ))}
-                </ul>
-              </div>
-            )}
 
             <div className="abschnitt" style={{ marginTop: 28 }}>
               <h3 style={{ marginBottom: 8 }}>Notizen für das Protokoll</h3>
@@ -276,6 +259,9 @@ export default function Modus({ id }) {
                 )}
               </div>
             </div>
+            {steuern && (
+              <button className="knopf still klein" style={{ marginTop: 24 }} onClick={() => oeffne(() => <ThemaDialog sitzung={s} />)}><Icon n="plus" size={16} />Weiteres Thema aufnehmen</button>
+            )}
             {abgeschlossen && me.gr && (
               <button className="knopf still klein" style={{ marginTop: 24 }} onClick={() => mutate('sitzung.wiedereroeffnen', { id: s.id }, 'Sitzung wieder geöffnet').catch((e) => toast(e.message, true))}>
                 Sitzung wieder öffnen, um nachzutragen

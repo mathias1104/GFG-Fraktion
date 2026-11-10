@@ -38,6 +38,13 @@ const PFADE = {
   glocke: 'M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15zM10 20.5a2.2 2.2 0 0 0 4 0',
   zahnrad: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z',
   daumen: 'M7.5 10.5v9h-3v-9zM7.5 10.5 11 4c1.7 0 2.5 1.2 2.2 2.8L12.7 9.5h5.1a2 2 0 0 1 2 2.4l-1.2 6a2 2 0 0 1-2 1.6H7.5',
+  hochladen: 'M12 15.5V4.5M7.5 9 12 4.5 16.5 9M4.5 15v4.5h15V15',
+  papierkorb: 'M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5',
+  funke: 'M12 3.5l1.8 5.2 5.2 1.8-5.2 1.8L12 17.5l-1.8-5.2-5.2-1.8 5.2-1.8zM18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z',
+  megafon: 'M4 10v4h3l7 4.5v-13L7 10zM17.5 9a4 4 0 0 1 0 6M8 14l1.2 5.5h2.6L10.8 15',
+  bild: 'M4 5.5h16v13H4zM4 15.5l4.5-4.5 4 4 2.5-2.5 5 5M15.5 9.5h.01',
+  balken: 'M5 20V12M10 20V6M15 20v-9M20 20V9M3.5 20.5h17',
+  kopieren: 'M8.5 8.5h11v11h-11zM15.5 8.5V4.5h-11v11h4',
   auge: 'M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
 };
 
@@ -99,7 +106,7 @@ export function Segment({ name, werte, wert, onChange, label }) {
   );
 }
 
-export function Dialog({ titel, onClose, children }) {
+export function Dialog({ titel, onClose, children, breit }) {
   const ref = useRef(null);
   useEffect(() => {
     const k = (e) => { if (e.key === 'Escape') onClose(); };
@@ -116,7 +123,7 @@ export function Dialog({ titel, onClose, children }) {
   }, [onClose]);
   return (
     <div className="schleier" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div className="dialog" role="dialog" aria-modal="true" aria-label={titel} ref={ref}>
+      <div className={`dialog${breit ? ' breit' : ''}`} role="dialog" aria-modal="true" aria-label={titel} ref={ref}>
         <div className="dialog-kopf">
           <h2>{titel}</h2>
           <button className="knopf still dialog-zu" onClick={onClose} aria-label="Schließen"><Icon n="x" /></button>
@@ -128,11 +135,11 @@ export function Dialog({ titel, onClose, children }) {
 }
 
 /** Formular im Dialog mit Speichern-Knopf und Ladezustand */
-export function DialogForm({ titel, onClose, onSubmit, knopf = 'Speichern', children, gefahr }) {
+export function DialogForm({ titel, onClose, onSubmit, knopf = 'Speichern', children, gefahr, breit }) {
   const [busy, setBusy] = useState(false);
   const [fehler, setFehler] = useState('');
   return (
-    <Dialog titel={titel} onClose={onClose}>
+    <Dialog titel={titel} onClose={onClose} breit={breit}>
       <form
         onSubmit={async (e) => {
           e.preventDefault();

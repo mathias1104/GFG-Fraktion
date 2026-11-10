@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useApp, Icon, Feld, Segment, DialogForm, Leer, Ziel, Dringlichkeit } from './ui';
 import { Kommentare } from './Antraege';
 import {
-  ZIELE, DRINGLICHKEIT, baueTagesordnung, summeMinuten, zeitplan, dauerText, datumLang, datumKurz,
-  fristText, fristVorbei, sitzungStart, sitzungEnde, wienUhrzeit, zeitpunkt, sortiereThemen,
+  ZIELE, DRINGLICHKEIT, tagesordnungAktuell, summeMinuten, SITZUNGSARTEN, sitzungName, zeitplan, dauerText, datumLang, datumKurz,
+  fristText, fristVorbei, sitzungStart, sitzungEnde, wienUhrzeit, zeitpunkt,
 } from '@/lib/domain';
 
 const DAUERN = [5, 10, 15, 20, 30, 45, 60];
@@ -33,7 +33,7 @@ export function ThemaDialog({ sitzung, thema }) {
       )}
     >
       <p className="leise klein" style={{ marginTop: -8, marginBottom: 16 }}>
-        Für die Sitzung am {datumKurz(sitzung.datum)}. Einreichen bis {fristText(sitzung)}.
+        Für: {sitzungName(sitzung)} am {datumKurz(sitzung.datum)}. Einreichen bis {fristText(sitzung)}.
       </p>
       <Feld label="Titel"><input value={f.titel} onChange={set('titel')} required maxLength={140} /></Feld>
       <Feld label="Kurzbeschreibung" hinweis="Worum geht es, was soll die Fraktion wissen oder entscheiden? Bitte keine sensiblen Daten von Bürgerinnen und Bürgern.">
@@ -53,16 +53,17 @@ export function ThemaDialog({ sitzung, thema }) {
   );
 }
 
-export function SitzungDialog({ sitzung }) {
+export function SitzungDialog({ sitzung, vorschlag = {} }) {
   const { mutate, schliesse, config, toast } = useApp();
   const [f, setF] = useState({
-    datum: sitzung?.datum || '', uhrzeit: sitzung?.uhrzeit || '19:00', dauerMin: sitzung?.dauerMin || 120,
+    art: sitzung?.art || vorschlag.art || 'Fraktionssitzung', titel: sitzung?.titel || '',
+    datum: sitzung?.datum || vorschlag.datum || '', uhrzeit: sitzung?.uhrzeit || '19:00', dauerMin: sitzung?.dauerMin || 120,
     ort: sitzung?.ort || '', fristTage: sitzung?.fristTage ?? config.fristTage ?? 3, notiz: sitzung?.notiz || '',
   });
   const set = (k) => (e) => setF((x) => ({ ...x, [k]: e.target.value }));
   return (
     <DialogForm
-      titel={sitzung ? 'Sitzung bearbeiten' : 'Fraktionssitzung anlegen'}
+      titel={sitzung ? 'Sitzung bearbeiten' : 'Sitzung anlegen'}
       knopf={sitzung ? 'Änderungen speichern' : 'Sitzung anlegen'}
       onClose={schliesse}
       onSubmit={async () => {
@@ -73,6 +74,12 @@ export function SitzungDialog({ sitzung }) {
       }}
     >
       <div className="feld-reihe">
+        <Feld label="Art der Sitzung">
+          <select value={f.art} onChange={set('art')}>{SITZUNGSARTEN.map((a) => <option key={a}>{a}</option>)}</select>
+        </Feld>
+        <Feld label="Bezeichnung (optional)"><input value={f.titel} onChange={set('titel')} maxLength={120} placeholder={f.art === 'Veranstaltung' ? 'z. B. Stand am Adventmarkt' : f.art} /></Feld>
+      </div>
+      <div className="feld-reihe">
         <Feld label="Datum"><input type="date" value={f.datum} onChange={set('datum')} required /></Feld>
         <Feld label="Beginn"><input type="time" value={f.uhrzeit} onChange={set('uhrzeit')} required /></Feld>
       </div>
@@ -80,12 +87,12 @@ export function SitzungDialog({ sitzung }) {
       <div className="feld-reihe">
         <Feld label="Geplante Dauer">
           <select value={f.dauerMin} onChange={set('dauerMin')}>
-            {[60, 90, 120, 150, 180].map((d) => <option key={d} value={d}>{dauerText(d)}</option>)}
+            {[30, 60, 90, 120, 150, 180, 240].map((d) => <option key={d} value={d}>{dauerText(d)}</option>)}
           </select>
         </Feld>
-        <Feld label="Einreichfrist">
+        <Feld label="Themen einreichen bis">
           <select value={f.fristTage} onChange={set('fristTage')}>
-            {[1, 2, 3, 4, 5, 7].map((d) => <option key={d} value={d}>{d} {d === 1 ? 'Tag' : 'Tage'} vorher</option>)}
+            {[0, 1, 2, 3, 4, 5, 7].map((d) => <option key={d} value={d}>{d === 0 ? 'Tag der Sitzung' : `${d} ${d === 1 ? 'Tag' : 'Tage'} vorher`}</option>)}
           </select>
         </Feld>
       </div>
@@ -117,11 +124,12 @@ function ZeitenDialog({ sitzung, items }) {
 // ---------- Tagesordnung ----------
 
 export function aktuelleTagesordnung(s, daten) {
-  if (s.agenda?.length) return { items: s.agenda, fixiert: true };
-  return { items: baueTagesordnung(s, daten), fixiert: false };
+  return tagesordnungAktuell(s, daten);
 }
 
-export function TagesordnungListe({ s, items }) {
+/** Tagesordnung = eingereichte Themen. aktion(it) liefert z. B. einen Bearbeiten-Knopf. */
+export function TagesordnungListe({ s, items, aktion }) {
+  if (!items.length) return null;
   const plan = zeitplan(s, items);
   const summe = summeMinuten(items);
   const zuLang = summe > (Number(s.dauerMin) || 120);
@@ -135,25 +143,24 @@ export function TagesordnungListe({ s, items }) {
               <div className="zeile-titel">{it.titel}</div>
               <div className="zeile-meta">
                 <Ziel ziel={it.ziel} />
-                {it.dringlichkeit && <Dringlichkeit wert={it.dringlichkeit} />}
+                {it.dringlichkeit && it.dringlichkeit !== 'mittel' && <Dringlichkeit wert={it.dringlichkeit} />}
                 {it.einreicher && <span>von {it.einreicher}</span>}
                 {it.nachtraeglich && <span className="etikett ton-offen">nachgereicht</span>}
                 {it.link && <a href={it.link} target="_blank" rel="noreferrer">Unterlagen</a>}
               </div>
               {it.beschreibung && <p className="klein" style={{ marginTop: 6 }}>{it.beschreibung}</p>}
-              {it.unter?.length > 0 && (
-                <ul>{it.unter.map((u, j) => <li key={j} className={u.warn ? 'warn' : ''}>{u.text}</li>)}</ul>
-              )}
             </div>
-            <div className="to-zeit"><b>{wienUhrzeit(plan[i].von)}</b>{it.dauer} Min.</div>
+            <div className="to-zeit">
+              <b>{wienUhrzeit(plan[i].von)}</b>{it.dauer} Min.
+              {aktion && <div style={{ marginTop: 4 }}>{aktion(it)}</div>}
+            </div>
           </li>
         ))}
       </ol>
       <div className="summe">
-        <span>Gesamtdauer {dauerText(summe)}</span>
+        <span>{items.length} {items.length === 1 ? 'Thema' : 'Themen'}, {dauerText(summe)}</span>
         <span className={zuLang ? 'warn' : 'leise'}>
-          Ende voraussichtlich {wienUhrzeit(+sitzungStart(s) + summe * 60000)} Uhr
-          {zuLang ? `, ${summe - (Number(s.dauerMin) || 120)} Min. über Plan` : ''}
+          Ende ca. {wienUhrzeit(+sitzungStart(s) + summe * 60000)} Uhr{zuLang ? `, ${summe - (Number(s.dauerMin) || 120)} Min. über Plan` : ''}
         </span>
       </div>
     </>
@@ -170,8 +177,9 @@ function SitzungZeile({ s }) {
     <li>
       <a className="zeile" href={`#sitzung-${s.id}`}>
         <div className="zeile-haupt">
-          <div className="zeile-titel">{datumLang(s.datum)}, {s.uhrzeit} Uhr</div>
+          <div className="zeile-titel">{sitzungName(s)}</div>
           <div className="zeile-meta">
+            <b style={{ color: 'var(--tinte)' }}>{datumLang(s.datum)}, {s.uhrzeit} Uhr</b>
             <span className={`etikett ${s.status === 'abgeschlossen' ? 'ton-gut' : 'ton-aktiv'}`}>{status}</span>
             {s.ort && <span>{s.ort}</span>}
             <span>{n === 1 ? '1 Thema' : `${n} Themen`}</span>
@@ -192,13 +200,14 @@ export function SitzungenListe() {
   return (
     <>
       <div className="abschnitt-kopf">
-        <h1>Fraktionssitzungen</h1>
+        <h1>Sitzungen</h1>
         {me.gr && <button className="knopf" onClick={() => oeffne(() => <SitzungDialog />)}><Icon n="plus" />Sitzung anlegen</button>}
       </div>
-      <section className="abschnitt" style={{ marginTop: 12 }}>
+      <p className="leise" style={{ marginBottom: 6 }}>Fraktionssitzungen, Klausuren, Treffen und Veranstaltungen. Die Tagesordnung entsteht aus den eingereichten Themen.</p>
+      <section className="abschnitt" style={{ marginTop: 18 }}>
         <h2 style={{ marginBottom: 12 }}>Kommende</h2>
         {kommend.length ? <ul className="liste">{kommend.map((s) => <SitzungZeile key={s.id} s={s} />)}</ul> : (
-          <Leer titel="Keine Sitzung geplant" text={me.gr ? 'Mit „Sitzung anlegen“ planst du die nächste Fraktionssitzung.' : 'Die nächste Sitzung legt ein Gemeinderat an.'} />
+          <Leer titel="Keine Sitzung geplant" text={me.gr ? 'Mit „Sitzung anlegen“ planst du die nächste Sitzung.' : 'Die nächste Sitzung legt ein Gemeinderat an.'} />
         )}
       </section>
       {vergangen.length > 0 && (
@@ -213,11 +222,11 @@ export function SitzungenListe() {
 
 // ---------- Detail ----------
 
-function GoogleLeiste({ s }) {
+function GoogleLeiste({ s, leer }) {
   const { google, googleAktion, toast } = useApp();
   const [busy, setBusy] = useState('');
   if (!google?.eingerichtet || !google?.verbunden) {
-    return <p className="hinweis info klein">Kalendereinladung, Google Doc und Mailversand gehen, sobald im Reiter <a href="#gemeinderaete">Gemeinderäte</a> ein Google-Konto verbunden ist.</p>;
+    return <p className="hinweis info klein">Kalendereinladung, Google Doc und Mailversand gehen, sobald unter Einstellungen ein Google-Konto verbunden ist.</p>;
   }
   const los = async (aktion, text) => {
     setBusy(aktion);
@@ -230,9 +239,11 @@ function GoogleLeiste({ s }) {
       <button className="knopf zweit klein" disabled={!!busy} onClick={() => los('einladung', (r) => `Einladung an ${r.anzahl} Personen gesendet`)}>
         <Icon n="kalender" size={18} />{busy === 'einladung' ? 'Sendet …' : s.eingeladenAm ? 'Einladung aktualisieren' : 'Kalendereinladung senden'}
       </button>
-      <button className="knopf zweit klein" disabled={!!busy} onClick={() => los('tagesordnung', (r) => `Tagesordnung gespeichert und an ${r.anzahl} Personen gesendet`)}>
-        <Icon n="mail" size={18} />{busy === 'tagesordnung' ? 'Sendet …' : s.tagesordnungVersendetAm ? 'Tagesordnung erneut senden' : 'Tagesordnung als Doc speichern und senden'}
-      </button>
+      {!leer && (
+        <button className="knopf zweit klein" disabled={!!busy} onClick={() => los('tagesordnung', (r) => `Tagesordnung gespeichert und an ${r.anzahl} Personen gesendet`)}>
+          <Icon n="mail" size={18} />{busy === 'tagesordnung' ? 'Sendet …' : s.tagesordnungVersendetAm ? 'Tagesordnung erneut senden' : 'Tagesordnung jetzt senden'}
+        </button>
+      )}
     </div>
   );
 }
@@ -241,19 +252,22 @@ export function SitzungDetail({ id }) {
   const { daten, me, oeffne, mutate, toast, bestaetige, config } = useApp();
   const s = (daten.sitzungen || []).find((x) => x.id === id);
   if (!s) return <><a className="zurueck" href="#sitzungen"><Icon n="zurueck" size={18} />Alle Sitzungen</a><Leer titel="Sitzung nicht gefunden" text="Vielleicht wurde sie gelöscht." /></>;
-  const themen = (daten.themen || []).filter((t) => t.sitzungId === s.id).sort(sortiereThemen);
+  const themen = Object.fromEntries((daten.themen || []).filter((t) => t.sitzungId === s.id).map((t) => [t.id, t]));
   const { items, fixiert } = aktuelleTagesordnung(s, daten);
   const offen = !fristVorbei(s) && s.status !== 'abgeschlossen';
-  const kannAendern = (t) => me.gr || (t.autorId === me.uid && offen);
+  const kannAendern = (t) => t && (me.gr || (t.autorId === me.uid && offen));
+  const ueberfaellig = (daten.aufgaben || []).filter((a) => a.status !== 'erledigt' && a.frist && a.frist < s.datum).length;
+  const offeneAufgaben = (daten.aufgaben || []).filter((a) => a.status !== 'erledigt').length;
+  const einreichen = (offen || me.gr) && s.status !== 'abgeschlossen';
 
   return (
     <>
       <a className="zurueck" href="#sitzungen"><Icon n="zurueck" size={18} />Alle Sitzungen</a>
-      <h1>Fraktionssitzung am {datumLang(s.datum)}</h1>
+      <div className="zeile-meta" style={{ marginTop: 0, marginBottom: 6 }}><span className="etikett ton-aktiv">{s.art || 'Fraktionssitzung'}</span></div>
+      <h1>{sitzungName(s)} am {datumLang(s.datum)}</h1>
       <div className="kopfdaten">
         <div><span>Beginn</span><b>{s.uhrzeit} Uhr</b></div>
         <div><span>Ort</span><b>{s.ort || 'noch offen'}</b></div>
-        <div><span>Geplante Dauer</span><b>{dauerText(Number(s.dauerMin) || 120)}</b></div>
         <div><span>Themen einreichen bis</span><b>{fristText(s)}</b></div>
       </div>
       {s.notiz && <p style={{ marginTop: 14 }}>{s.notiz}</p>}
@@ -264,18 +278,50 @@ export function SitzungDetail({ id }) {
         {(s.status === 'abgeschlossen' || s.live?.gestartetAm) && <a href={`#protokoll-${s.id}`}><Icon n="doc" size={18} />Protokoll in der App</a>}
       </div>
 
+      <section className="abschnitt">
+        <div className="abschnitt-kopf">
+          <h2>Tagesordnung</h2>
+          {einreichen && (
+            <button className="knopf klein" onClick={() => oeffne(() => <ThemaDialog sitzung={s} />)}><Icon n="plus" size={18} />{offen ? 'Thema einreichen' : 'Thema nachreichen'}</button>
+          )}
+        </div>
+        <p className="leise klein" style={{ marginBottom: 12 }}>
+          {s.status === 'abgeschlossen' ? 'Die Sitzung ist beendet.' : offen
+            ? <>Jedes eingereichte Thema wird ein Tagesordnungspunkt, dringende zuerst. Einreichen bis {fristText(s)}.{config.jotformThemenUrl && <> Ohne Anmeldung geht es auch über das <a href={config.jotformThemenUrl} target="_blank" rel="noreferrer">Formular</a>.</>}</>
+            : <>Die Einreichfrist ist abgelaufen{fixiert ? `, die Tagesordnung steht seit ${zeitpunkt(s.agendaAm)} fest` : ''}.</>}
+        </p>
+        {items.length === 0
+          ? <Leer titel="Noch keine Themen" text="Sobald jemand ein Thema einreicht, erscheint es hier als Tagesordnungspunkt." />
+          : <TagesordnungListe s={s} items={items} aktion={(it) => kannAendern(themen[it.themaId]) && (
+            <button className="knopf still klein" onClick={() => oeffne(() => <ThemaDialog sitzung={s} thema={themen[it.themaId]} />)} aria-label={`${it.titel} bearbeiten`}><Icon n="stift" size={16} /></button>
+          )} />}
+        {offeneAufgaben > 0 && (
+          <p className="klein" style={{ marginTop: 14 }}>
+            <a href="#aufgaben">{offeneAufgaben} offene {offeneAufgaben === 1 ? 'Aufgabe' : 'Aufgaben'}</a>
+            {ueberfaellig > 0 && <span className="ueberfaellig">, davon {ueberfaellig} überfällig</span>}
+          </p>
+        )}
+      </section>
+
       {me.gr && (
-        <section className="flaeche" style={{ marginTop: 22 }}>
+        <section className="flaeche abschnitt">
+          <h3 style={{ marginBottom: 12 }}>Für Gemeinderäte</h3>
           <div className="knopfreihe" style={{ marginBottom: 14 }}>
             <a className="knopf" href={`#modus-${s.id}`}><Icon n="play" size={18} />{s.status === 'abgeschlossen' ? 'Sitzungsmodus öffnen' : s.live?.gestartetAm ? 'Zurück in den Sitzungsmodus' : 'Sitzungsmodus starten'}</a>
             <button className="knopf zweit" onClick={() => oeffne(() => <SitzungDialog sitzung={s} />)}><Icon n="stift" size={18} />Bearbeiten</button>
+            {items.length > 0 && s.status !== 'abgeschlossen' && (
+              <button className="knopf zweit" onClick={async () => {
+                if (!fixiert) { try { await mutate('sitzung.fixieren', { id: s.id }); } catch (e) { toast(e.message, true); return; } }
+                oeffne(() => <ZeitenDialog sitzung={s} items={items} />);
+              }}><Icon n="uhr" size={18} />Zeiten anpassen</button>
+            )}
             <button className="knopf still" onClick={async () => {
-              if (await bestaetige('Sitzung löschen?', 'Die Sitzung und alle eingereichten Themen werden gelöscht. Ein bereits verschickter Kalendertermin bleibt bestehen.')) {
+              if (await bestaetige('Sitzung löschen?', 'Die Sitzung und alle eingereichten Themen werden gelöscht.')) {
                 try { await mutate('sitzung.loeschen', { id: s.id }, 'Sitzung gelöscht'); window.location.hash = 'sitzungen'; } catch (e) { toast(e.message, true); }
               }
             }}>Löschen</button>
           </div>
-          <GoogleLeiste s={s} />
+          <GoogleLeiste s={s} leer={!items.length} />
           <p className="leise mini" style={{ marginTop: 12 }}>
             {s.eingeladenAm ? `Eingeladen am ${zeitpunkt(s.eingeladenAm)} (${s.eingeladeneAnzahl || 0} Adressen). ` : 'Noch keine Kalendereinladung verschickt. '}
             {s.tagesordnungVersendetAm ? `Tagesordnung versendet am ${zeitpunkt(s.tagesordnungVersendetAm)}.` : 'Die Tagesordnung geht am Morgen nach der Frist automatisch an alle.'}
@@ -283,55 +329,7 @@ export function SitzungDetail({ id }) {
         </section>
       )}
 
-      <section className="abschnitt">
-        <div className="abschnitt-kopf">
-          <h2>Eingereichte Themen</h2>
-          {(offen || me.gr) && s.status !== 'abgeschlossen' && (
-            <button className="knopf klein" onClick={() => oeffne(() => <ThemaDialog sitzung={s} />)}><Icon n="plus" size={18} />{offen ? 'Thema einreichen' : 'Thema nachreichen'}</button>
-          )}
-        </div>
-        {offen
-          ? <p className="leise klein" style={{ marginBottom: 12 }}>Einreichen bis {fristText(s)}. Danach steht die Tagesordnung automatisch fest.{config.jotformThemenUrl && <> Wer sich nicht anmelden kann, nutzt das <a href={config.jotformThemenUrl} target="_blank" rel="noreferrer">Formular</a>.</>}</p>
-          : <p className="leise klein" style={{ marginBottom: 12 }}>Die Einreichfrist ist abgelaufen.</p>}
-        {themen.length === 0 ? <p className="leise">Noch keine Themen eingereicht.</p> : (
-          <ul className="liste">
-            {themen.map((t) => (
-              <li key={t.id}>
-                <div className="zeile">
-                  <div className="zeile-haupt">
-                    <div className="zeile-titel">{t.titel}</div>
-                    <div className="zeile-meta">
-                      <Ziel ziel={t.ziel} /><Dringlichkeit wert={t.dringlichkeit} /><span>{t.dauer} Min.</span><span>von {t.autorName}</span>
-                      {t.link && <a href={t.link} target="_blank" rel="noreferrer">Unterlagen</a>}
-                    </div>
-                    {t.beschreibung && <p className="klein" style={{ marginTop: 6 }}>{t.beschreibung}</p>}
-                  </div>
-                  {kannAendern(t) && <button className="knopf still klein" onClick={() => oeffne(() => <ThemaDialog sitzung={s} thema={t} />)} aria-label={`${t.titel} bearbeiten`}><Icon n="stift" size={18} /></button>}
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-
-      <section className="abschnitt">
-        <div className="abschnitt-kopf">
-          <h2>Tagesordnung</h2>
-          <span className={`etikett ${fixiert ? 'ton-gut' : 'ton-offen'}`}>{fixiert ? `steht fest seit ${zeitpunkt(s.agendaAm)}` : 'Vorschau, ändert sich bis zur Frist'}</span>
-        </div>
-        <TagesordnungListe s={s} items={items} />
-        {me.gr && s.status !== 'abgeschlossen' && (
-          <div className="knopfreihe" style={{ marginTop: 16 }}>
-            <button className="knopf zweit klein" onClick={async () => {
-              try { await mutate('sitzung.fixieren', { id: s.id }, fixiert ? 'Tagesordnung neu berechnet' : 'Tagesordnung festgelegt'); } catch (e) { toast(e.message, true); }
-            }}>{fixiert ? 'Neu berechnen' : 'Jetzt festlegen'}</button>
-            {fixiert && <button className="knopf zweit klein" onClick={() => oeffne(() => <ZeitenDialog sitzung={s} items={items} />)}><Icon n="uhr" size={18} />Zeiten anpassen</button>}
-          </div>
-        )}
-      </section>
-
       <Kommentare bezug={`sitzung:${s.id}`} titel="Anmerkungen zur Sitzung" />
     </>
   );
 }
-

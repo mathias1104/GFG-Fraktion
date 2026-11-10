@@ -6,9 +6,11 @@ import { importiereJotform } from '@/lib/jotform';
 import { leseSitzung, hashPasswort } from '@/lib/auth';
 import { fixiereTagesordnung, sendeEinladung, speichereProtokoll } from '@/lib/aktionen';
 import { googleStatus, kalenderAbsagen } from '@/lib/google';
+import { loescheDatei } from '@/lib/dateien';
 import {
   ARTEN, STATUS, ZIELE, DRINGLICHKEIT, ROLLEN, ERGEBNISSE, ORTSTEILE, fristVorbei, neueId,
-  VIDEO_STATUS, TERMIN_ARTEN, LINIEN, GR_ERGEBNISSE, BENACHRICHTIGUNG_TYP, datumKurz,
+  VIDEO_STATUS, TERMIN_ARTEN, LINIEN, GR_ERGEBNISSE, BENACHRICHTIGUNG_TYP, datumKurz, SITZUNGSARTEN, sitzungName,
+  KANAELE, BEITRAG_STATUS, BEITRAG_FORMATE,
 } from '@/lib/domain';
 
 async function googleBereit() {
@@ -32,8 +34,22 @@ const auswahl = (v, liste, std) => (liste.includes(v) ? v : std);
 const datum = (v) => { const t = txt(v, 10); if (t && !/^\d{4}-\d{2}(-\d{2})?$/.test(t)) throw new Fehler('Datum ist ungültig.'); return t; };
 const uhrzeit = (v) => { const t = txt(v, 5) || '19:00'; if (!/^\d{2}:\d{2}$/.test(t)) throw new Fehler('Uhrzeit ist ungültig.'); return t; };
 const zahl = (v, min, max, std) => { const n = Math.round(Number(v)); return Number.isFinite(n) ? Math.max(min, Math.min(max, n)) : std; };
+/** Metadaten einer hochgeladenen Datei prüfen */
+const dateiInfo = (d, bereich, me) => {
+  const pfad = txt(d?.pfad, 300);
+  if (!pfad.startsWith(`${bereich}/`) || pfad.includes('..')) throw new Fehler('Ungültige Datei.');
+  return { pfad, name: txt(d.name, 160) || pfad.split('/').pop(), groesse: zahl(d.groesse, 0, 2e9, 0), typ: txt(d.typ, 120), am: Date.now(), von: me.name };
+};
+const topListe = (liste) => (Array.isArray(liste) ? liste : []).slice(0, 80)
+  .map((t, i) => ({ nr: txt(t.nr, 10) || String(i + 1), titel: txt(t.titel, 250), nichtOeffentlich: !!t.nichtOeffentlich }))
+  .filter((t) => t.titel);
+const neuerTop = (t, me) => ({
+  key: neueId('top'), nr: t.nr, titel: t.titel, nichtOeffentlich: t.nichtOeffentlich, unterlage: '', linie: 'offen', begruendung: '',
+  sprecher: '', wortmeldung: '', ergebnis: '', abgestimmt: '', geaendertVon: me.name, geaendertAm: Date.now(),
+});
 const url = (v) => { const t = txt(v, 500); if (t && !/^https?:\/\//i.test(t)) throw new Fehler('Links müssen mit http:// oder https:// beginnen.'); return t; };
 
+function nurMK(me) { if (!me.mk) throw new Fehler('Das geht nur im freigeschalteten Marketing-Bereich.', 403); }
 function nurGR(me) { if (!me.gr) throw new Fehler('Das dürfen nur Gemeinderäte. Schalte dich im Reiter Gemeinderäte frei.', 403); }
 
 async function muss(col, id) {
@@ -64,7 +80,7 @@ const AKTIONEN = {
     if (vorbei && !me.gr) throw new Fehler('Die Einreichfrist für diese Sitzung ist abgelaufen.', 403);
     const id = neueId('t');
     await setze('themen', id, { ...daten, sitzungId: s.id, autorId: me.uid, autorName: me.name, erstelltAm: Date.now(), nachtraeglich: vorbei });
-    melde('thema_neu', { titel: `Neues Thema: ${daten.titel}`, text: `Von ${me.name} für die Fraktionssitzung am ${datumKurz(s.datum)}`, url: `#sitzung-${s.id}`, ausser: me.uid });
+    melde('thema_neu', { titel: `Neues Thema: ${daten.titel}`, text: `Von ${me.name} für ${sitzungName(s)} am ${datumKurz(s.datum)}`, url: `#sitzung-${s.id}`, ausser: me.uid });
     return { id };
   },
   async 'thema.loeschen'(me, p) {
@@ -151,6 +167,8 @@ const AKTIONEN = {
       ort: txt(p.ort, 200),
       fristTage: zahl(p.fristTage, 0, 14, 3),
       notiz: txt(p.notiz, 1000),
+      art: auswahl(p.art, SITZUNGSARTEN, 'Fraktionssitzung'),
+      titel: txt(p.titel, 120),
     };
     if (daten.datum.length !== 10) throw new Fehler('Bitte ein vollständiges Datum wählen.');
     if (p.id) {
@@ -158,13 +176,13 @@ const AKTIONEN = {
       await ergaenze('sitzungen', p.id, { ...daten, geaendertAm: Date.now() });
       const zeitGeaendert = alt.datum !== daten.datum || alt.uhrzeit !== daten.uhrzeit || alt.ort !== daten.ort || Number(alt.dauerMin) !== daten.dauerMin;
       const g = alt.kalenderEventId && zeitGeaendert ? await versucheGoogle(() => sendeEinladung(p.id)) : {};
-      if (zeitGeaendert) melde('sitzung_neu', { titel: `Fraktionssitzung geändert: ${datumKurz(daten.datum)}`, text: `${daten.uhrzeit} Uhr${daten.ort ? `, ${daten.ort}` : ''}`, url: `#sitzung-${p.id}`, ausser: me.uid });
+      if (zeitGeaendert) melde('sitzung_neu', { titel: `${sitzungName(daten)} geändert: ${datumKurz(daten.datum)}`, text: `${daten.uhrzeit} Uhr${daten.ort ? `, ${daten.ort}` : ''}`, url: `#sitzung-${p.id}`, ausser: me.uid });
       return { id: p.id, ...g };
     }
     const id = neueId('s');
     await setze('sitzungen', id, { ...daten, status: 'geplant', erstelltAm: Date.now(), erstelltVon: me.name });
     const g = await versucheGoogle(() => sendeEinladung(id));
-    melde('sitzung_neu', { titel: `Neue Fraktionssitzung am ${datumKurz(daten.datum)}`, text: `${daten.uhrzeit} Uhr${daten.ort ? `, ${daten.ort}` : ''}. Themen bis ${daten.fristTage} Tage vorher einreichen.`, url: `#sitzung-${id}`, ausser: me.uid });
+    melde('sitzung_neu', { titel: `Neu: ${sitzungName(daten)} am ${datumKurz(daten.datum)}`, text: `${daten.uhrzeit} Uhr${daten.ort ? `, ${daten.ort}` : ''}. Themen bis ${daten.fristTage} Tage vorher einreichen.`, url: `#sitzung-${id}`, ausser: me.uid });
     return { id, ...g };
   },
   async 'sitzung.loeschen'(me, p) {
@@ -193,7 +211,7 @@ const AKTIONEN = {
       notizen: Object.fromEntries(Object.entries(l.notizen || {}).slice(0, 200).map(([k, v]) => [txt(k, 60), txt(v, 8000)])),
     };
     const teil = { live };
-    if (!s.agenda?.length && p.agenda) teil.agenda = p.agenda;
+    if (!s.agendaAm && Array.isArray(p.agenda)) { teil.agenda = p.agenda.slice(0, 100); teil.agendaAm = Date.now(); }
     if (s.status === 'geplant' && live.gestartetAm) teil.status = 'laufend';
     await ergaenze('sitzungen', s.id, teil);
     return {};
@@ -213,7 +231,7 @@ const AKTIONEN = {
     const live = { ...(s.live || {}), laufend: false, beendetAm: (s.live && s.live.beendetAm) || Date.now() };
     await ergaenze('sitzungen', s.id, { status: 'abgeschlossen', live });
     const g = await versucheGoogle(() => speichereProtokoll(s.id));
-    melde('protokoll', { titel: `Protokoll der Fraktionssitzung vom ${datumKurz(s.datum)}`, text: 'Beschlüsse und Aufgaben stehen in der App.', url: `#protokoll-${s.id}`, ausser: me.uid });
+    melde('protokoll', { titel: `Protokoll: ${sitzungName(s)} vom ${datumKurz(s.datum)}`, text: 'Beschlüsse und Aufgaben stehen in der App.', url: `#protokoll-${s.id}`, ausser: me.uid });
     return g;
   },
   async 'sitzung.wiedereroeffnen'(me, p) {
@@ -412,7 +430,9 @@ const AKTIONEN = {
     if (daten.datum.length !== 10) throw new Fehler('Bitte ein vollständiges Datum wählen.');
     if (p.id) { await ergaenze('grsitzungen', p.id, { ...daten, geaendertAm: Date.now() }); return { id: p.id }; }
     const id = neueId('g');
-    await setze('grsitzungen', id, { ...daten, tops: [], erstelltAm: Date.now(), erstelltVon: me.name });
+    const dateien = (Array.isArray(p.dateien) ? p.dateien : []).slice(0, 40).map((d) => dateiInfo(d, 'gr', me));
+    const tops = topListe(p.tops).map((t) => neuerTop(t, me));
+    await setze('grsitzungen', id, { ...daten, tops, dateien, erstelltAm: Date.now(), erstelltVon: me.name });
     melde('gr_sitzung', { titel: `Gemeinderatssitzung am ${datumKurz(daten.datum)} vorbereiten`, text: 'TOPs und Abstimmungslinie eintragen', url: `#grsitzung-${id}`, ausser: me.uid });
     return { id };
   },
@@ -422,7 +442,8 @@ const AKTIONEN = {
     const t = p.top || {};
     const top = {
       key: txt(t.key, 40) || neueId('top'), nr: txt(t.nr, 10), titel: pflicht(t.titel, 'Titel des TOP', 250),
-      unterlage: url(t.unterlage), linie: auswahl(t.linie, LINIEN, 'offen'), begruendung: txt(t.begruendung, 3000),
+      unterlage: url(t.unterlage), nichtOeffentlich: !!t.nichtOeffentlich,
+      datei: String(t.datei || '').startsWith('gr/') ? txt(t.datei, 300) : '', linie: auswahl(t.linie, LINIEN, 'offen'), begruendung: txt(t.begruendung, 3000),
       sprecher: txt(t.sprecher, 200), wortmeldung: txt(t.wortmeldung, 3000),
       ergebnis: auswahl(t.ergebnis, GR_ERGEBNISSE, ''), abgestimmt: auswahl(t.abgestimmt, ['', ...LINIEN.filter((l) => l !== 'offen'), 'uneinheitlich'], ''),
       geaendertVon: me.name, geaendertAm: Date.now(),
@@ -434,7 +455,145 @@ const AKTIONEN = {
     await ergaenze('grsitzungen', g.id, { tops, geaendertAm: Date.now() });
     return { key: top.key };
   },
-  async 'grsitzung.loeschen'(me, p) { nurGR(me); await loesche('grsitzungen', txt(p.id, 40)); return {}; },
+  async 'grsitzung.loeschen'(me, p) {
+    nurGR(me);
+    const g = await hole('grsitzungen', txt(p.id, 40));
+    for (const d of g?.dateien || []) await loescheDatei(d.pfad).catch(() => {});
+    await loesche('grsitzungen', txt(p.id, 40));
+    return {};
+  },
+  async 'grsitzung.datei'(me, p) {
+    nurGR(me);
+    const g = await muss('grsitzungen', p.id);
+    let dateien = [...(g.dateien || [])];
+    if (p.entfernen) {
+      const pfad = txt(p.entfernen, 300);
+      if (dateien.some((d) => d.pfad === pfad)) await loescheDatei(pfad).catch(() => {});
+      dateien = dateien.filter((d) => d.pfad !== pfad);
+    } else {
+      const neu = (Array.isArray(p.dateien) ? p.dateien : [p.datei]).filter(Boolean).map((d) => dateiInfo(d, 'gr', me));
+      dateien = [...dateien, ...neu].slice(0, 60);
+    }
+    await ergaenze('grsitzungen', g.id, { dateien, geaendertAm: Date.now() });
+    return {};
+  },
+  async 'grsitzung.topsUebernehmen'(me, p) {
+    nurGR(me);
+    const g = await muss('grsitzungen', p.id);
+    const neu = topListe(p.tops);
+    if (!neu.length) throw new Fehler('Keine TOPs ausgewählt.');
+    const alt = p.ersetzen ? (g.tops || []).filter((t) => t.linie !== 'offen' || t.begruendung || t.wortmeldung) : (g.tops || []);
+    // Bestehende TOPs mit gleicher Nummer und Vorbereitung behalten, Titel aktualisieren
+    const tops = [...alt];
+    for (const t of neu) {
+      const i = tops.findIndex((x) => x.nr === t.nr);
+      if (i >= 0) tops[i] = { ...tops[i], titel: t.titel, nichtOeffentlich: t.nichtOeffentlich };
+      else tops.push(neuerTop(t, me));
+    }
+    tops.sort((a, b) => (Number(a.nr) || 999) - (Number(b.nr) || 999));
+    const kopf = {};
+    if (p.datum && /^\d{4}-\d{2}-\d{2}$/.test(p.datum)) kopf.datum = p.datum;
+    if (p.uhrzeit && /^\d{2}:\d{2}$/.test(p.uhrzeit)) kopf.uhrzeit = p.uhrzeit;
+    if (p.ort) kopf.ort = txt(p.ort, 160);
+    await ergaenze('grsitzungen', g.id, { ...kopf, tops, geaendertAm: Date.now() });
+    return { anzahl: neu.length };
+  },
+
+
+  // ---------- Marketing (Freischaltung Marketing oder Gemeinderat) ----------
+  async 'beitrag.speichern'(me, p) {
+    nurMK(me);
+    const alt = p.id ? await muss('beitraege', p.id) : null;
+    const kanaele = (Array.isArray(p.kanaele) ? p.kanaele : []).filter((k) => KANAELE.some((x) => x.key === k));
+    const daten = {
+      titel: pflicht(p.titel, 'Arbeitstitel', 140),
+      text: txt(p.text, 8000),
+      kanaele,
+      format: auswahl(p.format, BEITRAG_FORMATE, 'Foto'),
+      datum: datum(p.datum), uhrzeit: p.uhrzeit ? uhrzeit(p.uhrzeit) : '',
+      absender: auswahl(p.absender, ['wir', 'ich'], 'wir'),
+      absenderName: txt(p.absenderName, 80),
+      zustaendigId: txt(p.zustaendigId, 40), zustaendigName: txt(p.zustaendigName, 80),
+      link: url(p.link),
+      notiz: txt(p.notiz, 2000),
+      medien: (Array.isArray(p.medien) ? p.medien : []).slice(0, 20).map((d) => dateiInfo(d, 'marketing', me)).map((d, i) => ({ ...d, am: p.medien[i]?.am || d.am, von: p.medien[i]?.von || d.von })),
+      videoId: txt(p.videoId, 40),
+    };
+    let status = auswahl(p.status, BEITRAG_STATUS, alt?.status || 'Idee');
+    const extra = {};
+    // Vier-Augen-Prinzip: Freigeben nur durch jemand anderen als den Autor
+    if (alt && status !== alt.status) {
+      if (['Freigegeben', 'Veröffentlicht'].includes(status) && !alt.freigabe && alt.autorId === me.uid) throw new Fehler('Freigeben muss jemand anderer. Stell den Beitrag auf Zur Freigabe.', 403);
+      if (status === 'Zur Freigabe') Object.assign(extra, { freigabeAngefragtAm: Date.now(), freigabeAngefragtVon: me.name, freigabe: null });
+      if (status === 'Freigegeben' && !alt.freigabe) extra.freigabe = { von: me.name, vonId: me.uid, am: Date.now() };
+      if (status === 'Veröffentlicht') extra.veroeffentlichtAm = Date.now();
+      if (['Idee', 'In Arbeit'].includes(status)) extra.freigabe = null;
+    }
+    // Inhalt nach der Freigabe geändert: neue Freigabe nötig
+    if (alt?.freigabe && status === 'Freigegeben' && alt.text !== daten.text && alt.freigabe.vonId !== me.uid) {
+      status = 'Zur Freigabe';
+      Object.assign(extra, { freigabe: null, freigabeAngefragtAm: Date.now(), freigabeAngefragtVon: me.name });
+    }
+    if (!alt && status === 'Freigegeben') status = 'Zur Freigabe';
+    if (!alt && status === 'Zur Freigabe') Object.assign(extra, { freigabeAngefragtAm: Date.now(), freigabeAngefragtVon: me.name });
+    if (alt) {
+      // Entfernte Medien auch aus dem Speicher löschen
+      for (const d of alt.medien || []) if (!daten.medien.some((x) => x.pfad === d.pfad)) await loescheDatei(d.pfad).catch(() => {});
+      await ergaenze('beitraege', alt.id, { ...daten, ...extra, status, geaendertAm: Date.now(), geaendertVon: me.name });
+    }
+    const id = alt?.id || neueId('b');
+    if (!alt) await setze('beitraege', id, { ...daten, ...extra, status, autorId: me.uid, autorName: me.name, erstelltAm: Date.now() });
+    if (extra.freigabeAngefragtAm) melde('beitrag_freigabe', { titel: `Freigabe gebraucht: ${daten.titel}`, text: `${me.name} bittet um ein zweites Augenpaar`, url: `#beitrag-${id}`, ausser: me.uid });
+    if (extra.freigabe?.am && alt?.autorId && alt.autorId !== me.uid) melde('beitrag_mir', { titel: `Freigegeben: ${daten.titel}`, text: `${me.name} hat deinen Beitrag freigegeben`, url: `#beitrag-${id}`, nur: [alt.autorId] });
+    return { id, status };
+  },
+  async 'beitrag.status'(me, p) {
+    nurMK(me);
+    const b = await muss('beitraege', p.id);
+    return AKTIONEN['beitrag.speichern'](me, { ...b, status: p.status, id: b.id });
+  },
+  async 'beitrag.notiz'(me, p) {
+    nurMK(me);
+    const b = await muss('beitraege', p.id);
+    const text = pflicht(p.text, 'Anmerkung', 1000);
+    const notizen = [...(b.notizen || []), { text, von: me.name, vonId: me.uid, am: Date.now(), zurueck: !!p.zurueck }].slice(-50);
+    const extra = p.zurueck && b.status === 'Zur Freigabe' ? { status: 'In Arbeit', freigabe: null } : {};
+    await ergaenze('beitraege', b.id, { notizen, ...extra });
+    const an = [...new Set([b.autorId, b.zustaendigId].filter((x) => x && x !== me.uid))];
+    if (an.length) melde('beitrag_mir', { titel: p.zurueck ? `Zurück zur Überarbeitung: ${b.titel}` : `Anmerkung zu ${b.titel}`, text: `${me.name}: ${text.slice(0, 160)}`, url: `#beitrag-${b.id}`, nur: an });
+    return {};
+  },
+  async 'beitrag.loeschen'(me, p) {
+    nurMK(me);
+    const b = await muss('beitraege', p.id);
+    for (const d of b.medien || []) await loescheDatei(d.pfad).catch(() => {});
+    await loesche('beitraege', b.id);
+    return {};
+  },
+  async 'kennzahl.speichern'(me, p) {
+    nurMK(me);
+    const monat = txt(p.monat, 7);
+    if (!/^\d{4}-\d{2}$/.test(monat)) throw new Fehler('Bitte einen Monat wählen.');
+    const werte = {};
+    for (const k of KANAELE.filter((x) => x.kennzahl)) {
+      const v = p.werte?.[k.key];
+      if (v !== '' && v != null && Number.isFinite(Number(v))) werte[k.key] = Math.max(0, Math.round(Number(v)));
+    }
+    if (p.loeschen) { await loesche('kennzahlen', monat); return {}; }
+    await setze('kennzahlen', monat, { monat, werte, von: me.name, am: Date.now() });
+    return {};
+  },
+  async 'marke.speichern'(me, p) {
+    nurMK(me);
+    const daten = {};
+    if (Array.isArray(p.hashtags)) daten.hashtags = p.hashtags.slice(0, 20).map((h) => ({ name: txt(h.name, 40), tags: txt(h.tags, 600) })).filter((h) => h.name && h.tags);
+    if (Array.isArray(p.bausteine)) daten.bausteine = p.bausteine.slice(0, 40).map((h) => ({ titel: txt(h.titel, 80), text: txt(h.text, 1500) })).filter((h) => h.titel && h.text);
+    if (p.kanaele && typeof p.kanaele === 'object') daten.kanaele = Object.fromEntries(KANAELE.map((k) => [k.key, url(p.kanaele[k.key])]).filter(([, v]) => v));
+    if ('regeln' in p) daten.regeln = txt(p.regeln, 2000);
+    const alt = (await hole('config', 'marketing')) || {};
+    await setze('config', 'marketing', { ...alt, ...daten, geaendertVon: me.name, geaendertAm: Date.now() });
+    return {};
+  },
 
   // ---------- Jotform ----------
   async 'jotform.abrufen'(me) {
@@ -493,9 +652,9 @@ const AKTIONEN = {
   // ---------- Besuch ----------
   async 'besuch'(me) {
     await setze('besuche', me.uid, { ts: Date.now(), name: me.name });
-    if (me.gr) {
+    if (me.gr || me.mk) {
       const alt = await hole('prefs', me.uid);
-      if (!alt?.gr) await setze('prefs', me.uid, { ...(alt || {}), name: me.name, gr: true });
+      if ((me.gr && !alt?.gr) || (me.mk && !alt?.mk)) await setze('prefs', me.uid, { ...(alt || {}), name: me.name, gr: !!(me.gr || alt?.gr), mk: !!(me.mk || alt?.mk) });
     }
     return {};
   },

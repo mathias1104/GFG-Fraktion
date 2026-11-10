@@ -1,9 +1,8 @@
 'use client';
 import { useState } from 'react';
-import { useApp, useJetzt, Icon, Status, Leer, Feld, DialogForm } from './ui';
+import { useApp, useJetzt, Icon, Leer, Feld, DialogForm } from './ui';
 import { ThemaDialog } from './Sitzungen';
 import { AufgabeZeile } from './Aufgaben';
-import { VideoZeile, VideoDialog, stimmenZahl } from './Videothemen';
 import {
   sitzungStart, sitzungEnde, fristEnde, fristVorbei, fristText, datumLang, datumKurz, wienTag, zeitpunkt, ereignisse,
 } from '@/lib/domain';
@@ -85,7 +84,7 @@ function NaechsteSitzung({ s }) {
     <section className="naechste" aria-labelledby="naechste-titel">
       <div className="naechste-oben">
         <div className="naechste-wann">
-          <p style={{ marginTop: 0, marginBottom: 6 }}>Nächste Fraktionssitzung</p>
+          <p style={{ marginTop: 0, marginBottom: 6 }}>Nächste {s.titel ? 'Sitzung' : (s.art || 'Fraktionssitzung')}{s.titel ? `: ${s.titel}` : ''}</p>
           <h1 id="naechste-titel">{datumLang(s.datum)}</h1>
           <p>{s.uhrzeit || '19:00'} Uhr{s.ort ? `, ${s.ort}` : ''}</p>
         </div>
@@ -234,22 +233,59 @@ function Infos() {
   );
 }
 
-export default function Start() {
-  const { daten, me, letzterBesuch, oeffne } = useApp();
-  const s = naechsteSitzung(daten.sitzungen || []);
-  const videos = (daten.videothemen || []).filter((v) => v.status !== 'veröffentlicht')
-    .sort((a, b) => (b.erstelltAm || 0) - (a.erstelltAm || 0)).slice(0, 4)
-    .sort((a, b) => stimmenZahl(b) - stimmenZahl(a));
-  const neu = letzterBesuch ? neuigkeiten(daten, me, letzterBesuch) : [];
+/** Was gerade auf mich wartet: eigene Aufgaben, Freigaben, GR-Vorbereitung */
+function WartetAufDich() {
+  const { daten, me } = useApp();
   const heute = wienTag();
-  const aufgaben = (daten.aufgaben || []).filter((a) => a.status !== 'erledigt')
+  const meine = (daten.aufgaben || []).filter((a) => a.status !== 'erledigt' && (a.zustaendigId === me.uid || a.zustaendigName === me.name))
     .sort((a, b) => (a.frist || '9999').localeCompare(b.frist || '9999'));
-  const antraege = [...(daten.antraege || [])].sort((a, b) => (b.geaendertAm || 0) - (a.geaendertAm || 0)).slice(0, 5);
+  const freigaben = (daten.beitraege || []).filter((b) => b.status === 'Zur Freigabe' && b.autorId !== me.uid);
+  const gr = me.gr ? (daten.grsitzungen || []).filter((g) => !g.nurTermin && g.datum >= heute && (g.tops || []).some((t) => !t.linie || t.linie === 'offen')) : [];
+  const alleOffen = (daten.aufgaben || []).filter((a) => a.status !== 'erledigt').length;
+  const leer = !meine.length && !freigaben.length && !gr.length;
+  return (
+    <section className="abschnitt">
+      <div className="abschnitt-kopf"><h2>Wartet auf dich</h2><a href="#aufgaben" className="klein">{alleOffen === 1 ? "Alle Aufgaben" : `Alle ${alleOffen} offenen Aufgaben`}</a></div>
+      {leer ? <p className="leise">Gerade nichts. Dir ist keine offene Aufgabe zugeteilt.</p> : (
+        <ul className="liste">
+          {gr.map((g) => (
+            <li key={g.id}>
+              <a className="zeile" href={`#grsitzung-${g.id}`}>
+                <span className="zeile-haupt">
+                  <span className="zeile-titel">Linie festlegen: Gemeinderat am {datumKurz(g.datum)}</span>
+                  <span className="zeile-meta"><span className="etikett ton-offen">{(g.tops || []).filter((t) => !t.linie || t.linie === 'offen').length} TOPs offen</span></span>
+                </span>
+                <Icon n="weiter" />
+              </a>
+            </li>
+          ))}
+          {freigaben.map((b) => (
+            <li key={b.id}>
+              <a className="zeile" href={`#beitrag-${b.id}`}>
+                <span className="zeile-haupt">
+                  <span className="zeile-titel">Beitrag freigeben: {b.titel}</span>
+                  <span className="zeile-meta"><span>von {b.freigabeAngefragtVon || b.autorName}</span></span>
+                </span>
+                <Icon n="weiter" />
+              </a>
+            </li>
+          ))}
+          {meine.slice(0, 6).map((a) => <AufgabeZeile key={a.id} a={a} heute={heute} />)}
+        </ul>
+      )}
+    </section>
+  );
+}
+
+export default function Start() {
+  const { daten, me, letzterBesuch } = useApp();
+  const s = naechsteSitzung(daten.sitzungen || []);
+  const neu = letzterBesuch ? neuigkeiten(daten, me, letzterBesuch) : [];
 
   return (
     <>
       {s ? <NaechsteSitzung s={s} /> : (
-        <Leer titel="Noch keine Fraktionssitzung geplant" text={me.gr ? 'Lege die nächste Sitzung an. Alle bekommen dann eine Kalendereinladung.' : 'Sobald ein Gemeinderat die nächste Sitzung anlegt, siehst du sie hier.'}>
+        <Leer titel="Noch keine Sitzung geplant" text={me.gr ? 'Lege die nächste Sitzung an. Alle bekommen dann eine Kalendereinladung.' : 'Sobald ein Gemeinderat die nächste Sitzung anlegt, siehst du sie hier.'}>
           {me.gr && <a className="knopf" href="#sitzungen">Sitzung anlegen</a>}
         </Leer>
       )}
@@ -258,6 +294,7 @@ export default function Start() {
       <Infos />
 
       <div className="raster2">
+        <WartetAufDich />
         <section className="abschnitt">
           <div className="abschnitt-kopf"><h2>Neu seit deinem letzten Besuch</h2></div>
           {!letzterBesuch ? (
@@ -279,41 +316,6 @@ export default function Start() {
               ))}
             </ul>
           )}
-        </section>
-
-        <section className="abschnitt">
-          <div className="abschnitt-kopf"><h2>Offene Aufgaben</h2><span className="leise klein">{aufgaben.length} offen</span></div>
-          {aufgaben.length === 0 ? <p className="leise">Keine offenen Aufgaben. Aufgaben entstehen im Sitzungsmodus.</p> : (
-            <ul className="liste">
-              {aufgaben.slice(0, 6).map((a) => <AufgabeZeile key={a.id} a={a} heute={heute} />)}
-            </ul>
-          )}
-        </section>
-      </div>
-
-      <div className="raster2">
-        <section className="abschnitt">
-          <div className="abschnitt-kopf"><h2>Zuletzt geänderte Anträge</h2><a href="#antraege" className="klein">Alle Anträge</a></div>
-          <ul className="liste">
-            {antraege.map((a) => (
-              <li key={a.id}>
-                <a className="zeile" href={`#antrag-${a.id}`}>
-                  <span className="zeile-haupt">
-                    <span className="zeile-titel">{a.titel}</span>
-                    <span className="zeile-meta"><Status status={a.status} /><span>{a.art}</span><span>geändert {zeitpunkt(a.geaendertAm)}</span></span>
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-        <section className="abschnitt">
-          <div className="abschnitt-kopf"><h2>Neue Videothemen</h2><a href="#videothemen" className="klein">Alle Videothemen</a></div>
-          {videos.length === 0 ? (
-            <Leer titel="Noch keine Videothemen" text="Schlag Markus ein Thema für sein nächstes Facebook-Video vor.">
-              <button className="knopf" onClick={() => oeffne(() => <VideoDialog />)}><Icon n="plus" />Thema vorschlagen</button>
-            </Leer>
-          ) : <ul className="liste">{videos.map((v) => <VideoZeile key={v.id} v={v} />)}</ul>}
         </section>
       </div>
     </>

@@ -184,7 +184,7 @@ export default function BenachrichtigungsSeite() {
   const wert = (key, weg) => einstellung({ typen }, key, weg);
   const setze = (key, weg, v) => setTypen((t) => ({ ...t, [key]: { ...(t[key] || {}), [weg]: v } }));
   const adresse = email || server.mitgliedEmail;
-  const gruppen = BENACHRICHTIGUNGEN.filter((g) => !g.nurGR || me.gr);
+  const gruppen = BENACHRICHTIGUNGEN.filter((g) => (!g.nurGR || me.gr) && (!g.nurMK || me.mk));
 
   function alles(v, weg) {
     const neu = { ...typen };
