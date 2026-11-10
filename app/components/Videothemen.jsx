@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useApp, Icon, Feld, Segment, DialogForm, Dialog, Leer, Dringlichkeit } from './ui';
 import { VIDEO_STATUS, VIDEO_TON, ORTSTEILE, DRINGLICHKEIT, zeitpunkt } from '@/lib/domain';
+import { Kommentare } from './Antraege';
 
 export const stimmenZahl = (v) => Object.keys(v.stimmen || {}).length;
 
@@ -152,6 +153,7 @@ function VideoDetail({ id }) {
           <button className="knopf zweit klein" onClick={() => oeffne(() => <VideoDialog v={v} />)}><Icon n="stift" size={16} />Bearbeiten</button>
         </div>
       )}
+      <Kommentare bezug={`video:${v.id}`} />
     </Dialog>
   );
 }

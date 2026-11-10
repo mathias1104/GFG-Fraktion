@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useApp, Icon, Feld, Segment, DialogForm, Leer, Ziel, Dringlichkeit } from './ui';
+import { Kommentare } from './Antraege';
 import {
   ZIELE, DRINGLICHKEIT, baueTagesordnung, summeMinuten, zeitplan, dauerText, datumLang, datumKurz,
   fristText, fristVorbei, sitzungStart, sitzungEnde, wienUhrzeit, zeitpunkt, sortiereThemen,
@@ -53,7 +54,7 @@ export function ThemaDialog({ sitzung, thema }) {
 }
 
 export function SitzungDialog({ sitzung }) {
-  const { mutate, schliesse, config } = useApp();
+  const { mutate, schliesse, config, toast } = useApp();
   const [f, setF] = useState({
     datum: sitzung?.datum || '', uhrzeit: sitzung?.uhrzeit || '19:00', dauerMin: sitzung?.dauerMin || 120,
     ort: sitzung?.ort || '', fristTage: sitzung?.fristTage ?? config.fristTage ?? 3, notiz: sitzung?.notiz || '',
@@ -66,6 +67,8 @@ export function SitzungDialog({ sitzung }) {
       onClose={schliesse}
       onSubmit={async () => {
         const r = await mutate('sitzung.speichern', { ...f, id: sitzung?.id }, sitzung ? 'Sitzung gespeichert' : 'Sitzung angelegt');
+        if (r.google === 'ok') toast('Gespeichert, Kalendereinladung ist raus');
+        else if (r.google === 'fehler') toast(`Gespeichert, aber die Kalendereinladung ging nicht: ${r.googleFehler}`, true);
         if (!sitzung) window.location.hash = `sitzung-${r.id}`;
       }}
     >
@@ -87,7 +90,7 @@ export function SitzungDialog({ sitzung }) {
         </Feld>
       </div>
       <Feld label="Notiz (optional)"><textarea value={f.notiz} onChange={set('notiz')} maxLength={1000} style={{ minHeight: 70 }} /></Feld>
-      {sitzung?.kalenderEventId && <p className="hinweis info" style={{ marginBottom: 12 }}>Nach dem Speichern bitte „Einladung aktualisieren“ wählen, damit der Kalendertermin mitzieht.</p>}
+      {sitzung?.kalenderEventId && <p className="hinweis info" style={{ marginBottom: 12 }}>Ändern sich Datum, Uhrzeit oder Ort, wird der Kalendertermin bei allen automatisch aktualisiert.</p>}
     </DialogForm>
   );
 }
@@ -326,6 +329,8 @@ export function SitzungDetail({ id }) {
           </div>
         )}
       </section>
+
+      <Kommentare bezug={`sitzung:${s.id}`} titel="Anmerkungen zur Sitzung" />
     </>
   );
 }

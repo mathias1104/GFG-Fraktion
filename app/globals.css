@@ -81,7 +81,9 @@ main { max-width: 1080px; margin: 0 auto; padding: 28px 20px 80px; }
 @media (max-width: 760px) {
   body { font-size: 16.5px; }
   .reiter { display: none; }
-  .wer .name, .wer .gr-marke { display: none; }
+  .wer .name, .wer .gr-marke, .nur-breit, .marke-text span { display: none; }
+  .kopf-innen { gap: 8px; padding: 8px 12px; }
+  .wer { gap: 2px; }
   main { padding: 20px 16px calc(var(--nav-h) + 28px + env(safe-area-inset-bottom)); }
   .unten-nav {
     display: grid; grid-template-columns: repeat(5, 1fr);

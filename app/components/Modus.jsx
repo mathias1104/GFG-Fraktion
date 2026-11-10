@@ -104,7 +104,9 @@ export default function Modus({ id }) {
     speichereNotiz();
     await speichere({ ...live, verbraucht: verbucht(live), laufend: false, punktStart: null, beendetAm: Date.now() });
     try {
-      await mutate('sitzung.abschliessen', { id: s.id }, 'Sitzung beendet');
+      const r = await mutate('sitzung.abschliessen', { id: s.id }, 'Sitzung beendet');
+      if (r.google === 'ok') toast('Sitzung beendet, Protokoll ist in Google Drive gespeichert');
+      else if (r.google === 'fehler') toast(`Sitzung beendet, aber das Protokoll konnte nicht in Drive gespeichert werden: ${r.googleFehler}`, true);
       window.location.hash = `protokoll-${s.id}`;
     } catch (e) { toast(e.message, true); }
   };
@@ -182,7 +184,7 @@ export default function Modus({ id }) {
                 <button className="knopf zweit" onClick={() => gehe(index - 1)} disabled={index === 0}><Icon n="zurueck" />Zurück</button>
                 {live.laufend
                   ? <button className="knopf zweit" onClick={pause}><Icon n="pause" />Pause</button>
-                  : <button className="knopf" onClick={starten}><Icon n="play" />{live.gestartetAm ? 'Weiter laufen lassen' : 'Sitzung starten'}</button>}
+                  : <button className="knopf" onClick={starten}><Icon n="play" />{live.gestartetAm ? 'Fortsetzen' : 'Sitzung starten'}</button>}
                 {index < items.length - 1
                   ? <button className="knopf" onClick={() => gehe(index + 1)}>Nächster Punkt<Icon n="weiter" /></button>
                   : <button className="knopf" onClick={beenden}>Sitzung beenden</button>}

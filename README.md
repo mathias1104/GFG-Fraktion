@@ -51,6 +51,15 @@ Next.js auf Vercel, Daten in Neon Postgres, Google Kalender, Drive und Gmail üb
 
 ## Automatik
 
+Sobald ein Google-Konto verbunden ist:
+
+- neue Fraktionssitzung (im Reiter Sitzungen oder im Kalender): Kalendereinladung an alle Mitglieder mit E-Mail-Adresse
+- Datum, Uhrzeit oder Ort geändert: Kalendertermin wird bei allen aktualisiert
+- Sitzung gelöscht: Kalendertermin wird abgesagt
+- Sitzung im Sitzungsmodus beendet: Protokoll wird als Google Doc gespeichert
+
+Täglicher Lauf:
+
 Vercel Cron ruft täglich um 06:00 UTC `/api/cron` auf (siehe `vercel.json`):
 
 - nach Ablauf der Einreichfrist: Tagesordnung festlegen, als Google Doc im Drive-Ordner speichern, per Mail an alle

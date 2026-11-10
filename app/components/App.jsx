@@ -53,6 +53,8 @@ export default function App() {
   const [route, setRoute] = useState({ seite: 'start' });
   const [toast, setToast] = useState(null);
   const [dialog, setDialog] = useState(null);
+  const dialogRef = useRef(null);
+  useEffect(() => { dialogRef.current = dialog; }, [dialog]);
   const [letzterBesuch, setLetzterBesuch] = useState(undefined);
   const besuchGemeldet = useRef(false);
 
@@ -152,7 +154,9 @@ export default function App() {
       },
       bestaetige(titel, text, knopf = 'Löschen') {
         return new Promise((resolve) => {
-          const zu = (v) => { setDialog(null); resolve(v); };
+          // Beim Abbrechen kehrt der vorherige Dialog (z. B. ein Bearbeiten-Formular) zurück
+          const vorher = dialogRef.current;
+          const zu = (v) => { setDialog(v || !vorher ? null : () => vorher); resolve(v); };
           setDialog(() => () => (
             <Dialog titel={titel} onClose={() => zu(false)}>
               <p>{text}</p>
@@ -223,7 +227,7 @@ export default function App() {
           <div className="wer">
             <span className="name">{stand.me.name}</span>
             {stand.me.gr && <span className="gr-marke">Gemeinderat</span>}
-            {stand.me.gr && <a className="knopf still klein" href="#einstellungen"><Icon n="zahnrad" size={18} />Einstellungen</a>}
+            {stand.me.gr && <a className="knopf still klein" href="#einstellungen" aria-label="Einstellungen"><Icon n="zahnrad" size={18} /><span className="nur-breit">Einstellungen</span></a>}
             <button className="knopf still klein" onClick={ctx.abmelden}>Abmelden</button>
           </div>
         </div>

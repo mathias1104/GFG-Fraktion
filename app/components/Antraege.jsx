@@ -143,14 +143,14 @@ export function AntraegeListe() {
   );
 }
 
-function Kommentare({ bezug }) {
+export function Kommentare({ bezug, titel = 'Kommentare' }) {
   const { daten, me, mutate, toast, bestaetige } = useApp();
   const [text, setText] = useState('');
   const [busy, setBusy] = useState(false);
   const liste = (daten.kommentare || []).filter((k) => k.bezug === bezug).sort((a, b) => a.am - b.am);
   return (
     <section className="abschnitt">
-      <h2 style={{ marginBottom: 10 }}>Kommentare</h2>
+      <h2 style={{ marginBottom: 10 }}>{titel}</h2>
       {liste.length === 0 && <p className="leise">Noch keine Kommentare.</p>}
       {liste.map((k) => (
         <div key={k.id} className="kommentar">

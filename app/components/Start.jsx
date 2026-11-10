@@ -126,7 +126,8 @@ function neuigkeiten(daten, me, seit) {
   for (const k of daten.kommentare || []) {
     if (k.am > seit && fremd(k.autorId, k.autorName)) {
       const [art, id] = k.bezug.split(':');
-      n.push({ ts: k.am, text: `Kommentar: ${k.text.slice(0, 90)}${k.text.length > 90 ? ' …' : ''}`, wer: k.autorName, href: art === 'antrag' ? `#antrag-${id}` : `#sitzung-${id}` });
+      const href = art === 'antrag' ? `#antrag-${id}` : art === 'video' ? '#videothemen' : art === 'thema' ? '#sitzungen' : `#sitzung-${id}`;
+      n.push({ ts: k.am, text: `Kommentar: ${k.text.slice(0, 90)}${k.text.length > 90 ? ' …' : ''}`, wer: k.autorName, href });
     }
   }
   for (const v of daten.videothemen || []) {

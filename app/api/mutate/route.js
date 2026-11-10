@@ -2,11 +2,22 @@ import { NextResponse } from 'next/server';
 import { hole, setze, ergaenze, loesche, alle, setzeEintrag } from '@/lib/db';
 import { importiereJotform } from '@/lib/jotform';
 import { leseSitzung, hashPasswort } from '@/lib/auth';
-import { fixiereTagesordnung } from '@/lib/aktionen';
+import { fixiereTagesordnung, sendeEinladung, speichereProtokoll } from '@/lib/aktionen';
+import { googleStatus, kalenderAbsagen } from '@/lib/google';
 import {
   ARTEN, STATUS, ZIELE, DRINGLICHKEIT, ROLLEN, ERGEBNISSE, ORTSTEILE, fristVorbei, neueId,
   VIDEO_STATUS, TERMIN_ARTEN, LINIEN, GR_ERGEBNISSE,
 } from '@/lib/domain';
+
+async function googleBereit() {
+  try { const g = await googleStatus(); return g.eingerichtet && g.verbunden; } catch { return false; }
+}
+
+/** Führt eine Google-Aktion aus, ohne dass ein Fehler das Speichern verhindert */
+async function versucheGoogle(f) {
+  if (!(await googleBereit())) return { google: 'aus' };
+  try { const r = await f(); return { google: 'ok', ...r }; } catch (e) { return { google: 'fehler', googleFehler: e.message }; }
+}
 
 class Fehler extends Error { constructor(msg, status = 400) { super(msg); this.status = status; } }
 
@@ -61,7 +72,7 @@ const AKTIONEN = {
   // ---------- Kommentare ----------
   async 'kommentar.neu'(me, p) {
     const bezug = txt(p.bezug, 80);
-    if (!/^(antrag|thema|sitzung):[\w-]+$/.test(bezug)) throw new Fehler('Bezug ist ungültig.');
+    if (!/^(antrag|thema|sitzung|video):[\w-]+$/.test(bezug)) throw new Fehler('Bezug ist ungültig.');
     const id = neueId('k');
     await setze('kommentare', id, { bezug, text: pflicht(p.text, 'Kommentar', 2000), autorId: me.uid, autorName: me.name, am: Date.now() });
     return { id };
@@ -123,14 +134,23 @@ const AKTIONEN = {
       notiz: txt(p.notiz, 1000),
     };
     if (daten.datum.length !== 10) throw new Fehler('Bitte ein vollständiges Datum wählen.');
-    if (p.id) { await ergaenze('sitzungen', p.id, { ...daten, geaendertAm: Date.now() }); return { id: p.id }; }
+    if (p.id) {
+      const alt = await muss('sitzungen', p.id);
+      await ergaenze('sitzungen', p.id, { ...daten, geaendertAm: Date.now() });
+      const zeitGeaendert = alt.datum !== daten.datum || alt.uhrzeit !== daten.uhrzeit || alt.ort !== daten.ort || Number(alt.dauerMin) !== daten.dauerMin;
+      const g = alt.kalenderEventId && zeitGeaendert ? await versucheGoogle(() => sendeEinladung(p.id)) : {};
+      return { id: p.id, ...g };
+    }
     const id = neueId('s');
     await setze('sitzungen', id, { ...daten, status: 'geplant', erstelltAm: Date.now(), erstelltVon: me.name });
-    return { id };
+    const g = await versucheGoogle(() => sendeEinladung(id));
+    return { id, ...g };
   },
   async 'sitzung.loeschen'(me, p) {
     nurGR(me);
     const id = txt(p.id, 40);
+    const s = await hole('sitzungen', id);
+    if (s?.kalenderEventId && (await googleBereit())) { try { await kalenderAbsagen(s.kalenderEventId); } catch { /* Termin bleibt dann bestehen */ } }
     const { themen } = await alle(['themen']);
     for (const t of themen.filter((x) => x.sitzungId === id)) await loesche('themen', t.id);
     await loesche('sitzungen', id);
@@ -171,7 +191,8 @@ const AKTIONEN = {
     const s = await muss('sitzungen', p.id);
     const live = { ...(s.live || {}), laufend: false, beendetAm: (s.live && s.live.beendetAm) || Date.now() };
     await ergaenze('sitzungen', s.id, { status: 'abgeschlossen', live });
-    return {};
+    const g = await versucheGoogle(() => speichereProtokoll(s.id));
+    return g;
   },
   async 'sitzung.wiedereroeffnen'(me, p) {
     nurGR(me);
