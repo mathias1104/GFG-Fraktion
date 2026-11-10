@@ -60,8 +60,11 @@ p { margin: 0; }
 }
 .marke-text { font-family: var(--display); font-stretch: 85%; font-weight: 600; font-size: 17px; line-height: 1.1; }
 .marke-text span { display: block; font-family: var(--schrift); font-weight: 400; font-size: 12.5px; color: var(--grau); }
-.reiter { display: flex; gap: 4px; margin-left: 12px; }
+.reiter { border-top: 1px solid var(--papier); }
+.reiter-innen { max-width: 1080px; margin: 0 auto; padding: 6px 14px; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+.reiter-innen::-webkit-scrollbar { display: none; }
 .reiter a {
+  flex: none;
   text-decoration: none; color: var(--grau); padding: 8px 12px; border-radius: 999px; font-weight: 700; font-size: 15.5px;
   display: inline-flex; align-items: center; gap: 6px;
 }
@@ -80,17 +83,18 @@ main { max-width: 1080px; margin: 0 auto; padding: 28px 20px 80px; }
   .wer .name, .wer .gr-marke { display: none; }
   main { padding: 20px 16px calc(var(--nav-h) + 28px + env(safe-area-inset-bottom)); }
   .unten-nav {
-    display: grid; grid-template-columns: repeat(4, 1fr);
+    display: grid; grid-template-columns: repeat(5, 1fr);
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
     background: var(--flaeche); border-top: 1px solid var(--linie);
     padding-bottom: env(safe-area-inset-bottom);
   }
-  .unten-nav a {
+  .unten-nav a, .unten-nav button {
+    border: 0; background: none; cursor: pointer; font-family: inherit;
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
     height: var(--nav-h); text-decoration: none; color: var(--grau); font-size: 12.5px; font-weight: 700;
   }
-  .unten-nav a[aria-current='page'] { color: var(--gruen); }
-  .unten-nav a[aria-current='page'] svg { background: var(--gruen-hell); border-radius: 999px; }
+  .unten-nav [aria-current='page'] { color: var(--gruen); }
+  .unten-nav [aria-current='page'] svg { background: var(--gruen-hell); border-radius: 999px; }
   .unten-nav svg { width: 44px; height: 28px; padding: 3px 10px; }
   h1 { font-size: 26px; }
 }
@@ -246,7 +250,7 @@ a.zeile:hover { background: rgba(36, 92, 67, .04); }
 
 /* ---------- Sitzungsmodus ---------- */
 .modus { display: grid; grid-template-columns: 290px 1fr; gap: 28px; align-items: start; }
-.modus-punkte { list-style: none; margin: 0; padding: 0; position: sticky; top: 84px; max-height: calc(100vh - 110px); overflow: auto; }
+.modus-punkte { list-style: none; margin: 0; padding: 0; position: sticky; top: 130px; max-height: calc(100vh - 150px); overflow: auto; }
 .modus-punkte button {
   width: 100%; text-align: left; display: grid; grid-template-columns: 28px 1fr auto; gap: 8px; padding: 9px 10px; border: 0; background: none;
   border-radius: var(--r-s); cursor: pointer; font-size: 15px; align-items: baseline;
@@ -297,3 +301,57 @@ a.zeile:hover { background: rgba(36, 92, 67, .04); }
 .namen button { text-align: left; padding: 12px 14px; border: 1.5px solid var(--linie); border-radius: var(--r-s); background: #fff; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; gap: 10px; }
 .namen button:hover { border-color: var(--gruen); background: var(--gruen-hell); }
 .laden { min-height: 60vh; display: grid; place-items: center; color: var(--grau); }
+
+/* ---------- Etappe 2 ---------- */
+.mehr-liste { list-style: none; margin: 0; padding: 0; }
+.mehr-liste a { display: flex; gap: 14px; align-items: center; padding: 14px 6px; border-bottom: 1px solid var(--linie); text-decoration: none; color: var(--tinte); font-weight: 700; font-size: 17px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.chips button { border: 1.5px solid var(--linie); background: #fff; border-radius: 999px; padding: 6px 13px; font-weight: 700; font-size: 14.5px; cursor: pointer; color: var(--grau); }
+.chips button[aria-pressed='true'] { border-color: var(--gruen); background: var(--gruen-hell); color: var(--gruen-dunkel); }
+.daumen { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; min-width: 56px; padding: 8px 6px; border-radius: var(--r-m); border: 1.5px solid var(--linie); background: #fff; cursor: pointer; font-weight: 800; font-family: var(--display); font-size: 18px; color: var(--grau); flex: none; }
+.daumen[aria-pressed='true'] { border-color: var(--gruen); background: var(--gruen); color: #fff; }
+.daumen:hover { border-color: var(--gruen); }
+.vorschau { width: 64px; height: 64px; border-radius: var(--r-s); object-fit: cover; flex: none; background: var(--gruen-hell); }
+.fotos { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin: 12px 0; }
+.fotos figure { margin: 0; position: relative; }
+.fotos img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r-s); display: block; }
+.fotos button { position: absolute; top: 6px; right: 6px; width: 30px; height: 30px; border-radius: 50%; border: 0; background: rgba(23,36,29,.75); color: #fff; display: grid; place-items: center; cursor: pointer; }
+.info { border-left: 5px solid var(--loess); background: var(--flaeche); border-radius: var(--r-m); padding: 16px 18px; margin-bottom: 12px; border-top: 1px solid var(--linie); border-right: 1px solid var(--linie); border-bottom: 1px solid var(--linie); }
+.info.gelesen { border-left-color: var(--gruen-hell); }
+.info h3 { margin-bottom: 6px; }
+.info details { margin-top: 8px; font-size: 14.5px; color: var(--grau); }
+.info summary { cursor: pointer; font-weight: 700; }
+.kal-monat { margin-top: 28px; }
+.kal-monat h2 { margin-bottom: 8px; }
+.kal-eintrag { display: grid; grid-template-columns: 56px 1fr; gap: 14px; padding: 12px 4px; border-bottom: 1px solid var(--linie); text-decoration: none; color: inherit; align-items: start; width: 100%; background: none; border-left: 0; border-right: 0; border-top: 0; text-align: left; font: inherit; cursor: pointer; }
+.kal-eintrag:hover { background: rgba(36, 92, 67, .04); }
+.kal-tag { text-align: center; border-radius: var(--r-s); background: var(--flaeche); border: 1px solid var(--linie); padding: 4px 0 6px; line-height: 1.1; }
+.kal-tag span { display: block; font-size: 12.5px; color: var(--grau); font-weight: 700; }
+.kal-tag b { font-family: var(--display); font-stretch: 75%; font-size: 24px; font-weight: 800; }
+.kal-tag.heute { background: var(--gruen); border-color: var(--gruen); color: #fff; }
+.kal-tag.heute span { color: #CFE0D5; }
+.art-Fraktionssitzung { background: var(--gruen); color: #fff; }
+.art-Gemeinderatssitzung { background: var(--blau-hell); color: var(--blau); }
+.art-Ausschusssitzung { background: #E9E4F1; color: #4F3D73; }
+.art-Veranstaltung { background: var(--loess-hell); color: #7A5408; }
+.art-Frist { background: var(--rot-hell); color: var(--rot); }
+.art-Sonstiges { background: #ECEFEA; color: #4A574F; }
+.ausschuss { margin-top: 30px; }
+.ausschuss-kopf { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 2px solid var(--gruen); }
+.bericht { padding: 14px 0; border-bottom: 1px solid var(--linie); }
+.bericht p { white-space: pre-wrap; margin-top: 6px; }
+.unterreiter { display: flex; gap: 4px; border-bottom: 1px solid var(--linie); margin: 10px 0 22px; overflow-x: auto; }
+.unterreiter button { border: 0; background: none; padding: 10px 14px; font-weight: 700; color: var(--grau); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -1px; white-space: nowrap; font-size: 16px; }
+.unterreiter button[aria-selected='true'] { color: var(--gruen-dunkel); border-bottom-color: var(--gruen); }
+.top { padding: 16px 4px; border-bottom: 1px solid var(--linie); display: grid; grid-template-columns: 44px 1fr auto; gap: 4px 12px; }
+.top:first-child { border-top: 1px solid var(--linie); }
+.top-linie { display: grid; gap: 4px; margin-top: 10px; font-size: 15px; }
+.top-linie b { font-size: 13.5px; color: var(--grau); font-weight: 700; }
+.tabelle { width: 100%; border-collapse: collapse; font-size: 15px; }
+.tabelle th { text-align: left; font-size: 13.5px; color: var(--grau); padding: 8px 8px; border-bottom: 2px solid var(--linie); }
+.tabelle td { padding: 10px 8px; border-bottom: 1px solid var(--linie); vertical-align: top; }
+@media (max-width: 760px) {
+  .tabelle thead { display: none; }
+  .tabelle tr { display: block; padding: 10px 0; border-bottom: 1px solid var(--linie); }
+  .tabelle td { display: block; border: 0; padding: 2px 0; }
+}

@@ -7,19 +7,27 @@ import { SitzungenListe, SitzungDetail } from './Sitzungen';
 import Modus from './Modus';
 import Protokoll from './Protokoll';
 import { AntraegeListe, AntragDetail } from './Antraege';
-import Gemeinderaete from './Gemeinderaete';
+import Gemeinderaete, { GrSitzungDetail } from './Gemeinderaete';
+import Videothemen from './Videothemen';
+import { AufgabenSeite } from './Aufgaben';
+import Ausschuesse from './Ausschuesse';
+import Kalender from './Kalender';
 
 const REITER = [
-  { id: 'start', label: 'Start', icon: 'start' },
-  { id: 'sitzungen', label: 'Sitzungen', icon: 'kalender' },
-  { id: 'antraege', label: 'Anträge', icon: 'antrag' },
+  { id: 'start', label: 'Start', icon: 'start', unten: true },
+  { id: 'sitzungen', label: 'Sitzungen', icon: 'sitzung', unten: true },
+  { id: 'antraege', label: 'Anträge', icon: 'antrag', unten: true },
+  { id: 'aufgaben', label: 'Aufgaben', icon: 'check' },
+  { id: 'videothemen', label: 'Videothemen', icon: 'video' },
+  { id: 'ausschuesse', label: 'Ausschüsse', icon: 'gruppe' },
+  { id: 'kalender', label: 'Kalender', icon: 'kalender', unten: true },
   { id: 'gemeinderaete', label: 'Gemeinderäte', icon: 'schloss' },
 ];
 
 function leseRoute() {
   if (typeof window === 'undefined') return { seite: 'start' };
   const h = window.location.hash.replace(/^#/, '') || 'start';
-  const m = h.match(/^(sitzung|modus|protokoll|antrag)-(.+)$/);
+  const m = h.match(/^(sitzung|modus|protokoll|antrag|grsitzung)-(.+)$/);
   if (m) return { seite: m[1], id: m[2] };
   return { seite: REITER.some((r) => r.id === h) ? h : 'start' };
 }
@@ -174,7 +182,8 @@ export default function App() {
     );
   }
 
-  const aktiverReiter = { sitzung: 'sitzungen', modus: 'sitzungen', protokoll: 'sitzungen', antrag: 'antraege' }[route.seite] || route.seite;
+  const aktiverReiter = { sitzung: 'sitzungen', modus: 'sitzungen', protokoll: 'sitzungen', antrag: 'antraege', grsitzung: 'gemeinderaete' }[route.seite] || route.seite;
+  const imMehr = !REITER.find((r) => r.id === aktiverReiter)?.unten;
   let inhalt;
   switch (route.seite) {
     case 'sitzungen': inhalt = <SitzungenListe />; break;
@@ -184,6 +193,11 @@ export default function App() {
     case 'antraege': inhalt = <AntraegeListe />; break;
     case 'antrag': inhalt = <AntragDetail id={route.id} />; break;
     case 'gemeinderaete': inhalt = <Gemeinderaete />; break;
+    case 'grsitzung': inhalt = <GrSitzungDetail id={route.id} />; break;
+    case 'aufgaben': inhalt = <AufgabenSeite />; break;
+    case 'videothemen': inhalt = <Videothemen />; break;
+    case 'ausschuesse': inhalt = <Ausschuesse />; break;
+    case 'kalender': inhalt = <Kalender />; break;
     default: inhalt = <Start />;
   }
   const Offen = dialog;
@@ -196,27 +210,40 @@ export default function App() {
             <span className="marke-zeichen">GFG</span>
             <span className="marke-text">Fraktion<span>Gemeinsam für unsere Gemeinde</span></span>
           </a>
-          <nav className="reiter" aria-label="Hauptnavigation">
-            {REITER.map((r) => (
-              <a key={r.id} href={`#${r.id}`} aria-current={aktiverReiter === r.id ? 'page' : undefined}>
-                {r.id === 'gemeinderaete' && <Icon n="schloss" size={16} />}{r.label}
-              </a>
-            ))}
-          </nav>
           <div className="wer">
             <span className="name">{stand.me.name}</span>
             {stand.me.gr && <span className="gr-marke">Gemeinderat</span>}
             <button className="knopf still klein" onClick={ctx.abmelden}>Abmelden</button>
           </div>
         </div>
+        <nav className="reiter" aria-label="Hauptnavigation">
+          <div className="reiter-innen">
+            {REITER.map((r) => (
+              <a key={r.id} href={`#${r.id}`} aria-current={aktiverReiter === r.id ? 'page' : undefined}>
+                {r.id === 'gemeinderaete' && <Icon n="schloss" size={16} />}{r.label}
+              </a>
+            ))}
+          </div>
+        </nav>
       </header>
       <main>{inhalt}</main>
       <nav className="unten-nav" aria-label="Hauptnavigation">
-        {REITER.map((r) => (
+        {REITER.filter((r) => r.unten).map((r) => (
           <a key={r.id} href={`#${r.id}`} aria-current={aktiverReiter === r.id ? 'page' : undefined}>
             <Icon n={r.icon} />{r.label}
           </a>
         ))}
+        <button type="button" aria-current={imMehr ? 'page' : undefined} aria-haspopup="dialog" onClick={() => ctx.oeffne(() => (
+          <Dialog titel="Mehr" onClose={ctx.schliesse}>
+            <ul className="mehr-liste">
+              {REITER.filter((r) => !r.unten).map((r) => (
+                <li key={r.id}><a href={`#${r.id}`} onClick={ctx.schliesse}><Icon n={r.icon} />{r.label}</a></li>
+              ))}
+            </ul>
+          </Dialog>
+        ))}>
+          <Icon n="mehr" />Mehr
+        </button>
       </nav>
       {Offen && <Offen />}
       {toast && <div className={`toast${toast.fehler ? ' fehler' : ''}`} role="status">{toast.text}</div>}

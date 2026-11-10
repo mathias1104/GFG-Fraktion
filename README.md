@@ -3,14 +3,24 @@
 Interne Web-App der Fraktion „Gemeinsam für unsere Gemeinde“ (GFG) in der Marktgemeinde Großebersdorf.
 Next.js auf Vercel, Daten in Neon Postgres, Google Kalender, Drive und Gmail über die Google-APIs.
 
-## Stand: Etappe 1
+## Funktionen
+
+### Etappe 1
 
 - **Start:** nächste Fraktionssitzung mit Countdown und Ablauf (Einladung, Themenfrist, Tagesordnung, Sitzung), „Neu seit deinem letzten Besuch“, offene Aufgaben, zuletzt geänderte Anträge
 - **Fraktionssitzungen:** anlegen, Kalendereinladung an alle, Themen einreichen bis zur Frist, automatische Tagesordnung mit Zeitbudget, Tagesordnung als Google Doc plus Mail, Sitzungsmodus mit Timer, Anwesenheit, Notizen, Beschlüssen und Aufgaben, Protokoll in der App und als Google Doc
 - **Anträge und Anfragen:** Liste mit Suche und Filtern, Statusverlauf mit Datum und Name, Kommentare, vorbefüllt mit Festlbus und den sieben IFG-Begehren
 - **Gemeinderäte:** geschützter Bereich (Benutzer „Gemeinderat“, Passwort „Gemeinde“), Mitglieder, Google-Verbindung, Einstellungen
 
-Etappe 2: Videothemen für Markus, Aufgaben-Reiter, Ausschüsse und Berichte, Kalender, Vorbereitung der Gemeinderatssitzungen mit Abstimmungslinie und Archiv, Lesebestätigungen.
+### Etappe 2
+
+- **Infos an die Fraktion** auf der Startseite, bei wichtigen Infos mit Lesebestätigung („gelesen von 6 von 8“, Gemeinderäte sehen, wer noch fehlt)
+- **Themen für Markus' Videos:** vorschlagen mit Beschreibung, Ortsteil, Dringlichkeit, bis zu 3 Fotos und Links, Daumen hoch, Status Idee bis veröffentlicht mit Link zum Post
+- **Aufgaben:** alle Aufgaben mit Filter (offen, meine, überfällig, erledigt), überfällige rot
+- **Ausschüsse und Berichte:** pro Ausschuss Vorsitz, GFG-Vertreter, nächste Sitzung und Berichte
+- **Kalender:** Fraktionssitzungen, Gemeinderatssitzungen, Ausschusssitzungen, Veranstaltungen, Themenfristen und Aufgabenfristen
+- **Gemeinderäte:** Vorbereitung der Gemeinderatssitzungen (Unterlagen, TOPs, Abstimmungslinie mit Begründung, wer spricht, Ergebnis) und Abstimmungsarchiv, vorbefüllt mit der Feldgasse vom 12.10.2026
+- **Jotform:** Themen aus dem Formular für Leute ohne Login werden täglich übernommen
 
 ## Rollen und Schutz
 
@@ -37,6 +47,7 @@ Etappe 2: Videothemen für Markus, Aufgaben-Reiter, Ausschüsse und Berichte, Ka
 | `GR_USER`, `GR_PASSWORD` | Zugangsdaten für Gemeinderäte (Standard: Gemeinderat / Gemeinde). Empfehlung: ändern. |
 | `SESSION_SECRET` | Schlüssel für Anmelde-Cookies. Ohne Angabe wird er aus `DATABASE_URL` abgeleitet. |
 | `CRON_SECRET` | Schützt den täglichen Lauf. Vercel schickt ihn automatisch mit. |
+| `JOTFORM_API_KEY` | Jotform-API-Schlüssel (Jotform, Einstellungen, API). Damit übernimmt die App Formular-Einreichungen als Themen. |
 
 ## Automatik
 
@@ -44,6 +55,7 @@ Vercel Cron ruft täglich um 06:00 UTC `/api/cron` auf (siehe `vercel.json`):
 
 - nach Ablauf der Einreichfrist: Tagesordnung festlegen, als Google Doc im Drive-Ordner speichern, per Mail an alle
 - 7 Tage und 1 Tag vor der Sitzung: Erinnerung per Mail
+- Formular-Einreichungen aus Jotform als Themen übernehmen (wenn `JOTFORM_API_KEY` gesetzt ist)
 
 Die Kalendereinladung enthält zusätzlich Erinnerungen 7 Tage und 1 Tag vorher.
 
@@ -58,4 +70,4 @@ Ohne `DATABASE_URL` speichert die App lokal in `/tmp/gfg-store.json`.
 
 ## Datenschutz
 
-Keine sensiblen personenbezogenen Daten von Bürgerinnen und Bürgern eintragen. Gespeichert werden nur Namen und E-Mail-Adressen der Fraktionsmitglieder sowie die Inhalte der Fraktionsarbeit.
+Keine sensiblen personenbezogenen Daten von Bürgerinnen und Bürgern eintragen. Gespeichert werden nur Namen und E-Mail-Adressen der Fraktionsmitglieder sowie die Inhalte der Fraktionsarbeit. Fotos für Videothemen werden verkleinert in der Datenbank gespeichert und sind nur nach Anmeldung abrufbar.

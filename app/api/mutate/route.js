@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
-import { hole, setze, ergaenze, loesche, alle } from '@/lib/db';
+import { hole, setze, ergaenze, loesche, alle, setzeEintrag } from '@/lib/db';
+import { importiereJotform } from '@/lib/jotform';
 import { leseSitzung, hashPasswort } from '@/lib/auth';
 import { fixiereTagesordnung } from '@/lib/aktionen';
 import {
   ARTEN, STATUS, ZIELE, DRINGLICHKEIT, ROLLEN, ERGEBNISSE, ORTSTEILE, fristVorbei, neueId,
+  VIDEO_STATUS, TERMIN_ARTEN, LINIEN, GR_ERGEBNISSE,
 } from '@/lib/domain';
 
 class Fehler extends Error { constructor(msg, status = 400) { super(msg); this.status = status; } }
@@ -243,6 +245,151 @@ const AKTIONEN = {
     }
     await ergaenze('config', 'app', teil);
     return {};
+  },
+
+  // ---------- Videothemen ----------
+  async 'video.speichern'(me, p) {
+    const daten = {
+      titel: pflicht(p.titel, 'Titel', 140),
+      beschreibung: txt(p.beschreibung, 2000),
+      ortsteil: auswahl(p.ortsteil, [...ORTSTEILE, 'alle Ortsteile'], ''),
+      dringlichkeit: auswahl(p.dringlichkeit, DRINGLICHKEIT, 'mittel'),
+      links: (Array.isArray(p.links) ? p.links : []).map((l) => url(l)).filter(Boolean).slice(0, 5),
+    };
+    let alt = null;
+    if (p.id) {
+      alt = await muss('videothemen', p.id);
+      if (!me.gr && alt.autorId !== me.uid) throw new Fehler('Du kannst nur eigene Videothemen ändern.', 403);
+    }
+    // Fotos: bestehende IDs behalten, neue Bilder (data:-URLs) speichern
+    const behalten = (Array.isArray(p.fotos) ? p.fotos : []).filter((f) => typeof f === 'string' && !f.startsWith('data:') && (alt?.fotos || []).includes(f));
+    const neue = (Array.isArray(p.fotos) ? p.fotos : []).filter((f) => typeof f === 'string' && f.startsWith('data:'));
+    if (behalten.length + neue.length > 3) throw new Fehler('Höchstens 3 Fotos pro Thema.');
+    const fotos = [...behalten];
+    for (const f of neue) {
+      if (!/^data:image\/(jpeg|png|webp);base64,/.test(f) || f.length > 700000) throw new Fehler('Ein Foto ist zu groß oder kein Bild.');
+      const fid = neueId('f');
+      await setze('fotos', fid, { daten: f, am: Date.now() });
+      fotos.push(fid);
+    }
+    for (const f of (alt?.fotos || [])) if (!fotos.includes(f)) await loesche('fotos', f);
+    if (alt) { await ergaenze('videothemen', alt.id, { ...daten, fotos, geaendertAm: Date.now() }); return { id: alt.id }; }
+    const id = neueId('v');
+    await setze('videothemen', id, { ...daten, fotos, status: 'Idee', postLink: '', stimmen: {}, autorId: me.uid, autorName: me.name, erstelltAm: Date.now() });
+    return { id };
+  },
+  async 'video.status'(me, p) {
+    nurGR(me);
+    const v = await muss('videothemen', p.id);
+    await ergaenze('videothemen', v.id, { status: auswahl(p.status, VIDEO_STATUS, v.status), postLink: url(p.postLink), statusAm: Date.now(), statusVon: me.name });
+    return {};
+  },
+  async 'video.stimme'(me, p) {
+    await muss('videothemen', p.id);
+    await setzeEintrag('videothemen', String(p.id), 'stimmen', me.uid, p.an ? Date.now() : null);
+    return {};
+  },
+  async 'video.loeschen'(me, p) {
+    const v = await muss('videothemen', p.id);
+    if (!me.gr && v.autorId !== me.uid) throw new Fehler('Du kannst nur eigene Videothemen löschen.', 403);
+    for (const f of v.fotos || []) await loesche('fotos', f);
+    await loesche('videothemen', v.id);
+    return {};
+  },
+
+  // ---------- Kalender-Termine ----------
+  async 'termin.speichern'(me, p) {
+    nurGR(me);
+    const daten = {
+      titel: pflicht(p.titel, 'Titel', 160), art: auswahl(p.art, TERMIN_ARTEN, 'Sonstiges'),
+      datum: datum(p.datum), uhrzeit: txt(p.uhrzeit, 5), ort: txt(p.ort, 160), notiz: txt(p.notiz, 1000),
+    };
+    if (daten.datum.length !== 10) throw new Fehler('Bitte ein vollständiges Datum wählen.');
+    if (p.id) { await ergaenze('termine', p.id, daten); return { id: p.id }; }
+    const id = neueId('e');
+    await setze('termine', id, { ...daten, erstelltAm: Date.now(), erstelltVon: me.name });
+    return { id };
+  },
+  async 'termin.loeschen'(me, p) { nurGR(me); await loesche('termine', txt(p.id, 40)); return {}; },
+
+  // ---------- Ausschüsse und Berichte ----------
+  async 'ausschuss.speichern'(me, p) {
+    nurGR(me);
+    const daten = { name: pflicht(p.name, 'Name', 120), vorsitz: txt(p.vorsitz, 120), vertreter: txt(p.vertreter, 200), naechsteSitzung: datum(p.naechsteSitzung) };
+    if (p.id) { await ergaenze('ausschuesse', p.id, daten); return { id: p.id }; }
+    const id = neueId('x');
+    await setze('ausschuesse', id, { ...daten, erstelltAm: Date.now() });
+    return { id };
+  },
+  async 'ausschuss.loeschen'(me, p) { nurGR(me); await loesche('ausschuesse', txt(p.id, 40)); return {}; },
+  async 'bericht.speichern'(me, p) {
+    nurGR(me);
+    await muss('ausschuesse', p.ausschussId);
+    const daten = { ausschussId: txt(p.ausschussId, 40), datum: datum(p.datum), titel: txt(p.titel, 160), text: pflicht(p.text, 'Bericht', 5000) };
+    if (p.id) { await ergaenze('berichte', p.id, { ...daten, geaendertAm: Date.now() }); return { id: p.id }; }
+    const id = neueId('y');
+    await setze('berichte', id, { ...daten, autorId: me.uid, autorName: me.name, erstelltAm: Date.now() });
+    return { id };
+  },
+  async 'bericht.loeschen'(me, p) { nurGR(me); await loesche('berichte', txt(p.id, 40)); return {}; },
+
+  // ---------- Wichtige Infos mit Lesebestätigung ----------
+  async 'info.speichern'(me, p) {
+    nurGR(me);
+    const daten = { titel: pflicht(p.titel, 'Titel', 160), text: txt(p.text, 5000), wichtig: !!p.wichtig };
+    if (p.id) { await ergaenze('infos', p.id, { ...daten, geaendertAm: Date.now() }); return { id: p.id }; }
+    const id = neueId('i');
+    await setze('infos', id, { ...daten, gelesen: { [me.uid]: { ts: Date.now(), name: me.name } }, autorId: me.uid, autorName: me.name, erstelltAm: Date.now() });
+    return { id };
+  },
+  async 'info.gelesen'(me, p) {
+    await muss('infos', p.id);
+    await setzeEintrag('infos', String(p.id), 'gelesen', me.uid, { ts: Date.now(), name: me.name });
+    return {};
+  },
+  async 'info.loeschen'(me, p) { nurGR(me); await loesche('infos', txt(p.id, 40)); return {}; },
+
+  // ---------- Gemeinderatssitzungen (nur Gemeinderäte) ----------
+  async 'grsitzung.speichern'(me, p) {
+    nurGR(me);
+    const daten = {
+      titel: txt(p.titel, 160) || 'Gemeinderatssitzung', datum: datum(p.datum), uhrzeit: txt(p.uhrzeit, 5), ort: txt(p.ort, 160),
+      notiz: txt(p.notiz, 4000),
+      unterlagen: (Array.isArray(p.unterlagen) ? p.unterlagen : []).slice(0, 20)
+        .map((d) => ({ titel: txt(d.titel, 120) || 'Unterlage', url: url(d.url) })).filter((d) => d.url),
+    };
+    if (daten.datum.length !== 10) throw new Fehler('Bitte ein vollständiges Datum wählen.');
+    if (p.id) { await ergaenze('grsitzungen', p.id, { ...daten, geaendertAm: Date.now() }); return { id: p.id }; }
+    const id = neueId('g');
+    await setze('grsitzungen', id, { ...daten, tops: [], erstelltAm: Date.now(), erstelltVon: me.name });
+    return { id };
+  },
+  async 'grsitzung.top'(me, p) {
+    nurGR(me);
+    const g = await muss('grsitzungen', p.id);
+    const t = p.top || {};
+    const top = {
+      key: txt(t.key, 40) || neueId('top'), nr: txt(t.nr, 10), titel: pflicht(t.titel, 'Titel des TOP', 250),
+      unterlage: url(t.unterlage), linie: auswahl(t.linie, LINIEN, 'offen'), begruendung: txt(t.begruendung, 3000),
+      sprecher: txt(t.sprecher, 200), wortmeldung: txt(t.wortmeldung, 3000),
+      ergebnis: auswahl(t.ergebnis, GR_ERGEBNISSE, ''), abgestimmt: auswahl(t.abgestimmt, ['', ...LINIEN.filter((l) => l !== 'offen'), 'uneinheitlich'], ''),
+      geaendertVon: me.name, geaendertAm: Date.now(),
+    };
+    const tops = [...(g.tops || [])];
+    const i = tops.findIndex((x) => x.key === top.key);
+    if (p.loeschen) { if (i >= 0) tops.splice(i, 1); } else if (i >= 0) tops[i] = top; else tops.push(top);
+    tops.sort((a, b) => (Number(a.nr) || 999) - (Number(b.nr) || 999));
+    await ergaenze('grsitzungen', g.id, { tops, geaendertAm: Date.now() });
+    return { key: top.key };
+  },
+  async 'grsitzung.loeschen'(me, p) { nurGR(me); await loesche('grsitzungen', txt(p.id, 40)); return {}; },
+
+  // ---------- Jotform ----------
+  async 'jotform.abrufen'(me) {
+    nurGR(me);
+    const r = await importiereJotform();
+    if (!r.aktiv) throw new Fehler('Der Jotform-Abruf ist noch nicht eingerichtet (JOTFORM_API_KEY fehlt).');
+    return r;
   },
 
   // ---------- Besuch ----------

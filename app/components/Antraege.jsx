@@ -4,7 +4,7 @@ import { useApp, Icon, Feld, DialogForm, Leer, Status } from './ui';
 import { ARTEN, STATUS, datumKurz, zeitpunkt, wienTag, STANDARD_AUSSCHUESSE } from '@/lib/domain';
 
 function AntragDialog({ antrag }) {
-  const { mutate, schliesse, config, bestaetige, toast } = useApp();
+  const { mutate, schliesse, config, bestaetige, toast, daten } = useApp();
   const [f, setF] = useState({
     titel: antrag?.titel || '', art: antrag?.art || 'Antrag', einbringer: antrag?.einbringer || '',
     datum: antrag?.datum || '', grSitzung: antrag?.grSitzung || '', top: antrag?.top || '', ausschuss: antrag?.ausschuss || '',
@@ -12,7 +12,7 @@ function AntragDialog({ antrag }) {
     dokumente: antrag?.dokumente?.length ? antrag.dokumente : [{ titel: '', url: '' }],
   });
   const set = (k) => (e) => setF((x) => ({ ...x, [k]: e.target.value }));
-  const ausschuesse = config.ausschuesse?.length ? config.ausschuesse : STANDARD_AUSSCHUESSE;
+  const ausschuesse = [...new Set([...(daten.ausschuesse || []).map((a) => a.name), ...(config.ausschuesse?.length ? config.ausschuesse : STANDARD_AUSSCHUESSE)])];
   return (
     <DialogForm
       titel={antrag ? 'Antrag bearbeiten' : 'Neuer Antrag'}
@@ -87,7 +87,7 @@ export function AntraegeListe() {
   const [status, setStatus] = useState('');
   const [ausschuss, setAusschuss] = useState('');
   const alle = daten.antraege || [];
-  const ausschuesse = useMemo(() => [...new Set([...(config.ausschuesse || []), ...alle.map((a) => a.ausschuss).filter(Boolean)])], [alle, config.ausschuesse]);
+  const ausschuesse = useMemo(() => [...new Set([...(daten.ausschuesse || []).map((a) => a.name), ...(config.ausschuesse || []), ...alle.map((a) => a.ausschuss).filter(Boolean)])], [alle, config.ausschuesse, daten.ausschuesse]);
   const treffer = alle
     .filter((a) => !art || a.art === art)
     .filter((a) => !status || a.status === status)

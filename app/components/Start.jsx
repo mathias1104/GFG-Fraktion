@@ -1,7 +1,9 @@
 'use client';
-import { useApp, useJetzt, Icon, Status, Leer } from './ui';
+import { useState } from 'react';
+import { useApp, useJetzt, Icon, Status, Leer, Feld, DialogForm } from './ui';
 import { ThemaDialog } from './Sitzungen';
 import { AufgabeZeile } from './Aufgaben';
+import { VideoZeile, VideoDialog, stimmenZahl } from './Videothemen';
 import {
   sitzungStart, sitzungEnde, fristEnde, fristVorbei, fristText, datumLang, datumKurz, wienTag, zeitpunkt,
 } from '@/lib/domain';
@@ -127,12 +129,102 @@ function neuigkeiten(daten, me, seit) {
       n.push({ ts: k.am, text: `Kommentar: ${k.text.slice(0, 90)}${k.text.length > 90 ? ' …' : ''}`, wer: k.autorName, href: art === 'antrag' ? `#antrag-${id}` : `#sitzung-${id}` });
     }
   }
+  for (const v of daten.videothemen || []) {
+    if (v.erstelltAm > seit && fremd(v.autorId, v.autorName)) n.push({ ts: v.erstelltAm, text: `Neues Videothema: ${v.titel}`, wer: v.autorName, href: '#videothemen' });
+    if (v.statusAm > seit && v.statusVon !== me.name) n.push({ ts: v.statusAm, text: `Videothema ${v.titel}: ${v.status}`, wer: v.statusVon, href: '#videothemen' });
+  }
+  for (const b of daten.berichte || []) {
+    if (b.erstelltAm > seit && fremd(b.autorId, b.autorName)) {
+      const a = (daten.ausschuesse || []).find((x) => x.id === b.ausschussId);
+      n.push({ ts: b.erstelltAm, text: `Bericht aus dem Ausschuss ${a?.name || ''}`, wer: b.autorName, href: '#ausschuesse' });
+    }
+  }
+  for (const t of daten.termine || []) if (t.erstelltAm > seit && t.erstelltVon !== me.name) n.push({ ts: t.erstelltAm, text: `Neuer Termin: ${t.titel} am ${datumKurz(t.datum)}`, href: '#kalender' });
   return n.sort((a, b) => b.ts - a.ts).slice(0, 8);
 }
 
+function InfoDialog({ info }) {
+  const { mutate, schliesse, bestaetige, toast } = useApp();
+  const [f, setF] = useState({ titel: info?.titel || '', text: info?.text || '', wichtig: info ? !!info.wichtig : true });
+  return (
+    <DialogForm titel={info ? 'Info bearbeiten' : 'Info an alle'} knopf={info ? 'Speichern' : 'Veröffentlichen'} onClose={schliesse}
+      onSubmit={() => mutate('info.speichern', { ...f, id: info?.id }, info ? 'Info gespeichert' : 'Info veröffentlicht')}
+      gefahr={info && (
+        <button type="button" className="knopf gefahr" style={{ marginRight: 'auto' }} onClick={async () => {
+          if (await bestaetige('Info löschen?', info.titel)) { try { await mutate('info.loeschen', { id: info.id }, 'Info gelöscht'); } catch (e) { toast(e.message, true); } }
+        }}>Löschen</button>
+      )}>
+      <Feld label="Titel"><input value={f.titel} onChange={(e) => setF({ ...f, titel: e.target.value })} required maxLength={160} /></Feld>
+      <Feld label="Text"><textarea value={f.text} onChange={(e) => setF({ ...f, text: e.target.value })} maxLength={5000} style={{ minHeight: 130 }} /></Feld>
+      <label style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 14 }}>
+        <input type="checkbox" checked={f.wichtig} onChange={(e) => setF({ ...f, wichtig: e.target.checked })} style={{ width: 20, height: 20, accentColor: 'var(--gruen)' }} />
+        <span>Wichtig: alle sollen das Lesen bestätigen</span>
+      </label>
+    </DialogForm>
+  );
+}
+
+function Infos() {
+  const { daten, me, mutate, toast, oeffne } = useApp();
+  const [alleZeigen, setAlleZeigen] = useState(false);
+  const anzahl = (daten.mitglieder || []).length;
+  const grenze = Date.now() - 45 * 86400000;
+  const sortiert = [...(daten.infos || [])].sort((a, b) => (b.erstelltAm || 0) - (a.erstelltAm || 0));
+  const sichtbar = alleZeigen ? sortiert : sortiert.filter((i) => (i.wichtig && !(i.gelesen || {})[me.uid]) || i.erstelltAm > grenze).slice(0, 4);
+  if (!sortiert.length && !me.gr) return null;
+  return (
+    <section className="abschnitt">
+      <div className="abschnitt-kopf">
+        <h2>Infos an die Fraktion</h2>
+        <div className="knopfreihe">
+          {sortiert.length > sichtbar.length && <button className="knopf still klein" onClick={() => setAlleZeigen(true)}>Alle {sortiert.length} anzeigen</button>}
+          {me.gr && <button className="knopf zweit klein" onClick={() => oeffne(() => <InfoDialog />)}><Icon n="plus" size={18} />Info</button>}
+        </div>
+      </div>
+      {sichtbar.length === 0 && <p className="leise">{me.gr ? 'Mit „Info“ erreichst du alle. Bei wichtigen Infos siehst du, wer sie gelesen hat.' : 'Keine aktuellen Infos.'}</p>}
+      {sichtbar.map((i) => {
+        const gelesen = Object.entries(i.gelesen || {});
+        const ich = !!(i.gelesen || {})[me.uid];
+        return (
+          <article key={i.id} className={`info${ich || !i.wichtig ? ' gelesen' : ''}`}>
+            <div className="abschnitt-kopf" style={{ marginBottom: 0 }}>
+              <h3>{i.titel}</h3>
+              {me.gr && <button className="knopf still klein" aria-label="Info bearbeiten" onClick={() => oeffne(() => <InfoDialog info={i} />)}><Icon n="stift" size={16} /></button>}
+            </div>
+            {i.text && <p style={{ whiteSpace: 'pre-wrap' }}>{i.text}</p>}
+            <div className="zeile-meta">
+              <span>{i.autorName}, {zeitpunkt(i.erstelltAm)}</span>
+              {i.wichtig && <span className="etikett ton-offen"><Icon n="auge" size={14} />gelesen von {gelesen.length} von {anzahl}</span>}
+            </div>
+            {i.wichtig && !ich && (
+              <button className="knopf klein" style={{ marginTop: 12 }} onClick={async () => {
+                try { await mutate('info.gelesen', { id: i.id }, 'Danke, als gelesen bestätigt'); } catch (e) { toast(e.message, true); }
+              }}><Icon n="check" size={16} />Gelesen</button>
+            )}
+            {i.wichtig && gelesen.length > 0 && (
+              <details>
+                <summary>Wer hat gelesen?</summary>
+                <p style={{ marginTop: 6 }}>{gelesen.sort((a, b) => a[1].ts - b[1].ts).map(([, g]) => g.name).join(', ')}</p>
+                {me.gr && (() => {
+                  const namen = new Set(gelesen.map(([, g]) => g.name));
+                  const fehlen = (daten.mitglieder || []).filter((m) => !namen.has(m.name)).map((m) => m.name);
+                  return fehlen.length ? <p style={{ marginTop: 4 }}>Noch nicht: {fehlen.join(', ')}</p> : null;
+                })()}
+              </details>
+            )}
+          </article>
+        );
+      })}
+    </section>
+  );
+}
+
 export default function Start() {
-  const { daten, me, letzterBesuch } = useApp();
+  const { daten, me, letzterBesuch, oeffne } = useApp();
   const s = naechsteSitzung(daten.sitzungen || []);
+  const videos = (daten.videothemen || []).filter((v) => v.status !== 'veröffentlicht')
+    .sort((a, b) => (b.erstelltAm || 0) - (a.erstelltAm || 0)).slice(0, 4)
+    .sort((a, b) => stimmenZahl(b) - stimmenZahl(a));
   const neu = letzterBesuch ? neuigkeiten(daten, me, letzterBesuch) : [];
   const heute = wienTag();
   const aufgaben = (daten.aufgaben || []).filter((a) => a.status !== 'erledigt')
@@ -146,6 +238,8 @@ export default function Start() {
           {me.gr && <a className="knopf" href="#sitzungen">Sitzung anlegen</a>}
         </Leer>
       )}
+
+      <Infos />
 
       <div className="raster2">
         <section className="abschnitt">
@@ -198,8 +292,12 @@ export default function Start() {
           </ul>
         </section>
         <section className="abschnitt">
-          <div className="abschnitt-kopf"><h2>Neue Videothemen</h2></div>
-          <Leer titel="Kommt in Etappe 2" text="Hier erscheinen die neuesten Themen für Markus' Facebook-Videos mit den meisten Daumen hoch." />
+          <div className="abschnitt-kopf"><h2>Neue Videothemen</h2><a href="#videothemen" className="klein">Alle Videothemen</a></div>
+          {videos.length === 0 ? (
+            <Leer titel="Noch keine Videothemen" text="Schlag Markus ein Thema für sein nächstes Facebook-Video vor.">
+              <button className="knopf" onClick={() => oeffne(() => <VideoDialog />)}><Icon n="plus" />Thema vorschlagen</button>
+            </Leer>
+          ) : <ul className="liste">{videos.map((v) => <VideoZeile key={v.id} v={v} />)}</ul>}
         </section>
       </div>
     </>
