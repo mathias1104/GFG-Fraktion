@@ -340,8 +340,8 @@ a.zeile:hover { background: rgba(36, 92, 67, .04); }
 .ausschuss-kopf { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 2px solid var(--gruen); }
 .bericht { padding: 14px 0; border-bottom: 1px solid var(--linie); }
 .bericht p { white-space: pre-wrap; margin-top: 6px; }
-.unterreiter { display: flex; gap: 4px; border-bottom: 1px solid var(--linie); margin: 10px 0 22px; overflow-x: auto; }
-.unterreiter button { border: 0; background: none; padding: 10px 14px; font-weight: 700; color: var(--grau); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -1px; white-space: nowrap; font-size: 16px; }
+.unterreiter { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid var(--linie); margin: 10px 0 22px; }
+.unterreiter button { border: 0; background: none; padding: 10px 12px; font-weight: 700; color: var(--grau); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -1px; white-space: nowrap; font-size: 16px; }
 .unterreiter button[aria-selected='true'] { color: var(--gruen-dunkel); border-bottom-color: var(--gruen); }
 .top { padding: 16px 4px; border-bottom: 1px solid var(--linie); display: grid; grid-template-columns: 44px 1fr auto; gap: 4px 12px; }
 .top:first-child { border-top: 1px solid var(--linie); }

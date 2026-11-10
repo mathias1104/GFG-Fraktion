@@ -316,6 +316,11 @@ function Verwaltung() {
   return (
     <>
       <section>
+        <h2 style={{ marginBottom: 12 }}>Einstellungen</h2>
+        <Einstellungen />
+      </section>
+
+      <section className="abschnitt">
         <div className="abschnitt-kopf">
           <h2>Mitglieder</h2>
           <button className="knopf klein" onClick={() => oeffne(() => <MitgliedDialog />)}><Icon n="plus" size={18} />Mitglied hinzufügen</button>
@@ -383,19 +388,15 @@ function Verwaltung() {
         </section>
       </div>
 
-      <section className="abschnitt">
-        <h2 style={{ marginBottom: 12 }}>Einstellungen</h2>
-        <Einstellungen />
-      </section>
     </>
   );
 }
 
-export default function Gemeinderaete() {
+export default function Gemeinderaete({ unter }) {
   const { me, laden, toast } = useApp();
-  const [reiter, setReiter] = useState('vorbereitung');
+  const [reiter, setReiter] = useState(unter || 'vorbereitung');
   if (!me.gr) return <Freischalten />;
-  const REITER = [['vorbereitung', 'Gemeinderatssitzungen'], ['archiv', 'Abstimmungsarchiv'], ['verwaltung', 'Mitglieder und Einstellungen']];
+  const REITER = [['vorbereitung', 'GR-Sitzungen'], ['archiv', 'Archiv'], ['verwaltung', 'Mitglieder und Einstellungen']];
   return (
     <>
       <div className="abschnitt-kopf">

@@ -164,6 +164,32 @@ function InfoDialog({ info }) {
   );
 }
 
+function Einrichtung() {
+  const { me, config, daten } = useApp();
+  if (!me.gr) return null;
+  const mitglieder = daten.mitglieder || [];
+  const ohneMail = mitglieder.filter((m) => !m.email).length;
+  const schritte = [
+    { fertig: !!config.mitgliederPasswortGesetzt, text: 'Fraktionspasswort für die Vereinsmitglieder festlegen' },
+    { fertig: mitglieder.length > 0 && ohneMail === 0, text: ohneMail ? `E-Mail-Adressen eintragen (${ohneMail} fehlen noch)` : 'E-Mail-Adressen eintragen' },
+  ];
+  if (schritte.every((x) => x.fertig)) return null;
+  return (
+    <section className="flaeche" style={{ marginTop: 22, borderColor: 'var(--loess)' }}>
+      <h2 style={{ marginBottom: 8 }}>Einrichtung abschließen</h2>
+      <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 14px' }}>
+        {schritte.map((x) => (
+          <li key={x.text} style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '4px 0' }}>
+            <span className={`abhaken${x.fertig ? ' an' : ''}`} aria-hidden="true" style={{ cursor: 'default' }}>{x.fertig && <Icon n="check" size={16} />}</span>
+            <span style={x.fertig ? { color: 'var(--grau)', textDecoration: 'line-through' } : undefined}>{x.text}</span>
+          </li>
+        ))}
+      </ul>
+      <a className="knopf" href="#einstellungen">Zu Mitglieder und Einstellungen</a>
+    </section>
+  );
+}
+
 function Infos() {
   const { daten, me, mutate, toast, oeffne } = useApp();
   const [alleZeigen, setAlleZeigen] = useState(false);
@@ -239,6 +265,7 @@ export default function Start() {
         </Leer>
       )}
 
+      <Einrichtung />
       <Infos />
 
       <div className="raster2">

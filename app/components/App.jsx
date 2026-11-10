@@ -27,6 +27,7 @@ const REITER = [
 function leseRoute() {
   if (typeof window === 'undefined') return { seite: 'start' };
   const h = window.location.hash.replace(/^#/, '') || 'start';
+  if (h === 'einstellungen') return { seite: 'gemeinderaete', unter: 'verwaltung' };
   const m = h.match(/^(sitzung|modus|protokoll|antrag|grsitzung)-(.+)$/);
   if (m) return { seite: m[1], id: m[2] };
   return { seite: REITER.some((r) => r.id === h) ? h : 'start' };
@@ -192,7 +193,7 @@ export default function App() {
     case 'protokoll': inhalt = <Protokoll id={route.id} />; break;
     case 'antraege': inhalt = <AntraegeListe />; break;
     case 'antrag': inhalt = <AntragDetail id={route.id} />; break;
-    case 'gemeinderaete': inhalt = <Gemeinderaete />; break;
+    case 'gemeinderaete': inhalt = <Gemeinderaete key={route.unter || 'gr'} unter={route.unter} />; break;
     case 'grsitzung': inhalt = <GrSitzungDetail id={route.id} />; break;
     case 'aufgaben': inhalt = <AufgabenSeite />; break;
     case 'videothemen': inhalt = <Videothemen />; break;
