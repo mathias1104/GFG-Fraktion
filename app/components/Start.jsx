@@ -32,14 +32,14 @@ function Countdown({ s }) {
     return (
       <div className="countdown" aria-label={`Noch ${tage} Tage, ${std} Stunden`}>
         <span className="countdown-zahl">{tage}</span>
-        <span className="countdown-rest"><b>{tage === 1 ? 'Tag' : 'Tage'}</b>und {std} Std. {min} Min.</span>
+        <span className="countdown-rest"><b>{tage === 1 ? 'Tag' : 'Tage'}</b><span className="countdown-fein">und {std} Std. {min} Min.</span></span>
       </div>
     );
   }
   return (
     <div className="countdown" aria-label={`Noch ${std} Stunden ${min} Minuten`}>
       <span className="countdown-zahl">{std}:{String(min).padStart(2, '0')}</span>
-      <span className="countdown-rest"><b>Stunden</b>{sek} Sek.</span>
+      <span className="countdown-rest"><b>Stunden</b><span className="countdown-fein">{sek} Sek.</span></span>
     </div>
   );
 }

@@ -518,7 +518,7 @@ function Verlauf({ punkte, farbe }) {
         {punkte.map((p, i) => (
           <g key={p.monat}>
             <circle cx={x(i)} cy={y(p.wert)} r={hover === i ? 5 : 4} fill={farbe} stroke="var(--flaeche)" strokeWidth="2" />
-            <rect x={x(i) - (B / punkte.length) / 2} y="0" width={B / punkte.length} height={H} fill="transparent" onMouseEnter={() => setHover(i)} onFocus={() => setHover(i)} tabIndex={-1} />
+            <rect x={Math.max(0, x(i) - B / punkte.length / 2)} y="0" width={Math.min(B, x(i) + B / punkte.length / 2) - Math.max(0, x(i) - B / punkte.length / 2)} height={H} fill="transparent" onMouseEnter={() => setHover(i)} onFocus={() => setHover(i)} onClick={() => setHover(i)} />
           </g>
         ))}
       </svg>

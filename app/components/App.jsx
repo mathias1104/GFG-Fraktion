@@ -246,10 +246,10 @@ export default function App() {
           <div className="wer">
             <span className="name">{stand.me.name}</span>
             {stand.me.gr && <span className="gr-marke">Gemeinderat</span>}
-            {stand.me.admin && <a className="knopf still klein" href="#verwaltung" aria-label="Personen und Rollen"><Icon n="gruppe" size={18} /><span className="nur-breit">Personen</span></a>}
+            {stand.me.admin && <a className="knopf still klein nur-breit-flex" href="#verwaltung" aria-label="Personen und Rollen"><Icon n="gruppe" size={18} /><span className="nur-breit">Personen</span></a>}
             <Glocke />
-            {stand.me.gr && <a className="knopf still klein" href="#einstellungen" aria-label="Einstellungen"><Icon n="zahnrad" size={18} /><span className="nur-breit">Einstellungen</span></a>}
-            <button className="knopf still klein" onClick={ctx.abmelden}>Abmelden</button>
+            {stand.me.gr && <a className="knopf still klein nur-breit-flex" href="#einstellungen" aria-label="Einstellungen"><Icon n="zahnrad" size={18} /><span className="nur-breit">Einstellungen</span></a>}
+            <button className="knopf still klein nur-breit-flex" onClick={ctx.abmelden}>Abmelden</button>
           </div>
         </div>
         <nav className="reiter" aria-label="Hauptnavigation">
@@ -289,11 +289,12 @@ export default function App() {
               </div>
             ))}
             <div className="mehr-gruppe">
-              <h3>Für mich</h3>
+              <h3>Für mich: {stand.me.name}</h3>
               <ul className="mehr-liste">
                 <li><a href="#benachrichtigungen" onClick={ctx.schliesse}><Icon n="glocke" />Benachrichtigungen</a></li>
                 {stand.me.admin && <li><a href="#verwaltung" onClick={ctx.schliesse}><Icon n="gruppe" />Personen und Rollen</a></li>}
                 {stand.me.gr && <li><a href="#einstellungen" onClick={ctx.schliesse}><Icon n="zahnrad" />Einstellungen</a></li>}
+                <li><button type="button" onClick={() => { ctx.schliesse(); ctx.abmelden(); }}><Icon n="zurueck" />Abmelden</button></li>
               </ul>
             </div>
           </Dialog>

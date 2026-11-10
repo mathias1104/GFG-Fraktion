@@ -54,6 +54,7 @@ p { margin: 0; }
   background: var(--flaeche);
   border-bottom: 1px solid var(--linie);
 }
+.kopf { padding-top: env(safe-area-inset-top); }
 .kopf::before { content: ''; display: block; height: 5px; background: linear-gradient(90deg, var(--marke) 0 33.3%, var(--gelb) 33.3% 66.6%, var(--marke) 66.6% 100%); }
 .kopf-innen { max-width: 1080px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; gap: 16px; }
 .marke { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--tinte); }
@@ -307,7 +308,7 @@ a.zeile:hover { background: rgba(36, 92, 67, .04); }
 
 /* ---------- Etappe 2 ---------- */
 .mehr-liste { list-style: none; margin: 0; padding: 0; }
-.mehr-liste a { display: flex; gap: 14px; align-items: center; padding: 14px 6px; border-bottom: 1px solid var(--linie); text-decoration: none; color: var(--tinte); font-weight: 700; font-size: 17px; }
+.mehr-liste a, .mehr-liste button { width: 100%; border: 0; border-bottom: 1px solid var(--linie); background: none; cursor: pointer; text-align: left; display: flex; gap: 14px; align-items: center; padding: 14px 6px; border-bottom: 1px solid var(--linie); text-decoration: none; color: var(--tinte); font-weight: 700; font-size: 17px; }
 .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
 .chips button { border: 1.5px solid var(--linie); background: #fff; border-radius: 999px; padding: 6px 13px; font-weight: 700; font-size: 14.5px; cursor: pointer; color: var(--grau); }
 .chips button[aria-pressed='true'] { border-color: var(--gruen); background: var(--gruen-hell); color: var(--gruen-dunkel); }
@@ -503,7 +504,7 @@ a.zeile:hover { background: rgba(36, 92, 67, .04); }
 
 /* Beitrag */
 .beitrag-raster { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 36px; align-items: start; }
-@media (max-width: 860px) { .beitrag-raster { grid-template-columns: 1fr; gap: 24px; } }
+@media (max-width: 860px) { .beitrag-raster { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
 .fakten { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0 0 14px; font-size: 15px; }
 .fakten dt { color: var(--grau); }
 .fakten dd { margin: 0; }
@@ -530,7 +531,7 @@ a.zeile:hover { background: rgba(36, 92, 67, .04); }
 .medien-raster img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .medien-datei { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 11.5px; padding: 6px; text-align: center; color: var(--grau); word-break: break-all; }
 .medien-weg { position: absolute; top: 4px; right: 4px; width: 26px; height: 26px; border-radius: 50%; border: 0; background: rgba(23, 36, 29, .75); color: #fff; display: grid; place-items: center; cursor: pointer; }
-.vorschau-reiter { display: flex; gap: 4px; margin-bottom: 10px; }
+.vorschau-reiter { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
 .vorschau-reiter button { border: 0; background: none; padding: 6px 10px; border-radius: 999px; font-weight: 700; font-size: 14px; color: var(--grau); cursor: pointer; }
 .vorschau-reiter button[aria-pressed='true'] { background: var(--tinte); color: #fff; }
 
@@ -580,7 +581,8 @@ a.zeile:hover { background: rgba(36, 92, 67, .04); }
 /* Markenbaukasten */
 .baukasten { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .baukasten .breit { grid-column: 1 / -1; }
-@media (max-width: 760px) { .baukasten { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .baukasten { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 380px) { .farben { grid-template-columns: repeat(2, minmax(0, 1fr)); } .logo-flaechen { grid-template-columns: minmax(0, 1fr); } }
 .logo-flaechen { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin-bottom: 12px; }
 .logo-flaechen > div { border-radius: var(--r-s); display: grid; place-items: center; padding: 18px; min-height: 110px; }
 .logo-hell { background: var(--papier); }
@@ -617,3 +619,45 @@ a.zeile:hover { background: rgba(36, 92, 67, .04); }
 .zeile-knopf:hover { background: rgba(36, 92, 67, .04); }
 .rollen { display: inline-flex; flex-wrap: wrap; gap: 4px; }
 .passwort-form { max-width: 460px; }
+
+/* ---------- Passt sich jedem Bildschirm an ---------- */
+html, body { overflow-x: clip; max-width: 100%; }
+img, svg, video { max-width: 100%; }
+.zeile-haupt, .zeile-titel { overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  .nur-breit-flex { display: none !important; }
+  .kopf-innen { padding: 8px 14px; }
+  .marke-text { font-size: 18px; }
+  .wer { gap: 0; }
+}
+.etikett { max-width: 100%; white-space: normal; line-height: 1.2; border-radius: 13px; }
+.flaeche { min-width: 0; }
+@media (max-width: 380px) { .flaeche { padding: 16px 14px; } .abschnitt-kopf .knopf { flex-shrink: 0; } }
+.baustein > div { min-width: 0; overflow-wrap: anywhere; } .baustein > .knopf { flex-shrink: 0; }
+
+/* Startkarte am Handy kompakter, damit darunter gleich mehr zu sehen ist */
+@media (max-width: 760px) {
+  .naechste { padding: 18px 16px 16px; border-radius: 18px; }
+  .naechste-oben { gap: 12px; align-items: flex-start; flex-wrap: nowrap; }
+  .naechste-wann { flex: 1; min-width: 0; }
+  .naechste-wann h1 { font-size: 21px; }
+  .countdown { flex-direction: column; align-items: center; gap: 2px; flex: none; background: rgba(255,255,255,.07); border-radius: 14px; padding: 10px 12px 8px; min-width: 76px; }
+  .countdown-rest { text-align: center; }
+  .countdown-fein { display: none; }
+  .naechste-wann p { margin-top: 4px; font-size: 15px; }
+  .countdown-zahl { font-size: 48px; }
+  .countdown-rest { font-size: 14px; }
+  .countdown-rest b { font-size: 17px; }
+  .fahrplan { margin-top: 20px; }
+  .naechste-unten { margin-top: 18px; padding-top: 16px; gap: 10px; }
+  .naechste-unten .knopf { flex: 1 1 100%; justify-content: center; }
+  .naechste-unten > span { font-size: 14px !important; }
+}
+@media (max-width: 380px) {
+  .station b { font-size: 11.5px; }
+  .station span { font-size: 11px; }
+}
+/* Große Bildschirme: etwas mehr Breite nutzen */
+@media (min-width: 1400px) {
+  .kopf-innen, .reiter-innen, main { max-width: 1180px; }
+}
