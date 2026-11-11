@@ -17,6 +17,10 @@
    {
     "titel": "Ordner mit Unterlagen",
     "url": "https://drive.google.com/drive/folders/1UJwP3RwhJpfVulF0iiRpDmucWWbtsNvi"
+   },
+   {
+    "titel": "Nicht öffentliche Unterlagen",
+    "url": "https://drive.google.com/drive/folders/1evkToarTOyRnLRhXXWLWUjIB7lB43mzT"
    }
   ],
   "tops": [
@@ -863,6 +867,10 @@
    {
     "titel": "Ordner mit Unterlagen",
     "url": "https://drive.google.com/drive/folders/1Wv-_y9I0yHZJCYTIg6I1qe_YyzUJR3no"
+   },
+   {
+    "titel": "Nicht öffentliches Protokoll (Entwurf)",
+    "url": "https://drive.google.com/file/d/1IR-rf6pYSO678tk29qUX_7kGklroRbMM/view"
    }
   ],
   "tops": [
@@ -1210,10 +1218,10 @@
     "nr": "n.ö. 1",
     "titel": "Abschluss sowie Verlängerung bzw. Nachtrag von / zu Dienstverträgen",
     "nichtOeffentlich": true,
-    "ergebnis": "",
-    "abgestimmt": "",
-    "stimmen": "",
-    "notiz": "",
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "Vier Anstellungen: Hortpädagoge, zwei Teilzeitkräfte und ein Sonderdienstvertrag für den höheren Verwaltungsdienst (Mag. Stefan Loibl, ein Jahr befristet, Amtsleitung in Aussicht gestellt).",
     "gfgAntrag": false
    }
   ]
@@ -1236,6 +1244,10 @@
    {
     "titel": "Ordner mit Unterlagen",
     "url": "https://drive.google.com/drive/folders/1JO5QDchC83IGbdOrDn3WcjfFxl4NbFsB"
+   },
+   {
+    "titel": "Nicht öffentliches Protokoll (Entwurf)",
+    "url": "https://drive.google.com/file/d/1xwHHuWxMbi8Lwu_hG0JDM1mQSyE1lIj6/view"
    }
   ],
   "tops": [
@@ -1443,20 +1455,20 @@
     "nr": "n.ö. 1",
     "titel": "Abschluss eines Dienstvertrages",
     "nichtOeffentlich": true,
-    "ergebnis": "",
-    "abgestimmt": "",
-    "stimmen": "",
-    "notiz": "",
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "Anstellung einer Hortpädagogin ab 9.2.2026.",
     "gfgAntrag": false
    },
    {
     "nr": "n.ö. 2",
     "titel": "Auflösung eines Dienstverhältnisses",
     "nichtOeffentlich": true,
-    "ergebnis": "",
+    "ergebnis": "zur Kenntnis genommen",
     "abgestimmt": "",
     "stimmen": "",
-    "notiz": "",
+    "notiz": "Bericht: Pensionsantritt einer Mitarbeiterin mit 1.1.2026.",
     "gfgAntrag": false
    }
   ]
@@ -1479,6 +1491,14 @@
    {
     "titel": "Ordner mit Unterlagen",
     "url": "https://drive.google.com/drive/folders/17TwfhBIGc-Y0kOyD4L9eNE5WlW4KnIHc"
+   },
+   {
+    "titel": "Nicht öffentliches Protokoll (Entwurf)",
+    "url": "https://drive.google.com/file/d/1IVe3bNThtW8yJisOI64n7b3ABm6N28dw/view"
+   },
+   {
+    "titel": "Nicht öffentliche Unterlagen",
+    "url": "https://drive.google.com/drive/folders/1d-AnDN_79ZEEMoOpRqL19NRepMG_Yedh"
    }
   ],
   "tops": [
@@ -1744,12 +1764,12 @@
    },
    {
     "nr": "n.ö. 1",
-    "titel": "Anpassungen im Bereich der Kinderbetreuung, Nachträge verschiedener Dienstverträge (nicht öffentlich)",
+    "titel": "Anpassungen im Bereich der Kinderbetreuung, Nachträge verschiedener Dienstverträge",
     "nichtOeffentlich": true,
-    "ergebnis": "",
-    "abgestimmt": "",
-    "stimmen": "",
-    "notiz": "",
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "Personalumschichtung in Kindergärten und Hort ab 1.5.2026 wegen einer Pensionierung, Stundenanpassungen und Anrechnung von Vordienstzeiten.",
     "gfgAntrag": false
    }
   ]
@@ -1759,7 +1779,7 @@
   "datum": "2026-04-29",
   "uhrzeit": "19:00",
   "ort": "Gemeindeamt, Münichsthaler Straße 27",
-  "stand": "kein Protokoll",
+  "stand": "Protokoll",
   "unterlagen": [
    {
     "titel": "Einladungskurrende",
@@ -1768,12 +1788,16 @@
    {
     "titel": "Ordner mit Unterlagen",
     "url": "https://drive.google.com/drive/folders/1MNbzmwwPO9ImnEwiS4t4fkf4-4e18Z7X"
+   },
+   {
+    "titel": "Nicht öffentliche Unterlagen",
+    "url": "https://drive.google.com/drive/folders/1dp1tD-IX_lVmNRLRWzjXalXbT_3FzOaM"
    }
   ],
   "tops": [
    {
     "nr": "1",
-    "titel": "Eröffnung und Begrüßung",
+    "titel": "Eröffnung, Begrüßung und Feststellung der Beschlussfähigkeit",
     "nichtOeffentlich": false,
     "ergebnis": "",
     "abgestimmt": "",
@@ -1783,91 +1807,91 @@
    },
    {
     "nr": "2",
-    "titel": "Anmerkungen zum Gemeinderatsprotokoll vom 18.03.2026",
+    "titel": "Anmerkungen zum Gemeinderatsprotokoll vom 18.3.2026",
     "nichtOeffentlich": false,
-    "ergebnis": "",
+    "ergebnis": "zur Kenntnis genommen",
     "abgestimmt": "",
     "stimmen": "",
-    "notiz": "",
+    "notiz": "Keine Anmerkungen, Protokolle vom 18.3.2026 unterfertigt.",
     "gfgAntrag": false
    },
    {
     "nr": "3",
     "titel": "Energiebuchhaltung - Energieausweise Gemeindegebäude",
     "nichtOeffentlich": false,
-    "ergebnis": "",
-    "abgestimmt": "",
-    "stimmen": "",
-    "notiz": "",
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "Fehlende Energieausweise (Alte Volksschule, Amtshaus) für die Energiebuchhaltung beauftragt.",
     "gfgAntrag": false
    },
    {
     "nr": "4",
-    "titel": "Subvention, Pfarrgemeinde Manhartsbrunn Sanierung",
+    "titel": "Subvention, Pfarrgemeinde Manhartsbrunn, Sanierung",
     "nichtOeffentlich": false,
-    "ergebnis": "",
-    "abgestimmt": "",
-    "stimmen": "",
-    "notiz": "",
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "33 % der Kosten, höchstens € 25.000, für Ausmalen und Beleuchtung der Kirche.",
     "gfgAntrag": false
    },
    {
     "nr": "5",
     "titel": "Subvention Klinefelter Inter",
     "nichtOeffentlich": false,
-    "ergebnis": "",
-    "abgestimmt": "",
-    "stimmen": "",
-    "notiz": "",
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "€ 150 Subvention.",
     "gfgAntrag": false
    },
    {
     "nr": "6",
     "titel": "Subvention Elternverein",
     "nichtOeffentlich": false,
-    "ergebnis": "",
-    "abgestimmt": "",
-    "stimmen": "",
-    "notiz": "",
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "€ 250 für den Kinderfasching. Markus Haindl und Michael Bernard befangen.",
     "gfgAntrag": false
    },
    {
     "nr": "7",
     "titel": "Landesstraße L3113, Übernahme ins Gemeindeeigentum",
     "nichtOeffentlich": false,
-    "ergebnis": "",
-    "abgestimmt": "",
-    "stimmen": "",
-    "notiz": "",
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "Übernahme L3113 (km 0 bis 0,237) gegen einmalig € 23.400 vom Land.",
     "gfgAntrag": false
    },
    {
     "nr": "8",
     "titel": "Musikschulverband Beitritt",
     "nichtOeffentlich": false,
-    "ergebnis": "",
-    "abgestimmt": "",
-    "stimmen": "",
-    "notiz": "",
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "Gründung des Gemeindeverbands der Musik- und Kunstschule Wolkersdorf und Umgebung.",
     "gfgAntrag": false
    },
    {
     "nr": "9",
     "titel": "Musikschulverband Nebenvereinbarung",
     "nichtOeffentlich": false,
-    "ergebnis": "",
-    "abgestimmt": "",
-    "stimmen": "",
-    "notiz": "",
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "Nebenvereinbarung zum Musikschulverband (Deckelung der Unterrichtszeiten, Verzicht auf Kommunalsteuer).",
     "gfgAntrag": false
    },
    {
     "nr": "10",
     "titel": "Teilfreimachung BB-A5",
     "nichtOeffentlich": false,
-    "ergebnis": "",
-    "abgestimmt": "",
-    "stimmen": "",
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
     "notiz": "",
     "gfgAntrag": false
    },
@@ -1875,19 +1899,19 @@
     "nr": "11",
     "titel": "Pumptrack Auftragsvergabe",
     "nichtOeffentlich": false,
-    "ergebnis": "",
+    "ergebnis": "abgesetzt",
     "abgestimmt": "",
     "stimmen": "",
-    "notiz": "",
+    "notiz": "Abgesetzt, die Unterlagen waren nicht eingelangt.",
     "gfgAntrag": false
    },
    {
     "nr": "12",
     "titel": "Bauführung auf öffentlichem Gut, Zustimmung",
     "nichtOeffentlich": false,
-    "ergebnis": "",
-    "abgestimmt": "",
-    "stimmen": "",
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
     "notiz": "",
     "gfgAntrag": false
    },
@@ -1895,20 +1919,20 @@
     "nr": "13",
     "titel": "Bericht des Jugendgemeinderats",
     "nichtOeffentlich": false,
-    "ergebnis": "",
+    "ergebnis": "zur Kenntnis genommen",
     "abgestimmt": "",
     "stimmen": "",
-    "notiz": "",
+    "notiz": "Bericht des Jugendgemeinderats Mathias Mayer (Beilage D). Dazu Dringlichkeitsantrag 13a: Grundnutzung für Baustrom der Firma Felzl, einstimmig.",
     "gfgAntrag": false
    },
    {
     "nr": "n.ö. 1",
     "titel": "Personelles",
     "nichtOeffentlich": true,
-    "ergebnis": "",
+    "ergebnis": "angenommen",
     "abgestimmt": "",
     "stimmen": "",
-    "notiz": "",
+    "notiz": "Laut nicht öffentlichem Protokoll vom 7.7.2026 hier festgelegt: Freistellung des Amtsleiters bei vollen Bezügen, Einschätzung durch einen Rechtsanwalt, Prüfung einer Ermahnung, parallel eine einvernehmliche Lösung anstreben. Ein eigenes Protokoll dazu liegt nicht vor.",
     "gfgAntrag": false
    }
   ]
@@ -1927,6 +1951,14 @@
    {
     "titel": "Ordner mit Unterlagen",
     "url": "https://drive.google.com/drive/folders/1gnsk7Jrx8iRXpcF_bDySTM7MoVN6P4Xx"
+   },
+   {
+    "titel": "Nicht öffentliches Protokoll",
+    "url": "https://drive.google.com/file/d/1ULSGCQ6RZX3rPKTObnAzIqX3KFrcv96l/view"
+   },
+   {
+    "titel": "Nicht öffentliche Unterlagen",
+    "url": "https://drive.google.com/drive/folders/1aGYi_V0nxmogMJxYjnUFRV0BZ-hQuw_z"
    }
   ],
   "tops": [
@@ -2248,6 +2280,66 @@
     "abgestimmt": "dafür",
     "stimmen": "einstimmig",
     "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 1a",
+    "titel": "Personelles: Michael Klaus, mögliche dienstrechtliche Maßnahmen",
+    "nichtOeffentlich": true,
+    "ergebnis": "angenommen",
+    "abgestimmt": "uneinheitlich",
+    "stimmen": "mehrheitlich",
+    "notiz": "Enthebung vom Funktionsdienstposten Amtsleiter mit 8.7.2026, außer es kommt rasch eine einvernehmliche Lösung zustande. Sonst neuerliche Befassung wegen Kündigung. Gegenstimmen Roman Beißer, Vanessa Gschwindl, Markus Haindl.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 1b",
+    "titel": "Personelles: Hort, Aufnahme einer Hortassistenz",
+    "nichtOeffentlich": true,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "Neue Hortassistenz ab 1.9.2026.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 1c",
+    "titel": "Personelles: Bauhof, Nachträge zu Dienstverträgen, Rufbereitschaft",
+    "nichtOeffentlich": true,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "Rufbereitschaft wird aus zwei Dienstverträgen herausgenommen und gesondert abgegolten. Bgm. Stefan Haindl und GR Markus Haindl befangen.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 1d",
+    "titel": "Personelles: Musikschule, Bläserklasse, Änderung der Einstufung",
+    "nichtOeffentlich": true,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "Höhere Einstufung nach abgeschlossenem Masterstudium.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 1e",
+    "titel": "Personelles: Bauhof, Wechsel in das neue Dienstrecht",
+    "nichtOeffentlich": true,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "Wechsel eines Mitarbeiters in das GBedG 2025.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 2",
+    "titel": "Wohnbauförderung",
+    "nichtOeffentlich": true,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "Ortsübliche Wohnbauförderung gewährt, obwohl die Altersgrenze der Förderrichtlinie knapp überschritten war.",
     "gfgAntrag": false
    }
   ]
