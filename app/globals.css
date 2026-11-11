@@ -661,3 +661,45 @@ img, svg, video { max-width: 100%; }
 @media (min-width: 1400px) {
   .kopf-innen, .reiter-innen, main { max-width: 1180px; }
 }
+
+/* ---------- Bilanz ---------- */
+.bilanz-kacheln { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.bilanz-kachel { background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--r-m); padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; border-top: 4px solid var(--grau-hell); }
+.bilanz-kachel.gesamt { border-top-color: var(--tinte); }
+.bilanz-kachel.k-gut { border-top-color: var(--marke); }
+.bilanz-kachel.k-aktiv { border-top-color: var(--blau); }
+.bilanz-kachel.k-schlecht { border-top-color: var(--rot); }
+.bilanz-kachel > span:nth-child(2) { font-weight: 700; }
+.bilanz-zahl { font-family: var(--display); font-weight: 800; font-size: 38px; line-height: 1; font-variant-numeric: tabular-nums; }
+.bilanz-balken { display: flex; gap: 2px; height: 12px; margin: 14px 0 4px; border-radius: 6px; overflow: hidden; }
+.bilanz-balken > span { display: block; min-width: 6px; }
+.b-gut { background: var(--marke); } .b-aktiv { background: var(--blau); } .b-schlecht { background: var(--rot); }
+@media (max-width: 760px) { .bilanz-kacheln { grid-template-columns: repeat(2, minmax(0, 1fr)); } .bilanz-zahl { font-size: 32px; } }
+
+.andere-karten { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.andere-karte { display: flex; flex-direction: column; gap: 10px; background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--r-m); padding: 16px; color: var(--tinte); text-decoration: none; }
+.andere-karte:hover { border-color: var(--gruen); }
+.andere-weg { list-style: none; margin: 0; padding: 0 0 0 4px; display: grid; gap: 8px; position: relative; font-size: 14.5px; }
+.andere-weg::before { content: ''; position: absolute; left: 9px; top: 10px; bottom: 10px; width: 2px; background: var(--linie); }
+.andere-weg li { display: flex; gap: 10px; align-items: flex-start; position: relative; }
+.andere-weg .punkt { width: 12px; height: 12px; border-radius: 50%; flex: none; margin-top: 4px; border: 2px solid var(--flaeche); box-shadow: 0 0 0 1px var(--linie); }
+.punkt.p-schlecht { background: var(--rot); } .punkt.p-gut { background: var(--marke); }
+
+.bilanz-zeile { align-items: center; }
+.still-dauer { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex: none; width: 170px; font-size: 13.5px; text-align: right; }
+.still-balken { display: block; width: 100%; height: 6px; border-radius: 3px; background: var(--papier); overflow: hidden; }
+.still-balken > span { display: block; height: 100%; border-radius: 3px; background: var(--grau-hell); }
+.s-gelb .still-balken > span { background: #D9A400; }
+.s-rot .still-balken > span { background: var(--rot); }
+.s-rot b { color: var(--rot); }
+@media (max-width: 560px) { .bilanz-zeile { flex-wrap: wrap; } .still-dauer { width: 100%; align-items: flex-start; text-align: left; order: 3; } }
+
+.archiv-filter { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 8px; }
+.archiv-filter .eingabe { max-width: 320px; }
+.archiv-tabelle td { vertical-align: top; }
+@media (max-width: 700px) {
+  .archiv-tabelle thead { display: none; }
+  .archiv-tabelle tr { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; padding: 10px 0; border-bottom: 1px solid var(--linie); }
+  .archiv-tabelle td { border: 0; padding: 0; }
+  .archiv-tabelle td:nth-child(2) { grid-column: 1 / -1; grid-row: 1; }
+}

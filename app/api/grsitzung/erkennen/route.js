@@ -9,10 +9,16 @@ export const maxDuration = 60;
 export async function POST(req) {
   const me = await leseSitzung();
   if (!me?.gr) return NextResponse.json({ fehler: 'Das dürfen nur Gemeinderäte.' }, { status: 403 });
-  const { pfad } = await req.json().catch(() => ({}));
+  const { pfad, text: ocrText } = await req.json().catch(() => ({}));
+  // Text aus der Texterkennung im Browser (bei Scans) direkt auswerten
+  if (typeof ocrText === 'string' && ocrText.trim()) {
+    const r = erkenneEinladung(ocrText.slice(0, 60000));
+    return NextResponse.json({ ok: true, ...r, zeichen: ocrText.length, scan: true });
+  }
   if (!String(pfad || '').startsWith('gr/')) return NextResponse.json({ fehler: 'Ungültige Datei.' }, { status: 400 });
   try {
-    const text = await textAusDatei(pfad);
+    const text = await textAusDatei(pfad).catch(() => '');
+    if (text.replace(/\s/g, '').length < 150) return NextResponse.json({ ok: true, scan: true, zeichen: text.length, datum: '', uhrzeit: '', ort: '', tops: [] });
     const r = erkenneEinladung(text);
     return NextResponse.json({ ok: true, ...r, zeichen: text.length });
   } catch (e) {

@@ -2,6 +2,10 @@
 import { useState } from 'react';
 import { useApp, Icon, Feld, DialogForm, Leer } from './ui';
 import { Ablage, DateiListe, dateiUrl, lesbar } from './Dateien';
+import Bilanz from './Bilanz';
+
+const ERGEBNIS_TON = { angenommen: 'gut', 'abgeändert angenommen': 'gut', abgelehnt: 'schlecht', abgesetzt: 'offen', vertagt: 'offen', 'zur Kenntnis genommen': 'leise' };
+const STAND_TON = { Protokoll: 'gut', Protokollentwurf: 'offen', 'kein Protokoll': 'schlecht' };
 import { zeitpunkt, LINIEN, LINIE_TON, GR_ERGEBNISSE, datumLang, datumKurz, wienTag } from '@/lib/domain';
 
 function Freischalten() {
@@ -146,11 +150,20 @@ function TopDialog({ g, top }) {
 
 
 /** Lässt eine abgelegte Einladung lesen und liefert Datum, Ort und TOPs */
-async function erkenne(datei) {
-  const r = await fetch('/api/grsitzung/erkennen', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pfad: datei.pfad }) });
-  const j = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(j.fehler || 'Die Datei konnte nicht gelesen werden.');
-  return j;
+async function erkenne(datei, fortschritt = () => {}) {
+  const frage = async (body) => {
+    const r = await fetch('/api/grsitzung/erkennen', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.fehler || 'Die Datei konnte nicht gelesen werden.');
+    return j;
+  };
+  fortschritt('Datei wird gelesen');
+  const j = /^image\//.test(datei.typ || '') ? { scan: true, tops: [] } : await frage({ pfad: datei.pfad });
+  if (!j.scan || j.tops?.length) return j;
+  // Gescannte Einladung: Text im Browser erkennen, dann auswerten
+  const { leseScan } = await import('./ocr');
+  const text = await leseScan(dateiUrl(datei), fortschritt);
+  return frage({ text });
 }
 const wieEinladung = (d) => /einladung|kurrende|tagesordnung|kundmachung/i.test(d.name || '');
 
@@ -222,13 +235,14 @@ function TopVorschau({ g, erkannt, datei, dateien }) {
 function Unterlagen({ g }) {
   const { mutate, oeffne, toast } = useApp();
   const [liest, setLiest] = useState('');
+  const [schritt, setSchritt] = useState('');
   const lies = async (d) => {
     setLiest(d.pfad);
     try {
-      const e = await erkenne(d);
+      const e = await erkenne(d, setSchritt);
       oeffne(() => <TopVorschau g={g} erkannt={e} datei={d} />);
     } catch (err) { toast(err.message, true); }
-    setLiest('');
+    setLiest(''); setSchritt('');
   };
   return (
     <section className="abschnitt">
@@ -243,6 +257,7 @@ function Unterlagen({ g }) {
             <Icon n="funke" size={16} />{liest === d.pfad ? 'Liest …' : 'TOPs erkennen'}
           </button>
         )} />
+      {liest && <p className="hinweis info" aria-live="polite" style={{ marginBottom: 10 }}>{schritt || 'Wird gelesen'} … Bei gescannten Einladungen dauert das etwa eine halbe Minute.</p>}
       <Ablage bereich="gr" kompakt={(g.dateien || []).length > 0}
         text="Einladungskurrende und Unterlagen ablegen" hinweis="PDF, Word, Bilder. Aus der Einladung werden die TOPs automatisch gelesen."
         onFertig={async (neu) => {
@@ -259,13 +274,14 @@ function Unterlagen({ g }) {
 function AusEinladung() {
   const { oeffne, toast } = useApp();
   const [liest, setLiest] = useState(false);
-  return liest ? <p className="hinweis info" aria-live="polite">Einladung wird gelesen …</p> : (
-    <Ablage bereich="gr" mehrere={false} accept=".pdf,.docx,.txt,application/pdf"
+  const [schritt, setSchritt] = useState('');
+  return liest ? <p className="hinweis info" aria-live="polite">{schritt || 'Einladung wird gelesen'} … Bei gescannten Einladungen dauert das etwa eine halbe Minute.</p> : (
+    <Ablage bereich="gr" mehrere={false} accept=".pdf,.docx,.txt,application/pdf,image/*"
       text="Neue Einladung ablegen" hinweis="Die Sitzung wird mit Datum, Ort und allen TOPs vorbereitet."
       onFertig={async ([d]) => {
         setLiest(true);
         try {
-          const e = await erkenne(d);
+          const e = await erkenne(d, setSchritt);
           oeffne(() => <TopVorschau erkannt={e} datei={d} dateien={[d]} />);
         } catch (err) { toast(err.message, true); }
         setLiest(false);
@@ -280,6 +296,7 @@ export function GrSitzungDetail({ id }) {
   if (!g) return <><a className="zurueck" href="#gemeinderaete"><Icon n="zurueck" size={18} />Gemeinderäte</a><Leer titel="Sitzung nicht gefunden" /></>;
   const tops = g.tops || [];
   const mitLinie = tops.filter((t) => t.linie && t.linie !== 'offen').length;
+  const vorbei = g.datum < wienTag();
   return (
     <>
       <a className="zurueck" href="#gemeinderaete"><Icon n="zurueck" size={18} />Gemeinderäte</a>
@@ -287,6 +304,8 @@ export function GrSitzungDetail({ id }) {
         <div>
           <h1>{g.titel || 'Gemeinderatssitzung'}</h1>
           <p className="leise">{datumLang(g.datum)}{g.uhrzeit ? `, ${g.uhrzeit} Uhr` : ''}{g.ort ? `, ${g.ort}` : ''}</p>
+          {g.stand && <p className="zeile-meta" style={{ marginTop: 6 }}><span className={`etikett ton-${STAND_TON[g.stand] || 'leise'}`}>{g.stand === 'kein Protokoll' ? 'Protokoll fehlt noch' : g.stand}</span>
+            {(g.unterlagen || []).filter((u) => u.url).map((u, i) => <a key={i} href={u.url} target="_blank" rel="noreferrer">{u.titel}</a>)}</p>}
         </div>
         <button className="knopf zweit" onClick={() => oeffne(() => <GrSitzungDialog g={g} />)}><Icon n="stift" size={18} />Bearbeiten</button>
       </div>
@@ -295,7 +314,7 @@ export function GrSitzungDetail({ id }) {
       <section className="abschnitt">
         <div className="abschnitt-kopf">
           <h2>Tagesordnung der Gemeinde</h2>
-          <span className="leise klein">{tops.length} TOPs, {mitLinie} mit Linie</span>
+          <span className="leise klein">{tops.length} TOPs, {vorbei ? `${tops.filter((t) => t.ergebnis).length} mit Ergebnis` : `${mitLinie} mit Linie`}</span>
         </div>
         {tops.length === 0 ? <Leer titel="Noch keine TOPs" text="Leg unten die Einladung ab, dann werden die TOPs automatisch eingetragen. Oder trag sie händisch ein." /> : (
           <div>
@@ -305,20 +324,21 @@ export function GrSitzungDetail({ id }) {
                 <div>
                   <div className="zeile-titel">{t.titel}</div>
                   <div className="zeile-meta">
-                    <Linie wert={t.linie} />
+                    {t.gfgAntrag && <span className="etikett ton-aktiv">GFG-Antrag</span>}
+                    {!(t.ergebnis && t.linie === t.abgestimmt) && !(vorbei && (!t.linie || t.linie === 'offen')) && <Linie wert={t.linie} />}
                     {t.nichtOeffentlich && <span className="etikett ton-leise">nicht öffentlich</span>}
-                    {t.ergebnis && <span className="etikett ton-aktiv">Ergebnis: {t.ergebnis}</span>}
+                    {t.ergebnis && <span className={`etikett ton-${ERGEBNIS_TON[t.ergebnis] || 'aktiv'}`}>{t.ergebnis}{t.stimmen ? `, ${t.stimmen}` : ''}</span>}
                     {t.abgestimmt && <span>GFG stimmte {t.abgestimmt === 'uneinheitlich' ? 'uneinheitlich' : t.abgestimmt}</span>}
                     {t.unterlage && <a href={t.unterlage} target="_blank" rel="noreferrer">Unterlage</a>}
                     {t.datei && <a href={dateiUrl({ pfad: t.datei, name: (g.dateien || []).find((d) => d.pfad === t.datei)?.name })} target="_blank" rel="noreferrer">{(g.dateien || []).find((d) => d.pfad === t.datei)?.name || 'Datei'}</a>}
                   </div>
                   {(t.begruendung || t.sprecher || t.wortmeldung) && (
                     <div className="top-linie">
-                      {t.begruendung && <div><b>Begründung</b><br />{t.begruendung}</div>}
+                      {t.begruendung && <div><b>{t.geaendertVon === 'Übernahme' ? 'Aus dem Protokoll' : 'Begründung'}</b><br />{t.begruendung}</div>}
                       {t.sprecher && <div><b>Wortmeldung</b><br />{t.sprecher}{t.wortmeldung ? `: ${t.wortmeldung}` : ''}</div>}
                     </div>
                   )}
-                  {t.geaendertVon && <p className="leise mini" style={{ marginTop: 6 }}>Zuletzt {t.geaendertVon}, {zeitpunkt(t.geaendertAm)}</p>}
+                  {t.geaendertVon && t.geaendertVon !== 'Übernahme' && <p className="leise mini" style={{ marginTop: 6 }}>Zuletzt {t.geaendertVon}, {zeitpunkt(t.geaendertAm)}</p>}
                 </div>
                 <button className="knopf still klein" aria-label={`TOP ${t.nr} bearbeiten`} onClick={() => oeffne(() => <TopDialog g={g} top={t} />)}><Icon n="stift" size={18} /></button>
               </article>
@@ -346,7 +366,10 @@ function Vorbereitung() {
         <a className="zeile" href={`#grsitzung-${g.id}`}>
           <span className="zeile-haupt">
             <span className="zeile-titel">{g.titel || 'Gemeinderatssitzung'} am {datumKurz(g.datum)}</span>
-            <span className="zeile-meta"><span>{tops.length} TOPs</span>{offen > 0 && g.datum >= heute && <span className="etikett ton-offen">{offen} ohne Linie</span>}{g.ort && <span>{g.ort}</span>}</span>
+            <span className="zeile-meta"><span>{tops.length} TOPs</span>{offen > 0 && g.datum >= heute && <span className="etikett ton-offen">{offen} ohne Linie</span>}
+              {tops.some((t) => t.gfgAntrag) && <span className="etikett ton-aktiv">{tops.filter((t) => t.gfgAntrag).length} GFG-Anträge</span>}
+              {g.stand && g.datum < heute && <span className={`etikett ton-${STAND_TON[g.stand] || 'leise'}`}>{g.stand === 'kein Protokoll' ? 'Protokoll fehlt' : g.stand}</span>}
+              {g.ort && g.datum >= heute && <span>{g.ort}</span>}</span>
           </span>
           <Icon n="weiter" />
         </a>
@@ -374,25 +397,37 @@ function Vorbereitung() {
 function Archiv() {
   const { daten } = useApp();
   const [q, setQ] = useState('');
+  const [filter, setFilter] = useState('alle');
+  const FILTER = [['alle', 'Alle'], ['gfg', 'GFG-Anträge'], ['dagegen', 'GFG dagegen'], ['abgelehnt', 'Abgelehnt']];
   const zeilen = (daten.grsitzungen || [])
     .flatMap((g) => (g.tops || []).map((t) => ({ ...t, g })))
+    .filter((t) => !t.nichtOeffentlich || t.ergebnis)
+    .filter((t) => filter === 'alle' || (filter === 'gfg' && t.gfgAntrag) || (filter === 'dagegen' && t.abgestimmt === 'dagegen') || (filter === 'abgelehnt' && t.ergebnis === 'abgelehnt'))
     .filter((t) => !q.trim() || `${t.titel} ${t.begruendung} ${t.ergebnis}`.toLowerCase().includes(q.toLowerCase()))
-    .sort((a, b) => b.g.datum.localeCompare(a.g.datum) || (Number(a.nr) || 0) - (Number(b.nr) || 0));
+    .sort((a, b) => b.g.datum.localeCompare(a.g.datum) || (Number(a.nr) || 999) - (Number(b.nr) || 999));
   return (
     <>
-      <p className="leise" style={{ marginBottom: 14 }}>Unser bisheriges Abstimmungsverhalten im Gemeinderat, aus allen erfassten TOPs.</p>
-      <input className="eingabe" type="search" placeholder="Suchen, z. B. Feldgasse" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Archiv durchsuchen" style={{ marginBottom: 16 }} />
+      <p className="leise" style={{ marginBottom: 14 }}>Alle Tagesordnungspunkte seit 2025 mit Ergebnis und unserem Abstimmungsverhalten, aus Einladungen und Protokollen.</p>
+      <div className="archiv-filter">
+        <input className="eingabe" type="search" placeholder="Suchen, z. B. Kläranlage" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Archiv durchsuchen" />
+        <div className="chips" role="group" aria-label="Filter">
+          {FILTER.map(([k, l]) => <button key={k} type="button" className="chip" aria-pressed={filter === k} onClick={() => setFilter(k)}>{l}</button>)}
+        </div>
+      </div>
+      <p className="leise klein" style={{ margin: '0 0 10px' }}>{zeilen.length} Einträge</p>
       {zeilen.length === 0 ? <p className="leise">Keine Einträge.</p> : (
-        <table className="tabelle">
-          <thead><tr><th>Sitzung</th><th>TOP</th><th>Linie</th><th>GFG stimmte</th><th>Ergebnis</th></tr></thead>
+        <table className="tabelle archiv-tabelle">
+          <thead><tr><th>Sitzung</th><th>TOP</th><th>GFG stimmte</th><th>Ergebnis</th></tr></thead>
           <tbody>
             {zeilen.map((t) => (
               <tr key={t.g.id + t.key}>
                 <td className="nowrap"><a href={`#grsitzung-${t.g.id}`}>{datumKurz(t.g.datum)}</a></td>
-                <td><b>{t.nr ? `${t.nr}. ` : ''}{t.titel}</b>{t.begruendung && <div className="leise klein">{t.begruendung}</div>}</td>
-                <td><Linie wert={t.linie} /></td>
-                <td>{t.abgestimmt || <span className="leise">nicht erfasst</span>}</td>
-                <td>{t.ergebnis || <span className="leise">offen</span>}</td>
+                <td>
+                  <b>{t.nr ? `${t.nr}. ` : ''}{t.titel}</b>{t.gfgAntrag && <span className="etikett ton-aktiv" style={{ marginLeft: 6 }}>GFG-Antrag</span>}
+                  {t.begruendung && <div className="leise klein">{t.begruendung}</div>}
+                </td>
+                <td>{t.abgestimmt ? <Linie wert={t.abgestimmt} /> : <span className="leise">nicht erfasst</span>}</td>
+                <td>{t.ergebnis ? <span className={`etikett ton-${ERGEBNIS_TON[t.ergebnis] || 'aktiv'}`}>{t.ergebnis}{t.stimmen ? `, ${t.stimmen}` : ''}</span> : <span className="leise">offen</span>}</td>
               </tr>
             ))}
           </tbody>
@@ -463,7 +498,7 @@ export default function Gemeinderaete({ unter }) {
   const { me } = useApp();
   const [reiter, setReiter] = useState(unter || 'vorbereitung');
   if (!me.gr) return <Freischalten />;
-  const REITER = [['vorbereitung', 'GR-Sitzungen'], ['archiv', 'Archiv'], ['verwaltung', 'Einstellungen']];
+  const REITER = [['vorbereitung', 'GR-Sitzungen'], ['bilanz', 'Bilanz'], ['archiv', 'Archiv'], ['verwaltung', 'Einstellungen']];
   return (
     <>
       <div className="abschnitt-kopf">
@@ -474,6 +509,7 @@ export default function Gemeinderaete({ unter }) {
         {REITER.map(([k, l]) => <button key={k} type="button" role="tab" aria-selected={reiter === k} onClick={() => setReiter(k)}>{l}</button>)}
       </div>
       {reiter === 'vorbereitung' && <Vorbereitung />}
+      {reiter === 'bilanz' && <Bilanz />}
       {reiter === 'archiv' && <Archiv />}
       {reiter === 'verwaltung' && <Verwaltung />}
     </>

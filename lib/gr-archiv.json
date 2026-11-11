@@ -1,0 +1,2694 @@
+[
+ {
+  "id": "gr-2025-04-10",
+  "datum": "2025-04-10",
+  "uhrzeit": "18:00",
+  "ort": "Kulturhaus Eibesbrunn, Wiener Straße 3",
+  "stand": "Protokoll",
+  "unterlagen": [
+   {
+    "titel": "Tagesordnung",
+    "url": "https://drive.google.com/file/d/1OF7rzeoZABURugQZWRH-CACIP4X4dQin/view"
+   },
+   {
+    "titel": "Protokoll",
+    "url": "https://drive.google.com/file/d/1nALBh5hdhHfByhNW2eAHmJjqiXY_N6SJ/view"
+   },
+   {
+    "titel": "Ordner mit Unterlagen",
+    "url": "https://drive.google.com/drive/folders/1UJwP3RwhJpfVulF0iiRpDmucWWbtsNvi"
+   }
+  ],
+  "tops": [
+   {
+    "nr": "1",
+    "titel": "Eröffnung, Begrüßung und Feststellung der Beschlussfähigkeit",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "2",
+    "titel": "Tagesordnung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dagegen",
+    "stimmen": "13:8",
+    "notiz": "Dringlichkeitsantrag des Bürgermeisters: Bild- und Tonaufzeichnung untersagt. GFG für die Aufzeichnung.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "3",
+    "titel": "Protokolle über die GR – Sitzung am 9.12.2024",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "4",
+    "titel": "Bericht des Prüfungsausschusses",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "5",
+    "titel": "Rechnungsabschluss 2024",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "6",
+    "titel": "Beschluss über die weitere Zahl der Gemeinderatsausschüsse und deren Aufgabenbe-",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "7",
+    "titel": "Beschlussfassung über die Zahl der Ausschussmitglieder",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "8",
+    "titel": "Beschlussfassung über das Vorschlagsrecht für die Besetzung einer Vorsitzendenstel-",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "9",
+    "titel": "Wahl der Mitglieder der Ausschüsse",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "10",
+    "titel": "Bestellung von Ortsvorstehern",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dagegen",
+    "stimmen": "13:8",
+    "notiz": "Vier Ortsvorsteher ernannt. GFG hielt zwei für ausreichend (Sparsamkeit).",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "11",
+    "titel": "Bestellung eines Delegierten für die Tourismusverbände",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "12",
+    "titel": "Bestellung von vier Delegierten in den Rußbach - Wasserverband",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "13",
+    "titel": "Bestellung von Delegierten für die Schulgemeinden in Wolkersdorf (HS, Polytechni-",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "14",
+    "titel": "Bestellung eines Vertreters in Vorstand der Region um Wolkersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "15",
+    "titel": "Bestellung eines Vertreters in Vorstand des GAUM",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "16",
+    "titel": "Bestellung von Delegierten in die örtlichen Verschönerungs- und Dorferneuerungs-",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "17",
+    "titel": "Bestellung des Umweltgemeinderates",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "18",
+    "titel": "Bestellung des Jugendgemeinderates",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "GR Mathias Mayer zum Jugendgemeinderat bestellt.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "19",
+    "titel": "Bestellung eines Bildungsgemeinderates",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "20",
+    "titel": "Bestellung eines EU-Gemeinderates",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "21",
+    "titel": "Bestellung eines Vertreters in den Sozialbeirat",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "22",
+    "titel": "Bestellung von zwei Zivilschutzbeauftragten",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "23",
+    "titel": "Bestellung eines Vertreters in das Dialogforum betreffend Flughafen Wien",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "24",
+    "titel": "Bestellung eines Polizei / Sicherheitsbeauftragten",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "25",
+    "titel": "Neubestellung eines Datenschutzbeauftragten (Gemeindebediensteter)",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "26",
+    "titel": "Vertreter - Klimabündnis",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "27",
+    "titel": "Bestellung – grundverkehrsbehördliche Ortsvertretung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "28",
+    "titel": "Subventionen, Zuschüsse, Mitgliedsbeiträge",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "29",
+    "titel": "Änderung der Friedhofsgebührenordnung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "30",
+    "titel": "Änderung der Gebrauchsabgabenordnung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "31",
+    "titel": "Subvention an den Elternverein der VS Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "32",
+    "titel": "Subvention an die Jagdgesellschaft Eibesbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "33",
+    "titel": "Subvention für die Essensverpflegung – Kiga und Hort Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "34",
+    "titel": "Subvention an die Sportunion Beachvolleyballclub Eibesbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "35",
+    "titel": "Beschluss über Versicherung – VS und Kiga Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "36",
+    "titel": "Annahme einer Grundabtretung – KG Großebersdorf, Wiener Straße",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "37",
+    "titel": "Auftragsvergabe - Turnsaalsanierung",
+    "nichtOeffentlich": false,
+    "ergebnis": "abgesetzt",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "38",
+    "titel": "Grundsatzbeschluss für die Beauftragung eines Wirtschaftsprüfers",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "39",
+    "titel": "Evaluierung der Lieferanten der Gemeinde",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "dafür",
+    "stimmen": "",
+    "notiz": "GFG-Antrag: Lieferanten auf Einsparpotenzial prüfen. An den Prüfungsausschuss delegiert.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "40",
+    "titel": "Antrag auf Ferienbetreuung der Volksschulkinder",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "dafür",
+    "stimmen": "",
+    "notiz": "GFG-Antrag: Lücke von 5 Wochen in der Ferienbetreuung schließen. An den Ausschuss für Generationen delegiert.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "41",
+    "titel": "Evaluierung der Energiewirtschaft der Gemeinde",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "dafür",
+    "stimmen": "",
+    "notiz": "GFG-Antrag: Energiewirtschaft der Gemeinde evaluieren. Bürgermeister leitet vorhandene Unterlagen weiter.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "42",
+    "titel": "Grundsatzbeschluss zur Anschaffung von Einrichtung für die Live-Übertragung",
+    "nichtOeffentlich": false,
+    "ergebnis": "abgelehnt",
+    "abgestimmt": "dafür",
+    "stimmen": "8:13",
+    "notiz": "GFG-Antrag: Grundsatzbeschluss für Livestream und Speicherung der Sitzungen. Abgelehnt.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "43",
+    "titel": "Antrag auf Reduzierung der Bezüge von Bürgermeister, Vizebürgermeister, gf",
+    "nichtOeffentlich": false,
+    "ergebnis": "abgelehnt",
+    "abgestimmt": "dafür",
+    "stimmen": "7:13",
+    "notiz": "GFG-Antrag: Bezüge der Mandatare reduzieren. Laut Bürgermeister rechtlich nicht möglich, abgelehnt.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "44",
+    "titel": "Festlegung des Termins für die nächste Gemeinderatssitzung",
+    "nichtOeffentlich": false,
+    "ergebnis": "abgeändert angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "GFG-Antrag: nächste Sitzung binnen vier Wochen. Beschlossen wurde „im Mai“, die Sitzung fand am 5.6.2025 statt.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "n.ö. 1",
+    "titel": "Nachtrag zu bzw. Änderung von Dienstverträgen",
+    "nichtOeffentlich": true,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 2",
+    "titel": "Entlohnung der Ferialpraktikanten",
+    "nichtOeffentlich": true,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 3",
+    "titel": "Gewährung eines Baukostenzuschusses",
+    "nichtOeffentlich": true,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 4",
+    "titel": "Reduktion einer Müllgebühr",
+    "nichtOeffentlich": true,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   }
+  ]
+ },
+ {
+  "id": "gr-2025-06-05",
+  "datum": "2025-06-05",
+  "uhrzeit": "18:00",
+  "ort": "Gemeindeamt, Münichsthaler Straße 27",
+  "stand": "Protokoll",
+  "unterlagen": [
+   {
+    "titel": "Einladungskurrende",
+    "url": "https://drive.google.com/file/d/1bL1dI6XpTDleQ3DvigcMmk1t4eEQJewe/view"
+   },
+   {
+    "titel": "Protokoll",
+    "url": "https://drive.google.com/file/d/1SiElVzkHilxfDdqT-sTK_XFECI0GBTjs/view"
+   },
+   {
+    "titel": "Ordner mit Unterlagen",
+    "url": "https://drive.google.com/drive/folders/1g7QDP4YcU2i-v4sd-QzEsoyGojlYzKP9"
+   }
+  ],
+  "tops": [
+   {
+    "nr": "1",
+    "titel": "Eröffnung, Begrüßung und Feststellung der Beschlussfähigkeit",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "2",
+    "titel": "Tagesordnung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dagegen",
+    "stimmen": "12:8",
+    "notiz": "Bild- und Tonaufzeichnung untersagt, Thema an den Umwelt- und Transparenzausschuss delegiert.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "3",
+    "titel": "Protokolle über die GR – Sitzung am 10.04.2025",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "4",
+    "titel": "Bericht des Prüfungsausschusses",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "5",
+    "titel": "Bericht des Ausschusses für Generationen, Familie, Schule und Bildung",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "6",
+    "titel": "Bericht des Kultur- und Veranstaltungsausschusses",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "7",
+    "titel": "Bericht des Ausschusses für Infrastruktur / Raumordnung und Digitalisierung",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "8",
+    "titel": "Bericht des Umwelt- und Transparenzausschusses",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "9",
+    "titel": "Bericht des Bau- und Wirtschaftsausschusses",
+    "nichtOeffentlich": false,
+    "ergebnis": "vertagt",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "10",
+    "titel": "Ankauf eines Grundstückes in der KG Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "11",
+    "titel": "Vergabe der Planung, Ausschreibung, Bauaufsicht und Kollaudierung / Brücken-",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "12",
+    "titel": "Subvention an die Pfarre Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "13",
+    "titel": "Auftragsvergabe für Multi – Sportanlage",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "14",
+    "titel": "Subvention an die FF Eibesbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "15",
+    "titel": "Auftragsvergabe – Turnsaal der VS Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "16",
+    "titel": "Auftragsvergabe – Straßenbau Manhartsbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "17",
+    "titel": "Ankauf eines gebrauchten Traktors",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "18",
+    "titel": "Auftragsvergabe für die Bepflanzung des Radweges (Wiener Str. Großebersdorf)",
+    "nichtOeffentlich": false,
+    "ergebnis": "abgesetzt",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "Zu Beginn unter TOP 5 von der Tagesordnung genommen.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "19",
+    "titel": "Nutzung des Turnsaals der VS Großebersdorf als Betrieb gewerblicher Art",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "20",
+    "titel": "Änderung der Gebrauchsabgabenordnung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "21",
+    "titel": "Anschaffung für die VS Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "22",
+    "titel": "Subvention an die Pfarre Manhartsbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "23",
+    "titel": "Adaptierung – Spielplatz Eibesbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "24",
+    "titel": "Anschaffung für die FF Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "abgesetzt",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "Zu Beginn unter TOP 5 von der Tagesordnung genommen.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "25",
+    "titel": "Grundsatzbeschluss für die Schaffung eines Pumptracks",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "26",
+    "titel": "Instandsetzung der Beachvolleyballplätze in Großebersdorf und Manhartsbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "GFG-Antrag: Netze und Sand für die Beachvolleyballplätze evaluieren und beschaffen.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "27",
+    "titel": "Beauftragung eines Landschaftsgärtners",
+    "nichtOeffentlich": false,
+    "ergebnis": "abgeändert angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "GFG-Antrag Landschaftsgärtner. Beschlossen: zuerst Berater von „Natur im Garten“ und der Dorf- und Stadterneuerung einladen.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "28",
+    "titel": "Abschluss eines Ersitzungsvertrages",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "29",
+    "titel": "Grundsatzbeschluss für die Schaffung einer Hundezone",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "GFG-Antrag Hundezone. In den Bau- und Wirtschaftsausschuss delegiert.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "30",
+    "titel": "Anschaffung von Geräten für den Hochwasserschutz",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "31",
+    "titel": "Annahme und Beurkundung von Abtretungen in der KG Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "32",
+    "titel": "Annahme und Beurkundung von Grundabtretungen in der KG Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   }
+  ]
+ },
+ {
+  "id": "gr-2025-10-23",
+  "datum": "2025-10-23",
+  "uhrzeit": "19:00",
+  "ort": "Gemeindeamt, Münichsthaler Straße 27",
+  "stand": "Protokoll",
+  "unterlagen": [
+   {
+    "titel": "Einladungskurrende",
+    "url": "https://drive.google.com/file/d/1lV_kcjAStkJK-GkHf04AmN5xUm_a5Nh6/view"
+   },
+   {
+    "titel": "Protokoll",
+    "url": "https://drive.google.com/file/d/1RNHW3AIozTqBGD5p3o7ZlRajQHoS7Kve/view"
+   },
+   {
+    "titel": "Ordner mit Unterlagen",
+    "url": "https://drive.google.com/drive/folders/1Wv-_y9I0yHZJCYTIg6I1qe_YyzUJR3no"
+   }
+  ],
+  "tops": [
+   {
+    "nr": "1",
+    "titel": "Eröffnung, Begrüßung und Feststellung der Beschlussfähigkeit",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "2",
+    "titel": "Tagesordnung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dagegen",
+    "stimmen": "11:8",
+    "notiz": "Bild- und Tonaufzeichnung erneut untersagt.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "3",
+    "titel": "Protokolle über die GR – Sitzung am 5.6.2025",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "4",
+    "titel": "Beschluss über den 1. Nachtragsvoranschlag 2025",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "5",
+    "titel": "Bericht / Steuercheck",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "6",
+    "titel": "Annahme der Zusicherung des NÖ Wasserwirtschaftsfonds vom 3.7.2025 (Blackout-",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "7",
+    "titel": "Bericht des Prüfungsausschusses",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "8",
+    "titel": "Bericht des Ausschusses für Generationen, Familien, Schule und Bildung",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "9",
+    "titel": "Bericht des Kultur- und Veranstaltungsausschusses",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "10",
+    "titel": "Bericht des Ausschusses für Infrastruktur / Raumordnung und Digitalisierung",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "11",
+    "titel": "Bericht des Umwelt- und Transparenzausschusses",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "12",
+    "titel": "Bericht des Bau- und Wirtschaftsausschusses",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "13",
+    "titel": "Zustimmung zur Grundbenützung / Eibesbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "14",
+    "titel": "Annahme einer Grundabtretung sowie Zustimmung zu einer Grundbuchsberichti-",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "15",
+    "titel": "Grundstückstausch in der KG Manhartsbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "16",
+    "titel": "Verlängerung von Pachtverträgen",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "17",
+    "titel": "Änderung des örtlichen Raumordnungsprogrammes",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "18",
+    "titel": "Änderung des Bebauungsplanes",
+    "nichtOeffentlich": false,
+    "ergebnis": "vertagt",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "19",
+    "titel": "Bericht über Bodenaushubdeponie in der KG Hagenbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "20",
+    "titel": "Auftragsvergabe – Küchenzeile für Amtshaus Manhartsbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "21",
+    "titel": "Subvention an die FF Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "22",
+    "titel": "Subvention an die FF Manhartsbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "23",
+    "titel": "Subvention an den SV Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "vertagt",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "Nicht behandelt: Bürgermeister, Vizebürgermeister und gf. GR Johannes Bayer waren befangen.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "24",
+    "titel": "Anschaffung von Digitalisierungsprogrammen",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "18:1",
+    "notiz": "Digitalisierungsprogramme angeschafft. Gegenstimme GR Markus Haindl (nur ein Angebot eingeholt).",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "25",
+    "titel": "Anschaffung von zwei Klimatickets",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "26",
+    "titel": "Kostenbeteiligung für C-Führerschein für FF-Mitglieder",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "Enthaltung",
+    "stimmen": "11:0, 7 Enthaltungen",
+    "notiz": "50 % der C-Führerscheinkosten für FF-Mitglieder. GFG-Antrag auf 100 % mit 7:11 abgelehnt.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "27",
+    "titel": "Auftragsvergabe – WVA und ABA – Großebersdorf, Seyringer Weg",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "28",
+    "titel": "Dienstbarkeitsvertrag mit der Netz Niederösterreich GmbH",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "29",
+    "titel": "Reduzierung der Bezüge der Mandatare",
+    "nichtOeffentlich": false,
+    "ergebnis": "abgelehnt",
+    "abgestimmt": "dafür",
+    "stimmen": "8:11",
+    "notiz": "GFG-Antrag: Verwaltung soll Einsparungen bei den Bezügen prüfen. Abgelehnt.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "30",
+    "titel": "Optimierung der Kläranlage Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "abgelehnt",
+    "abgestimmt": "dafür",
+    "stimmen": "8:11",
+    "notiz": "GFG-Antrag: Kläranlage mit Flockungsmittel optimieren (Testphase € 3.080). Abgelehnt, zuerst Beratung mit DI Kraner im Vorstand.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "31",
+    "titel": "Schaffung einer Energiegemeinschaft für die Bürger der Marktgemeinde",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "GFG-Antrag Energiegemeinschaft. Beschlossen: im Detail in der nächsten Vorstandssitzung besprechen.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "32",
+    "titel": "Prüfung einer Beteiligung der Gemeinde am Festlbus-Projekt Niederösterreich",
+    "nichtOeffentlich": false,
+    "ergebnis": "abgesetzt",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "GFG-Antrag (Prüfung Festlbus) abgesetzt, stattdessen Gegenantrag des Bürgermeisters: schnellstmögliche Teilnahme, einstimmig.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "33",
+    "titel": "Ankauf eines Automaten für die Ausgabe von Müllsäcken",
+    "nichtOeffentlich": false,
+    "ergebnis": "abgelehnt",
+    "abgestimmt": "dafür",
+    "stimmen": "8:11",
+    "notiz": "GFG-Antrag: Automat für Müllsäcke. Abgelehnt, Bürgermeister kündigt günstigere Lösung an.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "34",
+    "titel": "Bericht des Bürgermeisters",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 1",
+    "titel": "Abschluss sowie Verlängerung bzw. Nachtrag von / zu Dienstverträgen",
+    "nichtOeffentlich": true,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   }
+  ]
+ },
+ {
+  "id": "gr-2025-12-17",
+  "datum": "2025-12-17",
+  "uhrzeit": "19:00",
+  "ort": "Gemeindeamt, Münichsthaler Straße 27",
+  "stand": "Protokollentwurf",
+  "unterlagen": [
+   {
+    "titel": "Einladungskurrende",
+    "url": "https://drive.google.com/file/d/1MotmlG3Kovh5W8RhlNGjKI38FQX8tQ0i/view"
+   },
+   {
+    "titel": "Protokoll (Entwurf)",
+    "url": "https://drive.google.com/file/d/1M5NPdxI3CW6YGpzLNzes6S89n7o9jqBu/view"
+   },
+   {
+    "titel": "Ordner mit Unterlagen",
+    "url": "https://drive.google.com/drive/folders/1JO5QDchC83IGbdOrDn3WcjfFxl4NbFsB"
+   }
+  ],
+  "tops": [
+   {
+    "nr": "1",
+    "titel": "Eröffnung, Begrüßung und Feststellung der Beschlussfähigkeit",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dagegen",
+    "stimmen": "12:6",
+    "notiz": "Bild- und Tonaufzeichnung erneut untersagt.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "2",
+    "titel": "Protokolle über die GR - Sitzung am 23.10.2025",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "3",
+    "titel": "Beschluss über den Voranschlag 2026 und mittelfristiger Finanzplan 2027 - 2030",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "4",
+    "titel": "Bericht des Prüfungsausschusses",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "5",
+    "titel": "Bericht des Ausschusses für Generationen, Familie, Schule und Bildung",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "6",
+    "titel": "Bericht der Bildungsgemeinderätin",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "7",
+    "titel": "Bericht aus dem Sozialbeirat",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "8",
+    "titel": "Bericht des Kultur- und Veranstaltungsausschusses",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "9",
+    "titel": "Änderung des örtlichen Raumordnungsprogrammes",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "10",
+    "titel": "Änderung des Bebauungsplanes",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "11",
+    "titel": "Subvention an den SV Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "12",
+    "titel": "Subvention an die Musikkapelle Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "13",
+    "titel": "Subvention an den Elternverein Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "14",
+    "titel": "Anschaffung für Hochwasserschutz",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "15",
+    "titel": "Umstellung auf modifizierten ELAK",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "16",
+    "titel": "Verordnung der Wasserbezugsgebühr",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dagegen",
+    "stimmen": "12:7",
+    "notiz": "Wasserbezugsgebühr auf € 2,42. GFG-Antrag auf Stufenlösung (€ 2,15, ein Jahr später € 2,42) abgelehnt.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "17",
+    "titel": "Kostenübernahme einer Vermessung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "18",
+    "titel": "Anschaffung von Defibrillatoren",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "19",
+    "titel": "Feststellung der Gemeinnützigkeit der Kindergartenverpflegung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "Gemeinnützigkeit festgestellt, Essensbeiträge ab 2026 mit 10 % Umsatzsteuer.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "20",
+    "titel": "Anschaffung von Lager- und Transportmöglichkeiten für den Turnsaal der Volks-",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 1",
+    "titel": "Abschluss eines Dienstvertrages",
+    "nichtOeffentlich": true,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 2",
+    "titel": "Auflösung eines Dienstverhältnisses",
+    "nichtOeffentlich": true,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   }
+  ]
+ },
+ {
+  "id": "gr-2026-03-18",
+  "datum": "2026-03-18",
+  "uhrzeit": "19:00",
+  "ort": "Gemeindeamt, Münichsthaler Straße 27",
+  "stand": "Protokollentwurf",
+  "unterlagen": [
+   {
+    "titel": "Einladungskurrende",
+    "url": "https://drive.google.com/file/d/1S6B7TYImNMpWnQU7k-ZnN3xwp9hn9xKg/view"
+   },
+   {
+    "titel": "Protokoll (Entwurf)",
+    "url": "https://drive.google.com/file/d/1KsDyij10xB7kC2rEnx5-El7TIsieFDdW/view"
+   },
+   {
+    "titel": "Ordner mit Unterlagen",
+    "url": "https://drive.google.com/drive/folders/17TwfhBIGc-Y0kOyD4L9eNE5WlW4KnIHc"
+   }
+  ],
+  "tops": [
+   {
+    "nr": "1",
+    "titel": "Eröffnung, Begrüßung und Feststellung der Beschlussfähigkeit",
+    "nichtOeffentlich": false,
+    "ergebnis": "abgesetzt",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "2",
+    "titel": "Anmerkungen zum Gemeinderatsprotokoll vom 17.12.2025",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "3",
+    "titel": "Bericht über die Neuerungen der Gemeindeordnung",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "4",
+    "titel": "Bericht aus dem Gemeindevorstand vom 10.2.2026",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "5",
+    "titel": "Bericht aus dem Gemeindevorstand vom 10.3.2026",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "6",
+    "titel": "Bericht über die Aufsichtsbeschwerde zu Bild und Tonaufzeichnungen im Gemeinderat",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "Stellungnahme der BH Mistelbach zur Aufsichtsbeschwerde der GFG vom 30.12.2025 verlesen.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "7",
+    "titel": "Livestreaming der Sitzungen des Gemeinderats",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "19:1",
+    "notiz": "Livestream-Ausstattung von Projektor.at um € 12.036 netto beauftragt. Gegenstimme FPÖ.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "8",
+    "titel": "Bericht Prüfungsausschuss",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "9",
+    "titel": "Rechnungsabschluss 2025",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "10",
+    "titel": "Beschluss über die Annahme eines Kaufangebots bzgl. Betriebsgebiet Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "11",
+    "titel": "Zustimmung zur Grundabteilung Betriebsgebiet Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "12",
+    "titel": "Teilfreimachung der Aufschließungszone BB-A5 (GStNr. 1530/1,1530/2, 1529, KG",
+    "nichtOeffentlich": false,
+    "ergebnis": "abgesetzt",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "Zu Beginn der Sitzung abgesetzt.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "13",
+    "titel": "Raumordnung, Entwicklungskonzept, Auftragsvergabe",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "14",
+    "titel": "Masterplan für die Marktgemeinde Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "GFG-Antrag Masterplan. Wird im Zuge des Entwicklungskonzepts (TOP 13) mit der Dorf- und Stadterneuerung umgesetzt.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "15",
+    "titel": "Raumordnung, 10. Änderung Flächenwidmungsplan, 2. Änderung Bebauungsplan, Auf-",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "16",
+    "titel": "Subventionen für das Jahr 2026",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "17",
+    "titel": "Subvention FF Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "18",
+    "titel": "Subvention FF Manhartsbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "19",
+    "titel": "Kindergarten Großebersdorf, Vollschutz Brandmeldeanlage, Auftragsvergabe",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "20",
+    "titel": "Kindergarten Großebersdorf, Beleuchtung LED-Tausch, Auftragsvergabe",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "21",
+    "titel": "Erweiterung Klimaanlage Amtshaus, Auftragsvergabe",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "22",
+    "titel": "Hort, Anschaffung Küchenausstattung, Auftragsvergabe",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "23",
+    "titel": "Eröffnung Erweiterung Volksschule - Festschrift, Eröffnungsfeier",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "24",
+    "titel": "Änderung der Verordnung über die Funktionsdienstposten",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "25",
+    "titel": "Turnsaal Volksschule Nutzungsvereinbarung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "26",
+    "titel": "Vergabe von Ehrungen",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 1",
+    "titel": "Anpassungen im Bereich der Kinderbetreuung, Nachträge verschiedener Dienstverträge (nicht öffentlich)",
+    "nichtOeffentlich": true,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   }
+  ]
+ },
+ {
+  "id": "gr-2026-04-29",
+  "datum": "2026-04-29",
+  "uhrzeit": "19:00",
+  "ort": "Gemeindeamt, Münichsthaler Straße 27",
+  "stand": "kein Protokoll",
+  "unterlagen": [
+   {
+    "titel": "Einladungskurrende",
+    "url": "https://drive.google.com/file/d/1muhTocSZNQpRzxK2JSde_zwg70qYjxms/view"
+   },
+   {
+    "titel": "Ordner mit Unterlagen",
+    "url": "https://drive.google.com/drive/folders/1MNbzmwwPO9ImnEwiS4t4fkf4-4e18Z7X"
+   }
+  ],
+  "tops": [
+   {
+    "nr": "1",
+    "titel": "Eröffnung und Begrüßung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "2",
+    "titel": "Anmerkungen zum Gemeinderatsprotokoll vom 18.03.2026",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "3",
+    "titel": "Energiebuchhaltung - Energieausweise Gemeindegebäude",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "4",
+    "titel": "Subvention, Pfarrgemeinde Manhartsbrunn Sanierung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "5",
+    "titel": "Subvention Klinefelter Inter",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "6",
+    "titel": "Subvention Elternverein",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "7",
+    "titel": "Landesstraße L3113, Übernahme ins Gemeindeeigentum",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "8",
+    "titel": "Musikschulverband Beitritt",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "9",
+    "titel": "Musikschulverband Nebenvereinbarung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "10",
+    "titel": "Teilfreimachung BB-A5",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "11",
+    "titel": "Pumptrack Auftragsvergabe",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "12",
+    "titel": "Bauführung auf öffentlichem Gut, Zustimmung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "13",
+    "titel": "Bericht des Jugendgemeinderats",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 1",
+    "titel": "Personelles",
+    "nichtOeffentlich": true,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   }
+  ]
+ },
+ {
+  "id": "gr-2026-07-07",
+  "datum": "2026-07-07",
+  "uhrzeit": "19:00",
+  "ort": "Gemeindeamt, Münichsthaler Straße 27",
+  "stand": "Protokoll",
+  "unterlagen": [
+   {
+    "titel": "Protokoll",
+    "url": "https://drive.google.com/file/d/1KyaxGO48BAJIUT5YC6-ZMxeWm60Gg33H/view"
+   },
+   {
+    "titel": "Ordner mit Unterlagen",
+    "url": "https://drive.google.com/drive/folders/1gnsk7Jrx8iRXpcF_bDySTM7MoVN6P4Xx"
+   }
+  ],
+  "tops": [
+   {
+    "nr": "1",
+    "titel": "Eröffnung. Begrüßung und Feststellung der Beschlussfähigkeit",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "2",
+    "titel": "Livestreaming von Sitzungen des Gemeinderats",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "mehrheitlich",
+    "notiz": "Live-Übertragung ab sofort beschlossen (Gegenstimmen FPÖ). GFG-Antrag, Aufzeichnungen unbefristet auf YouTube bereitzustellen, abgelehnt.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "3",
+    "titel": "Anmerkungen zum Gemeinderatsprotokoll vom 29.4.2026",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "4",
+    "titel": "Bericht, Prüfungsausschuss vom 23.6.2026",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "5",
+    "titel": "Bericht aus dem Ausschuss für Infrastruktur/Raumordnung-Digitalisierung",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "6",
+    "titel": "Bericht aus dem Gemeindevorstand",
+    "nichtOeffentlich": false,
+    "ergebnis": "zur Kenntnis genommen",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "7",
+    "titel": "Netz NÖ, Vereinbarung Grundnutzung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "8",
+    "titel": "Keller Großebersdorf Gänsberg - L34, Übernahme ins Gemeindeeigentum",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "9",
+    "titel": "Grundverkauf Güterweg an Gerhard Trsek",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "10",
+    "titel": "Grundtausch, Gerhard Hackl, Manhartsbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "11",
+    "titel": "Grenzänderung, Feuerschutz Bayer GmbH, Großebersdorf, Münichsthaler Straße 17",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "12",
+    "titel": "Grenzänderung, KIGA FF Eibesbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "13",
+    "titel": "Grundstückskauf, Familie Manhart, Manhartsbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "14",
+    "titel": "Verordnung Funktionsdienstposten, Anpassungen",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "15",
+    "titel": "Gebührenanpassungen, Wasseranschlussabgabe, Bereitstellungsgebühr",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "16",
+    "titel": "Gebührenanpassungen, Kanalanschlussabgabe",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "17",
+    "titel": "Gebührenanpassungen, Aufschließungsabgabe",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "18",
+    "titel": "Gebührenanpassungen, Hundeabgabe",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dagegen",
+    "stimmen": "mehrheitlich",
+    "notiz": "Hundeabgabe ab 2027 erhöht, unter anderem zur Finanzierung der geplanten Hundeauslaufzone. Gegenstimmen GFG.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "19",
+    "titel": "Verbesserung Multisportanalage Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "GFG-Antrag: Verwaltung prüft weitere Sportarten (Volleyball, Badminton) auf der Multisportanlage und holt Angebote ein.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "20",
+    "titel": "Basketballplatz, Konzeptentwicklung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "GFG-Antrag, als Antrag aller Parteien beschlossen: Bauausschuss prüft Standort und Konzept für Basketball.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "21",
+    "titel": "Outdoor-Tischtennis, Konzeptentwicklung (Grundsatzbeschluss)",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "GFG-Antrag, als Antrag aller Parteien beschlossen: Bauausschuss prüft Standort und Konzept für Outdoor-Tischtennis.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "22",
+    "titel": "Ballfangnetz für die Multisportanlage Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "GFG-Antrag: weiteres Ballfangnetz für die Multisportanlage bis € 5.000.",
+    "gfgAntrag": true
+   },
+   {
+    "nr": "23",
+    "titel": "LIS Putzing, Digitale Leistungserfassung, Auftragsvergabe",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dagegen",
+    "stimmen": "mehrheitlich",
+    "notiz": "Digitale Leitungserfassung Putzing um € 44.200 netto (budgetiert waren € 30.000). Gegenstimmen GFG.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "24",
+    "titel": "Kommunalfahrzeug Anschaffung, Kauf Traktor, Familie Wudernitz",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "25",
+    "titel": "Brandmeldeanlage Volksschule, Abschluss eines Wartungsvertrags",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "26",
+    "titel": "Defibrillator für First Responder Einsatz, Anschaffung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "27",
+    "titel": "Sonnensegel Volksschule, Anschaffung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "28",
+    "titel": "Beachvolleyballplatz Großebersdorf. Erneuerung und Vertragsverlängerung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "Grunderneuerung des Beachvolleyballplatzes bis € 15.000, Pachtvertrag bis 2031. Geht auf den GFG-Antrag vom Juni 2025 zurück.",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "29",
+    "titel": "Rasenmähertraktor Bauhof, Anschaffung",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "30",
+    "titel": "GAUM Mistelbach, Statutenänderungen",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "31",
+    "titel": "Bauübertragung an BH Mistelbach für gewerbliche Bauverfahren",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "32",
+    "titel": "Eibesbrunn, Baulanderweiterung Großebersdorfer Straße",
+    "nichtOeffentlich": false,
+    "ergebnis": "angenommen",
+    "abgestimmt": "dafür",
+    "stimmen": "einstimmig",
+    "notiz": "",
+    "gfgAntrag": false
+   }
+  ]
+ },
+ {
+  "id": "gr-2026-10-12",
+  "datum": "2026-10-12",
+  "uhrzeit": "19:00",
+  "ort": "Gemeindeamt, Münichsthaler Straße 27",
+  "stand": "kein Protokoll",
+  "unterlagen": [
+   {
+    "titel": "Einladungskurrende",
+    "url": "https://drive.google.com/file/d/10WjJNUBVI9yjLOek0IrQHlB6Jxo3YfLK/view"
+   },
+   {
+    "titel": "Ordner mit Unterlagen",
+    "url": "https://drive.google.com/drive/folders/11ldxs3VC59rv1TqvOsLrW11X7hOy-Bly"
+   }
+  ],
+  "tops": [
+   {
+    "nr": "1",
+    "titel": "Eröffnung, Begrüßung und Feststellung der Beschlussfähigkeit",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "2",
+    "titel": "Genehmigung des Protokolls",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "3",
+    "titel": "Berichte aus den Ausschüssen",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "4",
+    "titel": "Bericht, Mittelverwendung Kommunalinvestitionsgesetz",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "5",
+    "titel": "Nachtrags-Voranschlag 2026",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "6",
+    "titel": "Subvention, FF-Großebersdorf, Klimagerät Heizung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "7",
+    "titel": "Musikschule, Vereinbarung zur Abrechnung 2026",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "8",
+    "titel": "Musikschulverband, Gründung, Entsendungen, Förderung der Kommunalsteuer",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "9",
+    "titel": "KLAR Region, Beitritt",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "10",
+    "titel": "Brücke Johannesgraben, Auftragsvergabe",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "11",
+    "titel": "Alte Volksschule Großebersdorf, Wärmepumpe oder Gasheizung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "12",
+    "titel": "Glasfaserausbau, Kooperationsvereinbarung öGIG",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "13",
+    "titel": "LIS Putzing, Kanalbefahrung und Spülung, Auftragsvergabe",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "14",
+    "titel": "Regenwasserplan, Auftragsvergabe",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "15",
+    "titel": "Straßenbau, Betriebsgebiet Großebersdorf, Planung inkl. Aufschließung, Auftragsvergabe",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "16",
+    "titel": "Straßenbau, Planungen und Auftragsvergaben",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "17",
+    "titel": "Straßenbezeichnung, Betriebsgebiet Großebersdorf",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "18",
+    "titel": "Geschwindigkeitsanzeigen, Anschaffung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "19",
+    "titel": "Kläranlage, Erneuerung Rührwerk, Anschaffung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "20",
+    "titel": "Kommunalstreuer, Bauhof, Anschaffung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "21",
+    "titel": "Multisportanlage Gr. Eb, Erweiterung Ballfangnetz",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "22",
+    "titel": "Schnuppertickets, Ankauf",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "23",
+    "titel": "Gourmet Kids Festsetzung des Essenbeitrages",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "24",
+    "titel": "Hort, Gebührenerhöhung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "25",
+    "titel": "EVN, Gas-Tarif, Umstellung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "26",
+    "titel": "Raumordnung, Flächenwidmung 10 Änd., Bebauungsplan 2 Änd",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "27",
+    "titel": "Grundkauf Güterweg, Trsek",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "28",
+    "titel": "Keller, Eibesbrunn, Ankauf",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "29",
+    "titel": "Mietvertrag, Putzing Kirchenplatz 1, Abschreibung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "30",
+    "titel": "Nutzungsvereinbarung Netz NÖ Weinberggasse Eibesbrunn",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "31",
+    "titel": "Übernahme ins öffentliche Gut, Abtretungsfläche Noortec II",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "32",
+    "titel": "Grundabtretung, Großebersdorf, Familie Scholz",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "33",
+    "titel": "Durchführung der Bauübertragung an BH Mistelbach für gewerbliche Bauverfahren",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "34",
+    "titel": "Wasserabgabenordnung, Anpassung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "35",
+    "titel": "Wasseranschluss, Keller und unbebaute Grundstücke, Zukünftiges Vorgehen",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "36",
+    "titel": "Brunnen, Wasserentnahme durch nicht ortsansässige Landwirte, Richtlinie",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "37",
+    "titel": "Festlbus Weinviertel-Ost, Beitritt",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "38",
+    "titel": "Putzing am See, Weihnachtssterne, Anschaffung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "39",
+    "titel": "Putzing am See, Sitzmöglichkeiten, Anschaffung",
+    "nichtOeffentlich": false,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 1",
+    "titel": "Windpark Obersdorf-Eibesbrunn, Repowering",
+    "nichtOeffentlich": true,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 2",
+    "titel": "Personelles, Julia Schmidl",
+    "nichtOeffentlich": true,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   },
+   {
+    "nr": "n.ö. 3",
+    "titel": "Personelles, Michael Klaus",
+    "nichtOeffentlich": true,
+    "ergebnis": "",
+    "abgestimmt": "",
+    "stimmen": "",
+    "notiz": "",
+    "gfgAntrag": false
+   }
+  ]
+ }
+]

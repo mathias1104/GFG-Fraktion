@@ -1,0 +1,759 @@
+{
+ "antraege": [
+  {
+   "id": "gfg-2025-lieferanten",
+   "titel": "Evaluierung der Lieferanten der Gemeinde",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-04-10",
+   "grSitzung": "Gemeinderatssitzung am 10.04.2025",
+   "grSitzungId": "gr-2025-04-10",
+   "top": "39",
+   "ausschuss": "Prüfungsausschuss",
+   "status": "einem Ausschuss zugewiesen",
+   "umsetzung": "noch nichts passiert",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1nALBh5hdhHfByhNW2eAHmJjqiXY_N6SJ/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-04-10",
+     "notiz": "Ziel: Optimierungs- und Einsparungspotenzial bei Lieferanten finden."
+    },
+    {
+     "status": "einem Ausschuss zugewiesen",
+     "datum": "2025-04-10",
+     "notiz": "Vom Vorsitzenden an den Prüfungsausschuss delegiert."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2025-ferienbetreuung",
+   "titel": "Durchgehende Ferienbetreuung für Volksschulkinder",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-04-10",
+   "grSitzung": "Gemeinderatssitzung am 10.04.2025",
+   "grSitzungId": "gr-2025-04-10",
+   "top": "40",
+   "ausschuss": "Generationen, Familien, Schule und Bildung",
+   "status": "einem Ausschuss zugewiesen",
+   "umsetzung": "in Umsetzung",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1nALBh5hdhHfByhNW2eAHmJjqiXY_N6SJ/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-04-10",
+     "notiz": "Ziel: die Betreuungslücke von 5 Wochen in den Sommerferien schließen."
+    },
+    {
+     "status": "einem Ausschuss zugewiesen",
+     "datum": "2025-04-10",
+     "notiz": "An den Ausschuss für Generationen, Familien, Schule und Bildung delegiert."
+    },
+    {
+     "status": "Folgeschritte offen",
+     "datum": "2025-06-05",
+     "notiz": "Ausschussbericht im Gemeinderat: Ferienbetreuung soll auf insgesamt 7 Wochen ausgeweitet werden."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2025-energiewirtschaft",
+   "titel": "Evaluierung der Energiewirtschaft der Gemeinde",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-04-10",
+   "grSitzung": "Gemeinderatssitzung am 10.04.2025",
+   "grSitzungId": "gr-2025-04-10",
+   "top": "41",
+   "ausschuss": "",
+   "status": "Folgeschritte offen",
+   "umsetzung": "in Umsetzung",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1nALBh5hdhHfByhNW2eAHmJjqiXY_N6SJ/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-04-10",
+     "notiz": "Entscheidungsgrundlage für künftige Investitionen, ökologisch und ökonomisch."
+    },
+    {
+     "status": "Folgeschritte offen",
+     "datum": "2025-04-10",
+     "notiz": "Bürgermeister verweist auf Vorarbeiten mit dem Energieberater des Landes und schickt die Unterlagen an die Fraktionen."
+    },
+    {
+     "status": "auf der Tagesordnung",
+     "datum": "2026-04-29",
+     "notiz": "TOP 3 „Energiebuchhaltung, Energieausweise Gemeindegebäude“. Ergebnis noch nicht erfasst (Protokoll fehlt)."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2025-livestream",
+   "titel": "Grundsatzbeschluss für Live-Übertragung und Speicherung der Sitzungen",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-04-10",
+   "grSitzung": "Gemeinderatssitzung am 10.04.2025",
+   "grSitzungId": "gr-2025-04-10",
+   "top": "42",
+   "ausschuss": "",
+   "status": "abgelehnt",
+   "umsetzung": "umgesetzt",
+   "vonAnderen": {
+    "datum": "2026-03-18",
+    "wer": "Bürgermeister (ÖVP)",
+    "notiz": "Livestream-Ausstattung beschlossen, seit 7.7.2026 werden die Sitzungen live übertragen."
+   },
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1nALBh5hdhHfByhNW2eAHmJjqiXY_N6SJ/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-04-10",
+     "notiz": "Für mehr Transparenz kommunalpolitischer Entscheidungen."
+    },
+    {
+     "status": "abgelehnt",
+     "datum": "2025-04-10",
+     "notiz": "Abgelehnt mit 8:13 Stimmen."
+    },
+    {
+     "status": "Folgeschritte offen",
+     "datum": "2026-03-18",
+     "notiz": "Auf Antrag des Bürgermeisters: Livestream-Ausstattung um € 12.036 netto beauftragt (19:1)."
+    },
+    {
+     "status": "Folgeschritte offen",
+     "datum": "2026-07-07",
+     "notiz": "Live-Übertragung der Sitzungen ab sofort beschlossen. Unser Zusatzantrag auf unbefristete Bereitstellung wurde abgelehnt."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2025-bezuege",
+   "titel": "Reduzierung der Bezüge der Mandatare",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-04-10",
+   "grSitzung": "Gemeinderatssitzung am 10.04.2025",
+   "grSitzungId": "gr-2025-04-10",
+   "top": "43",
+   "ausschuss": "",
+   "status": "abgelehnt",
+   "umsetzung": "",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1nALBh5hdhHfByhNW2eAHmJjqiXY_N6SJ/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-04-10",
+     "notiz": "Reduktion der Bezüge von Bürgermeister bis Gemeinderäten."
+    },
+    {
+     "status": "abgelehnt",
+     "datum": "2025-04-10",
+     "notiz": "Laut Bürgermeister rechtswidrig. Abgelehnt mit 7:13 Stimmen."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2025-sitzungstermin",
+   "titel": "Nächste Gemeinderatssitzung binnen vier Wochen",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-04-10",
+   "grSitzung": "Gemeinderatssitzung am 10.04.2025",
+   "grSitzungId": "gr-2025-04-10",
+   "top": "44",
+   "ausschuss": "",
+   "status": "abgeändert oder durch Gegenantrag ersetzt",
+   "umsetzung": "umgesetzt",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1nALBh5hdhHfByhNW2eAHmJjqiXY_N6SJ/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-04-10",
+     "notiz": ""
+    },
+    {
+     "status": "abgeändert oder durch Gegenantrag ersetzt",
+     "datum": "2025-04-10",
+     "notiz": "Einstimmig beschlossen wurde „im Mai“."
+    },
+    {
+     "status": "Folgeschritte offen",
+     "datum": "2025-06-05",
+     "notiz": "Die Sitzung fand erst am 5.6.2025 statt."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2025-beachvolleyball",
+   "titel": "Instandsetzung der Beachvolleyballplätze",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-06-05",
+   "grSitzung": "Gemeinderatssitzung am 05.06.2025",
+   "grSitzungId": "gr-2025-06-05",
+   "top": "26",
+   "ausschuss": "",
+   "status": "angenommen",
+   "umsetzung": "in Umsetzung",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1SiElVzkHilxfDdqT-sTK_XFECI0GBTjs/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-06-05",
+     "notiz": "Neue Netze und Sand, Preisauskünfte lagen bei."
+    },
+    {
+     "status": "angenommen",
+     "datum": "2025-06-05",
+     "notiz": "Einstimmig: Menge Sand und Netze evaluieren und beschaffen. Neugestaltung in Großebersdorf in Aussicht gestellt."
+    },
+    {
+     "status": "Folgeschritte offen",
+     "datum": "2026-07-07",
+     "notiz": "Grunderneuerung des Platzes in Großebersdorf bis € 15.000 einstimmig beschlossen, Pacht bis 2031."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2025-landschaftsgaertner",
+   "titel": "Landschaftsgärtner für Grüngürtel und Begrünung",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-06-05",
+   "grSitzung": "Gemeinderatssitzung am 05.06.2025",
+   "grSitzungId": "gr-2025-06-05",
+   "top": "27",
+   "ausschuss": "",
+   "status": "abgeändert oder durch Gegenantrag ersetzt",
+   "umsetzung": "noch nichts passiert",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1SiElVzkHilxfDdqT-sTK_XFECI0GBTjs/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-06-05",
+     "notiz": "Grüngürtel prüfen, gegen Feinstaub und Lärm, für mehr Lebensqualität."
+    },
+    {
+     "status": "abgeändert oder durch Gegenantrag ersetzt",
+     "datum": "2025-06-05",
+     "notiz": "Einstimmig: zuerst Berater von „Natur im Garten“ und der Dorf- und Stadterneuerung einladen."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2025-hundezone",
+   "titel": "Schaffung einer Hundezone",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-06-05",
+   "grSitzung": "Gemeinderatssitzung am 05.06.2025",
+   "grSitzungId": "gr-2025-06-05",
+   "top": "29",
+   "ausschuss": "Bau- und Wirtschaftsausschuss",
+   "status": "einem Ausschuss zugewiesen",
+   "umsetzung": "in Umsetzung",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1SiElVzkHilxfDdqT-sTK_XFECI0GBTjs/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-06-05",
+     "notiz": ""
+    },
+    {
+     "status": "einem Ausschuss zugewiesen",
+     "datum": "2025-06-05",
+     "notiz": "Einstimmig an den Bau- und Wirtschaftsausschuss delegiert (Einfriedung, Pflege, Standort, Förderungen)."
+    },
+    {
+     "status": "Folgeschritte offen",
+     "datum": "2026-07-07",
+     "notiz": "Erhöhung der Hundeabgabe ab 2027, unter anderem zur Finanzierung der geplanten Hundeauslaufzone."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2025-c-fuehrerschein",
+   "titel": "Volle Kostenübernahme C-Führerschein für Feuerwehrmitglieder",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-10-23",
+   "grSitzung": "Gemeinderatssitzung am 23.10.2025",
+   "grSitzungId": "gr-2025-10-23",
+   "top": "26",
+   "ausschuss": "",
+   "status": "abgelehnt",
+   "umsetzung": "",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1RNHW3AIozTqBGD5p3o7ZlRajQHoS7Kve/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-10-23",
+     "notiz": "Übernahme von 100 % der Kosten, wie früher zugesagt."
+    },
+    {
+     "status": "abgelehnt",
+     "datum": "2025-10-23",
+     "notiz": "Abgelehnt mit 7:11. Stattdessen 50 % beschlossen (Antrag des Bürgermeisters, GFG enthielt sich)."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2025-bezuege-pruefung",
+   "titel": "Prüfung von Einsparungen bei den Bezügen der Mandatare",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-10-23",
+   "grSitzung": "Gemeinderatssitzung am 23.10.2025",
+   "grSitzungId": "gr-2025-10-23",
+   "top": "29",
+   "ausschuss": "",
+   "status": "abgelehnt",
+   "umsetzung": "",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1RNHW3AIozTqBGD5p3o7ZlRajQHoS7Kve/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-10-23",
+     "notiz": "Verwaltung soll gesetzeskonforme Einsparungen prüfen und dem Vorstand vorlegen."
+    },
+    {
+     "status": "abgelehnt",
+     "datum": "2025-10-23",
+     "notiz": "Abgelehnt mit 8:11 Stimmen."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2025-klaeranlage",
+   "titel": "Optimierung der Kläranlage Großebersdorf",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-10-23",
+   "grSitzung": "Gemeinderatssitzung am 23.10.2025",
+   "grSitzungId": "gr-2025-10-23",
+   "top": "30",
+   "ausschuss": "",
+   "status": "abgelehnt",
+   "umsetzung": "",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1RNHW3AIozTqBGD5p3o7ZlRajQHoS7Kve/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-10-23",
+     "notiz": "Testphase mit Flockungsmittel (€ 3.080 netto): weniger Strom, weniger Geruch, Ausbaukosten vermeiden."
+    },
+    {
+     "status": "abgelehnt",
+     "datum": "2025-10-23",
+     "notiz": "Abgelehnt mit 8:11. Zuerst Beratung mit DI Kraner in der nächsten Vorstandssitzung."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2025-energiegemeinschaft",
+   "titel": "Energiegemeinschaft für die Bürgerinnen und Bürger",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-10-23",
+   "grSitzung": "Gemeinderatssitzung am 23.10.2025",
+   "grSitzungId": "gr-2025-10-23",
+   "top": "31",
+   "ausschuss": "",
+   "status": "Folgeschritte offen",
+   "umsetzung": "noch nichts passiert",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1RNHW3AIozTqBGD5p3o7ZlRajQHoS7Kve/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-10-23",
+     "notiz": "Regionale Wertschöpfung, stabile Energiepreise, Klimaschutz."
+    },
+    {
+     "status": "Folgeschritte offen",
+     "datum": "2025-10-23",
+     "notiz": "Einstimmig: im Detail in der nächsten Vorstandssitzung besprechen."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2025-muellsaecke",
+   "titel": "Automat für die Ausgabe von Müllsäcken",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-10-23",
+   "grSitzung": "Gemeinderatssitzung am 23.10.2025",
+   "grSitzungId": "gr-2025-10-23",
+   "top": "33",
+   "ausschuss": "",
+   "status": "abgelehnt",
+   "umsetzung": "",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1RNHW3AIozTqBGD5p3o7ZlRajQHoS7Kve/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-10-23",
+     "notiz": "Müllsäcke rund um die Uhr, drei Angebote ab € 6.600."
+    },
+    {
+     "status": "abgelehnt",
+     "datum": "2025-10-23",
+     "notiz": "Abgelehnt mit 8:11, nicht wirtschaftlich. Bürgermeister kündigte zwei günstigere Ideen an."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2025-wassergebuehr",
+   "titel": "Wasserbezugsgebühr in zwei Stufen erhöhen",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2025-12-17",
+   "grSitzung": "Gemeinderatssitzung am 17.12.2025",
+   "grSitzungId": "gr-2025-12-17",
+   "top": "16",
+   "ausschuss": "",
+   "status": "abgelehnt",
+   "umsetzung": "",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1M5NPdxI3CW6YGpzLNzes6S89n7o9jqBu/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2025-12-17",
+     "notiz": "Erst € 2,15, ein Jahr später € 2,42 pro m³."
+    },
+    {
+     "status": "abgelehnt",
+     "datum": "2025-12-17",
+     "notiz": "Abgelehnt mit 7:12. Beschlossen wurde sofort € 2,42 ab 1.1.2026."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2026-masterplan",
+   "titel": "Masterplan für die Marktgemeinde Großebersdorf",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2026-03-18",
+   "grSitzung": "Gemeinderatssitzung am 18.03.2026",
+   "grSitzungId": "gr-2026-03-18",
+   "top": "14",
+   "ausschuss": "",
+   "status": "angenommen",
+   "umsetzung": "noch nichts passiert",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1KsDyij10xB7kC2rEnx5-El7TIsieFDdW/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2026-03-18",
+     "notiz": ""
+    },
+    {
+     "status": "angenommen",
+     "datum": "2026-03-18",
+     "notiz": "Einstimmig grundsätzlich zugestimmt. Umsetzung im Zuge des örtlichen Entwicklungskonzepts (Büro Dr. Paula) mit der Dorf- und Stadterneuerung."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2026-aufzeichnungen",
+   "titel": "Sitzungsaufzeichnungen unbefristet auf YouTube abrufbar",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2026-07-07",
+   "grSitzung": "Gemeinderatssitzung am 07.07.2026",
+   "grSitzungId": "gr-2026-07-07",
+   "top": "2",
+   "ausschuss": "",
+   "status": "abgelehnt",
+   "umsetzung": "",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1KyaxGO48BAJIUT5YC6-ZMxeWm60Gg33H/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2026-07-07",
+     "notiz": "Zusatzantrag zum Livestream."
+    },
+    {
+     "status": "abgelehnt",
+     "datum": "2026-07-07",
+     "notiz": "Abgelehnt, nur GFG dafür."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2026-multisport",
+   "titel": "Weitere Sportarten auf der Multisportanlage (Volleyball, Badminton)",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2026-07-07",
+   "grSitzung": "Gemeinderatssitzung am 07.07.2026",
+   "grSitzungId": "gr-2026-07-07",
+   "top": "19",
+   "ausschuss": "",
+   "status": "angenommen",
+   "umsetzung": "noch nichts passiert",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1KyaxGO48BAJIUT5YC6-ZMxeWm60Gg33H/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2026-06-16",
+     "notiz": "Antrag vom 16.6.2026."
+    },
+    {
+     "status": "angenommen",
+     "datum": "2026-07-07",
+     "notiz": "Einstimmig: Verwaltung prüft Möglichkeiten, holt Angebote ein und legt sie dem Gemeinderat vor."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2026-basketball",
+   "titel": "Basketballplatz, Konzeptentwicklung",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2026-07-07",
+   "grSitzung": "Gemeinderatssitzung am 07.07.2026",
+   "grSitzungId": "gr-2026-07-07",
+   "top": "20",
+   "ausschuss": "",
+   "status": "angenommen",
+   "umsetzung": "noch nichts passiert",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1KyaxGO48BAJIUT5YC6-ZMxeWm60Gg33H/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2026-06-16",
+     "notiz": "Antrag vom 16.6.2026."
+    },
+    {
+     "status": "angenommen",
+     "datum": "2026-07-07",
+     "notiz": "Einstimmig als Antrag aller Parteien: Bauausschuss sucht Standort und Konzept, Gemeindeamt holt Angebote ein."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2026-tischtennis",
+   "titel": "Outdoor-Tischtennis, Konzeptentwicklung",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2026-07-07",
+   "grSitzung": "Gemeinderatssitzung am 07.07.2026",
+   "grSitzungId": "gr-2026-07-07",
+   "top": "21",
+   "ausschuss": "",
+   "status": "angenommen",
+   "umsetzung": "noch nichts passiert",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1KyaxGO48BAJIUT5YC6-ZMxeWm60Gg33H/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2026-06-16",
+     "notiz": "Antrag vom 16.6.2026."
+    },
+    {
+     "status": "angenommen",
+     "datum": "2026-07-07",
+     "notiz": "Einstimmig als Antrag aller Parteien: Bauausschuss sucht Standort und Konzept, Gemeindeamt holt Angebote ein."
+    }
+   ]
+  },
+  {
+   "id": "gfg-2026-ballfangnetz",
+   "titel": "Ballfangnetz für die Multisportanlage",
+   "art": "Antrag",
+   "einbringer": "Fraktion GFG",
+   "datum": "2026-07-07",
+   "grSitzung": "Gemeinderatssitzung am 07.07.2026",
+   "grSitzungId": "gr-2026-07-07",
+   "top": "22",
+   "ausschuss": "",
+   "status": "angenommen",
+   "umsetzung": "in Umsetzung",
+   "vonAnderen": null,
+   "notizen": "",
+   "dokumente": [
+    {
+     "titel": "Protokoll",
+     "url": "https://drive.google.com/file/d/1KyaxGO48BAJIUT5YC6-ZMxeWm60Gg33H/view"
+    }
+   ],
+   "verlauf": [
+    {
+     "status": "eingebracht",
+     "datum": "2026-06-16",
+     "notiz": "Antrag vom 16.6.2026, bis € 5.000."
+    },
+    {
+     "status": "angenommen",
+     "datum": "2026-07-07",
+     "notiz": "Einstimmig beschlossen."
+    },
+    {
+     "status": "auf der Tagesordnung",
+     "datum": "2026-10-12",
+     "notiz": "TOP 21 „Multisportanlage, Erweiterung Ballfangnetz“."
+    }
+   ]
+  }
+ ],
+ "festlbus": {
+  "id": "festlbus",
+  "grSitzungId": "gr-2025-10-23",
+  "top": "32",
+  "datum": "2025-10-23",
+  "umsetzung": "in Umsetzung",
+  "dokumente": [
+   {
+    "titel": "Protokoll",
+    "url": "https://drive.google.com/file/d/1RNHW3AIozTqBGD5p3o7ZlRajQHoS7Kve/view"
+   }
+  ],
+  "vonAnderen": {
+   "datum": "2025-10-23",
+   "wer": "Bürgermeister (Gegenantrag)",
+   "notiz": "Unser Prüfantrag wurde abgesetzt, der Gegenantrag auf schnellstmögliche Teilnahme einstimmig beschlossen. Beitritt ab 2027 am 12.10.2026 beschlossen."
+  }
+ }
+}

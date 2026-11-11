@@ -10,7 +10,7 @@ import { loescheDatei } from '@/lib/dateien';
 import {
   ARTEN, STATUS, ZIELE, DRINGLICHKEIT, ROLLEN, ERGEBNISSE, ORTSTEILE, fristVorbei, neueId,
   VIDEO_STATUS, TERMIN_ARTEN, LINIEN, GR_ERGEBNISSE, BENACHRICHTIGUNG_TYP, datumKurz, SITZUNGSARTEN, sitzungName,
-  KANAELE, BEITRAG_STATUS, BEITRAG_FORMATE,
+  KANAELE, BEITRAG_STATUS, BEITRAG_FORMATE, UMSETZUNG,
 } from '@/lib/domain';
 
 async function googleBereit() {
@@ -256,6 +256,11 @@ const AKTIONEN = {
       dokumente: (Array.isArray(p.dokumente) ? p.dokumente : []).slice(0, 20)
         .map((d) => ({ titel: txt(d.titel, 120) || 'Dokument', url: url(d.url) })).filter((d) => d.url),
       notizen: txt(p.notizen, 4000),
+      grSitzungId: txt(p.grSitzungId, 40),
+      umsetzung: auswahl(p.umsetzung, UMSETZUNG, ''),
+      vonAnderen: p.vonAnderen?.wer || p.vonAnderen?.notiz
+        ? { datum: p.vonAnderen.datum ? datum(p.vonAnderen.datum) : '', wer: txt(p.vonAnderen.wer, 120), notiz: txt(p.vonAnderen.notiz, 1000) }
+        : null,
     };
     const jetzt = Date.now();
     if (p.id) { await ergaenze('antraege', p.id, { ...daten, geaendertAm: jetzt }); return { id: p.id }; }
@@ -271,7 +276,8 @@ const AKTIONEN = {
     if (!status) throw new Fehler('Status ist ungültig.');
     const jetzt = Date.now();
     const verlauf = [...(a.verlauf || []), { status, datum: datum(p.datum), notiz: txt(p.notiz, 1000), von: me.name, vonId: me.uid, ts: jetzt }];
-    await ergaenze('antraege', a.id, { status, verlauf, geaendertAm: jetzt });
+    const extra = 'umsetzung' in p ? { umsetzung: auswahl(p.umsetzung, UMSETZUNG, a.umsetzung || '') } : {};
+    await ergaenze('antraege', a.id, { status, verlauf, ...extra, geaendertAm: jetzt });
     melde('antrag_status', { titel: `${a.titel}: ${status}`, text: txt(p.notiz, 300), url: `#antrag-${a.id}`, ausser: me.uid });
     return {};
   },
@@ -476,6 +482,7 @@ const AKTIONEN = {
       datei: String(t.datei || '').startsWith('gr/') ? txt(t.datei, 300) : '', linie: auswahl(t.linie, LINIEN, 'offen'), begruendung: txt(t.begruendung, 3000),
       sprecher: txt(t.sprecher, 200), wortmeldung: txt(t.wortmeldung, 3000),
       ergebnis: auswahl(t.ergebnis, GR_ERGEBNISSE, ''), abgestimmt: auswahl(t.abgestimmt, ['', ...LINIEN.filter((l) => l !== 'offen'), 'uneinheitlich'], ''),
+      stimmen: txt(t.stimmen, 60), gfgAntrag: !!t.gfgAntrag,
       geaendertVon: me.name, geaendertAm: Date.now(),
     };
     const tops = [...(g.tops || [])];

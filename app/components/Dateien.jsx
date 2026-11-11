@@ -29,7 +29,7 @@ export async function ladeHoch(datei, bereich, modus, fortschritt) {
 export const dateiUrl = (d, download) => `/api/datei?p=${encodeURIComponent(d.pfad)}&n=${encodeURIComponent(d.name || '')}${download ? '&dl=1' : ''}`;
 export const groesse = (b) => (b > 1e6 ? `${(b / 1e6).toFixed(1).replace('.', ',')} MB` : `${Math.max(1, Math.round(b / 1e3))} kB`);
 export const istBild = (d) => /^image\//.test(d.typ || '') || /\.(jpe?g|png|webp|heic)$/i.test(d.name || '');
-export const lesbar = (d) => /pdf|word|text\/plain/.test(d.typ || '') || /\.(pdf|docx|txt)$/i.test(d.name || '');
+export const lesbar = (d) => /pdf|word|text\/plain|^image\//.test(d.typ || '') || /\.(pdf|docx|txt|jpe?g|png)$/i.test(d.name || '');
 
 /** Ablagefläche: hineinziehen oder auswählen, mehrere Dateien auf einmal */
 export function Ablage({ bereich, onFertig, text = 'Dateien hierher ziehen oder auswählen', hinweis, accept, mehrere = true, kompakt }) {
