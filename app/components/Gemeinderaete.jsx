@@ -472,8 +472,11 @@ function Verwaltung() {
         <section className="abschnitt">
           <h2 style={{ marginBottom: 12 }}>Mailversand</h2>
           <div className="flaeche klein">
-            {google?.mail === 'microsoft' ? (
-              <p><b>Eingerichtet</b> über Microsoft 365. Mails gehen von {google.mailAbsender} raus.</p>
+            {google?.mail === 'postfach' ? (
+              <>
+                <p><b>Eingerichtet.</b> Mails gehen über das Postfach {google.mailAbsender} raus.</p>
+                <TestMail />
+              </>
             ) : google?.mail === 'gmail' ? (
               <p><b>Über Gmail</b> von {google.mailAbsender || 'dem verbundenen Google-Konto'}.</p>
             ) : (
@@ -504,6 +507,20 @@ function Verwaltung() {
 
     </>
   );
+}
+
+function TestMail() {
+  const { toast } = useApp();
+  const [busy, setBusy] = useState(false);
+  const los = async () => {
+    setBusy(true);
+    try {
+      const r = await fetch('/api/mailtest', { method: 'POST' });
+      const j = await r.json().catch(() => ({}));
+      toast(r.ok ? `Testmail an ${j.an} verschickt` : (j.fehler || 'Testmail fehlgeschlagen'), !r.ok);
+    } finally { setBusy(false); }
+  };
+  return <button className="knopf zweit klein" style={{ marginTop: 10 }} disabled={busy} onClick={los}>{busy ? 'Sendet …' : 'Testmail an mich senden'}</button>;
 }
 
 export default function Gemeinderaete({ unter }) {
