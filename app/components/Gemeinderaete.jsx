@@ -510,17 +510,29 @@ function Verwaltung() {
 }
 
 function TestMail() {
-  const { toast } = useApp();
-  const [busy, setBusy] = useState(false);
-  const los = async () => {
-    setBusy(true);
+  const { toast, me, daten } = useApp();
+  const [busy, setBusy] = useState('');
+  const alle = daten.mitglieder || [];
+  const mitMail = alle.filter((m) => (m.email || '').trim());
+  const los = async (anAlle) => {
+    setBusy(anAlle ? 'alle' : 'ich');
     try {
-      const r = await fetch('/api/mailtest', { method: 'POST' });
+      const r = await fetch('/api/mailtest', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ alle: anAlle }) });
       const j = await r.json().catch(() => ({}));
-      toast(r.ok ? `Testmail an ${j.an} verschickt` : (j.fehler || 'Testmail fehlgeschlagen'), !r.ok);
-    } finally { setBusy(false); }
+      toast(r.ok ? (anAlle ? `Testmail an ${j.anzahl} Personen verschickt` : `Testmail an ${j.an} verschickt`) : (j.fehler || 'Testmail fehlgeschlagen'), !r.ok);
+    } finally { setBusy(''); }
   };
-  return <button className="knopf zweit klein" style={{ marginTop: 10 }} disabled={busy} onClick={los}>{busy ? 'Sendet …' : 'Testmail an mich senden'}</button>;
+  return (
+    <>
+      <p className="leise klein" style={{ marginTop: 8 }}>
+        {mitMail.length} von {alle.length} Personen haben eine E-Mail-Adresse eingetragen. Nur sie bekommen Mails{me.admin ? ', fehlende ergänzt du unter Personen' : ''}.
+      </p>
+      <div className="knopfreihe" style={{ marginTop: 10 }}>
+        <button className="knopf zweit klein" disabled={!!busy} onClick={() => los(false)}>{busy === 'ich' ? 'Sendet …' : 'Testmail an mich senden'}</button>
+        {me.admin && <button className="knopf zweit klein" disabled={!!busy || !mitMail.length} onClick={() => los(true)}>{busy === 'alle' ? 'Sendet …' : `Testmail an alle ${mitMail.length}`}</button>}
+      </div>
+    </>
+  );
 }
 
 export default function Gemeinderaete({ unter }) {
