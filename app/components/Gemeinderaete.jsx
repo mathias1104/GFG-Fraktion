@@ -458,7 +458,7 @@ function Verwaltung() {
             ) : google.verbunden ? (
               <>
                 <p><b>Verbunden</b> mit {google.email || 'einem Google-Konto'}.</p>
-                <p className="leise klein" style={{ margin: '4px 0 14px' }}>Seit {zeitpunkt(google.verbundenAm)}. Einladungen, Docs und Mails laufen über dieses Konto.</p>
+                <p className="leise klein" style={{ margin: '4px 0 14px' }}>Seit {zeitpunkt(google.verbundenAm)}. Kalendereinladungen und Google Docs laufen über dieses Konto.</p>
                 <a className="knopf zweit klein" href="/api/google/connect">Anderes Konto verbinden</a>
               </>
             ) : (
@@ -466,6 +466,18 @@ function Verwaltung() {
                 <p className="klein" style={{ marginBottom: 14 }}>Verbinde das Google-Konto, über das Einladungen, Tagesordnungen und Protokolle laufen sollen.</p>
                 <a className="knopf" href="/api/google/connect">Google-Konto verbinden</a>
               </>
+            )}
+          </div>
+        </section>
+        <section className="abschnitt">
+          <h2 style={{ marginBottom: 12 }}>Mailversand</h2>
+          <div className="flaeche klein">
+            {google?.mail === 'microsoft' ? (
+              <p><b>Eingerichtet</b> über Microsoft 365. Mails gehen von {google.mailAbsender} raus.</p>
+            ) : google?.mail === 'gmail' ? (
+              <p><b>Über Gmail</b> von {google.mailAbsender || 'dem verbundenen Google-Konto'}.</p>
+            ) : (
+              <p>Noch nicht eingerichtet. Push-Mitteilungen und Kalendereinladungen funktionieren trotzdem.</p>
             )}
           </div>
         </section>

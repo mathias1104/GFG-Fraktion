@@ -239,7 +239,7 @@ export default function BenachrichtigungsSeite() {
             <button className="knopf zweit klein">Adresse speichern</button>
           </form>
           {!adresse && <p className="hinweis klein" style={{ marginTop: 12 }}>Ohne E-Mail-Adresse bekommst du keine Mails.</p>}
-          {me.gr && google && !(google.eingerichtet && google.verbunden) && <p className="hinweis info klein" style={{ marginTop: 12 }}>Mails gehen erst raus, wenn unter Einstellungen ein Google-Konto verbunden ist.</p>}
+          {me.gr && google && !google.mail && <p className="hinweis info klein" style={{ marginTop: 12 }}>Mails gehen erst raus, wenn der Mailversand unter Gemeinderäte &gt; Einstellungen eingerichtet ist.</p>}
         </section>
       </div>
 
