@@ -519,7 +519,7 @@ function TestMail() {
     try {
       const r = await fetch('/api/mailtest', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ alle: anAlle }) });
       const j = await r.json().catch(() => ({}));
-      toast(r.ok ? (anAlle ? `Testmail an ${j.anzahl} Personen verschickt` : `Testmail an ${j.an} verschickt`) : (j.fehler || 'Testmail fehlgeschlagen'), !r.ok);
+      toast(r.ok ? (anAlle ? `Testmail an ${j.anzahl} Personen verschickt` : `Testmail an ${j.an} verschickt. ${j.perMail?.length ? `Per Mail bekommst du: ${j.perMail.join(', ')}.` : 'Per Mail hast du in deinen Benachrichtigungen nichts eingeschaltet.'}`) : (j.fehler || 'Testmail fehlgeschlagen'), !r.ok);
     } finally { setBusy(''); }
   };
   return (

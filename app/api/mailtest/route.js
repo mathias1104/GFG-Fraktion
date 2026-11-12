@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { leseSitzung } from '@/lib/auth';
 import { sendeMail, googleStatus } from '@/lib/google';
 import { hole, alle as alleDocs } from '@/lib/db';
+import { BENACHRICHTIGUNGEN, einstellung } from '@/lib/domain';
 
 export const maxDuration = 30;
 
@@ -30,7 +31,14 @@ export async function POST(req) {
       return NextResponse.json({ fehler: e.message }, { status: 502 });
     }
   }
-  const an = (m?.email || '').trim() || g.mailAbsender;
+  // Gleiche Adresse wie bei den Benachrichtigungen: eigene Adresse aus den Einstellungen vor der Mitgliederliste
+  const p = (await hole('prefs', me.uid)) || {};
+  const an = (p.email || m?.email || '').trim() || g.mailAbsender;
+  const perMail = BENACHRICHTIGUNGEN
+    .filter((gr) => (!gr.nurGR || me.gr) && (!gr.nurMK || me.mk))
+    .flatMap((gr) => gr.typen)
+    .filter((t) => einstellung(p, t.key, 'mail'))
+    .map((t) => t.label);
   try {
     await sendeMail({
       an: [an],
@@ -38,7 +46,7 @@ export async function POST(req) {
       text: `Hallo ${me.name || ''},\n\ndiese Testmail zeigt, dass der Mailversand der GFG Fraktion App funktioniert.`,
       html: `<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#18231D"><p>Hallo ${me.name || ''},</p><p>diese Testmail zeigt, dass der Mailversand der GFG Fraktion App funktioniert.</p></div>`,
     });
-    return NextResponse.json({ ok: true, an });
+    return NextResponse.json({ ok: true, an, perMail });
   } catch (e) {
     console.error('mailtest', e);
     return NextResponse.json({ fehler: e.message }, { status: 502 });

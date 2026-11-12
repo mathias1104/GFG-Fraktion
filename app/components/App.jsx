@@ -133,7 +133,8 @@ export default function App() {
 
   useEffect(() => {
     if (!toast) return undefined;
-    const t = setTimeout(() => setToast(null), 4200);
+    // Längere Meldungen bleiben länger stehen
+    const t = setTimeout(() => setToast(null), Math.min(12000, 4200 + String(toast.text || '').length * 40));
     return () => clearTimeout(t);
   }, [toast]);
 
