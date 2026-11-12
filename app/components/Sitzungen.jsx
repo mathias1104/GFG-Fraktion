@@ -240,7 +240,7 @@ function GoogleLeiste({ s, leer }) {
         <Icon n="kalender" size={18} />{busy === 'einladung' ? 'Sendet …' : s.eingeladenAm ? 'Einladung aktualisieren' : 'Kalendereinladung senden'}
       </button>
       {!leer && (
-        <button className="knopf zweit klein" disabled={!!busy} onClick={() => los('tagesordnung', (r) => `Tagesordnung gespeichert und an ${r.anzahl} Personen gesendet`)}>
+        <button className="knopf zweit klein" disabled={!!busy} onClick={() => los('tagesordnung', (r) => (r.warnung ? `Tagesordnung als Google Doc gespeichert, Push verschickt. Mail nicht möglich: ${r.warnung}` : `Tagesordnung gespeichert und an ${r.anzahl} Personen gesendet`))}>
           <Icon n="mail" size={18} />{busy === 'tagesordnung' ? 'Sendet …' : s.tagesordnungVersendetAm ? 'Tagesordnung erneut senden' : 'Tagesordnung jetzt senden'}
         </button>
       )}
